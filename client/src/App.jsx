@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import NavBar from "./components/Navbar";
+import Footer from "./components/Footer/Footer";
 function App() {
   const [message, setMessage] = useState("");
 
@@ -11,10 +12,12 @@ function App() {
   }, []);
   return (
     <>
+      <NavBar />
       <div>
         <h1>Hola mundo</h1>
         <p>Mensaje del backend: {message}</p>
       </div>
+      <Footer />
     </>
   );
 }
