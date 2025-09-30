@@ -1,19 +1,9 @@
-import { useState, useEffect } from "react";
-function App() {
-   const [message, setMessage] = useState("");
+import Index from './components/Index';
 
-    useEffect(() => {
-      fetch("http://localhost:3001/api/hello")
-        .then((res) => res.json())
-        .then((data) => setMessage(data.message))
-        .catch((err) => console.error(err));
-    }, []);
+function App() {
   return (
     <>
-      <div>
-        <h1>Hola mundo</h1>
-        <p>Mensaje del backend: {message}</p>
-      </div>
+      <Index />
     </>
   );
 }
