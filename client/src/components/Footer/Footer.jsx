@@ -9,7 +9,7 @@ const Footer = () => {
           <div className="footer-section">
             <div className="footer-logo">
               <img
-                src="/img/logo.svg"
+                src="/logo.svg"
                 alt="Logo de Hermanos Jota"
                 className="footer-logo-img"
                 role="img"
@@ -70,7 +70,11 @@ const Footer = () => {
 
           <div className="footer-section">
             <h4 className="footer-title">Síguenos</h4>
-            <div className="footer-social" role="group" aria-label="Redes sociales">
+            <div
+              className="footer-social"
+              role="group"
+              aria-label="Redes sociales"
+            >
               <a
                 href="https://www.instagram.com/hermanosjota_ba/"
                 className="social-link"
