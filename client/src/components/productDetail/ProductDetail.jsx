@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import NavBar from './Navbar';
+import NavBar from '../navbar/Navbar';
 import ProductGallery from './ProductGallery';
 import ProductInfo from './ProductInfo';
 import ProductSpecs from './ProductSpecs';
-import Footer from './Footer';
-import './ProductDetail.css';
+import Footer from '../Footer';
+import './productDetail.css';
 
 const ProductDetail = ({ productId }) => {
   const [product, setProduct] = useState(null);

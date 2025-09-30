@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './navbar.css';
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,10 +26,10 @@ const NavBar = () => {
             </div>
           </div>
 
-          <nav className="nav" role="navigation" aria-label="Navegación principal">
+          <nav className="nav" role="navigation" aria-label="Navegaciï¿½n principal">
             <button
               className="nav-toggle"
-              aria-label="Abrir menú de navegación"
+              aria-label="Abrir menï¿½ de navegaciï¿½n"
               aria-expanded={isMenuOpen}
               aria-controls="nav-menu"
               onClick={toggleMenu}

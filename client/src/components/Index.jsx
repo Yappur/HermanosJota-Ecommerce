@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import NavBar from './Navbar';
+import NavBar from './navbar/Navbar';
 
 const Index = () => {
   useEffect(() => {
@@ -42,6 +42,7 @@ const Index = () => {
               Conocer Más
             </a>
           </div>
+          
         </div>
       </main>
       

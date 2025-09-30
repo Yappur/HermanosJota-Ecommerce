@@ -1,14 +1,6 @@
-import { useState, useEffect } from "react";
-import NavBar from "./components/Navbar";
-function App() {
-  const [message, setMessage] = useState("");
+import Index from "./components/Index";
 
-  useEffect(() => {
-    fetch("http://localhost:3001/api/hello")
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message))
-      .catch((err) => console.error(err));
-  }, []);
+function App() {
   return (
     <>
       <Index />
