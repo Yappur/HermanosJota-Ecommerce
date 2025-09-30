@@ -1,6 +1,26 @@
+import { useEffect } from 'react';
 import NavBar from './Navbar';
 
 const Index = () => {
+  useEffect(() => {
+    // Configurar meta tags dinámicamente
+    document.title = "Hermanos Jota | Muebles de diseño sustentables";
+    
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 
+        'Hermanos Jota - Muebles artesanales sustentables con madera certificada FSC. Diseño retro años 60, fabricación responsable en Buenos Aires. ✓ Garantía extendida ✓ Envío a todo el país.'
+      );
+    }
+
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords) {
+      metaKeywords.setAttribute('content',
+        'muebles sustentables, artesanía argentina, muebles diseño, madera certificada FSC, muebles retro años 60, fabricación responsable, Buenos Aires'
+      );
+    }
+  }, []);
+
   return (
     <>
       <NavBar />
