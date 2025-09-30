@@ -5,6 +5,13 @@ const app = express();
 const PORT = 3001;
 
 app.use(cors());
+
+// Middleware global para logging de peticiones
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
 app.use(express.json());
 
 // Prueba
