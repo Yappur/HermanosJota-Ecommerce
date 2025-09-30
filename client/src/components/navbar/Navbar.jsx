@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import './navbar.css';
 
-const NavBar = () => {
+const NavBar = ({ cartCount = 0 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -25,10 +26,10 @@ const NavBar = () => {
             </div>
           </div>
 
-          <nav className="nav" role="navigation" aria-label="Navegación principal">
+          <nav className="nav" role="navigation" aria-label="Navegaciï¿½n principal">
             <button
               className="nav-toggle"
-              aria-label="Abrir menú de navegación"
+              aria-label="Abrir menï¿½ de navegaciï¿½n"
               aria-expanded={isMenuOpen}
               aria-controls="nav-menu"
               onClick={toggleMenu}
@@ -66,6 +67,11 @@ const NavBar = () => {
                 <a href="/contacto" className="nav-link" role="menuitem">
                   Contacto
                 </a>
+              </li>
+              <li role="none" className="cart">
+                <span className="cart-icon">
+                  ðŸ›’ <span className="cart-count">{cartCount}</span>
+                </span>
               </li>
             </ul>
           </nav>
