@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
+import { useCart } from '../context/CartContext';
 import NavBar from './navbar/Navbar';
 
 const Index = () => {
+  const { addToCart } = useCart();
   useEffect(() => {
     // Configurar meta tags dinámicamente
     document.title = "Hermanos Jota | Muebles de diseño sustentables";
@@ -41,6 +43,24 @@ const Index = () => {
             <a href="/nosotros" className="btn btn-secondary">
               Conocer Más
             </a>
+          </div>
+
+          {/* Botón de prueba para el carrito */}
+          <div style={{ textAlign: 'center', marginTop: '2rem', padding: '2rem', backgroundColor: 'rgba(160, 82, 45, 0.1)', borderRadius: '8px' }}>
+            <h3>Prueba del Carrito</h3>
+            <p>Haz clic para agregar un producto de ejemplo al carrito:</p>
+            <button 
+              className="btn btn-outline"
+              onClick={() => addToCart({
+                id: 'test-1',
+                name: 'Mesa de Comedor Artesanal',
+                price: 125000,
+                image: '/img/productos/mesa-comedor.jpg'
+              })}
+              style={{ marginTop: '1rem' }}
+            >
+              🛒 Agregar Mesa al Carrito
+            </button>
           </div>
           
         </div>
