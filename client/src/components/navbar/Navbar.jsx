@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './navbar.css';
 
-const NavBar = () => {
+const NavBar = ({ cartCount = 0 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -67,6 +67,11 @@ const NavBar = () => {
                 <a href="/contacto" className="nav-link" role="menuitem">
                   Contacto
                 </a>
+              </li>
+              <li role="none" className="cart">
+                <span className="cart-icon">
+                  🛒 <span className="cart-count">{cartCount}</span>
+                </span>
               </li>
             </ul>
           </nav>
