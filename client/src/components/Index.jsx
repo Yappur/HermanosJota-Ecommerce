@@ -3,7 +3,7 @@ import { useCart } from '../context/CartContext';
 import NavBar from './navbar/Navbar';
 
 const Index = () => {
-  const { addToCart } = useCart();
+  const { addToCart, cartItemCount } = useCart();
   useEffect(() => {
     // Configurar meta tags dinámicamente
     document.title = "Hermanos Jota | Muebles de diseño sustentables";
@@ -25,7 +25,7 @@ const Index = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBar cartCount={cartItemCount} />
       
       <main style={{ paddingTop: '100px', minHeight: '80vh' }}>
         <div className="container">
