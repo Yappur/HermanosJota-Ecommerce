@@ -166,4 +166,36 @@ a:hover {
   color: var(--blanco);
 }
 
+.eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--verde-salvia);
+  font-weight: 500;
+}
 
+.eyebrow-line {
+  width: 40px;
+  height: 1px;
+  background-color: var(--verde-salvia);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--siena-tostado);
+  line-height: 1.1;
+}
+
+.text-body {
+  font-family: var(--font-primary);
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  line-height: 1.7;
+  color: var(--gris-medio);
+}

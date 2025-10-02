@@ -28,32 +28,9 @@
   transform: translateY(0);
 }
 
-.hero-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-md);
-  font-family: var(--font-primary);
-  font-size: 0.875rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--verde-salvia);
-  font-weight: 500;
-}
-
-.hero-eyebrow-line {
-  width: 40px;
-  height: 1px;
-  background-color: var(--verde-salvia);
-}
-
 .hero-title {
-  font-family: var(--font-display);
   font-size: clamp(2.5rem, 6vw, 4.5rem);
-  line-height: 1.1;
-  color: var(--siena-tostado);
   margin-bottom: var(--spacing-md);
-  font-weight: 400;
 }
 
 .hero-title-accent {
@@ -64,10 +41,7 @@
 }
 
 .hero-description {
-  font-family: var(--font-primary);
   font-size: clamp(1rem, 2vw, 1.125rem);
-  line-height: 1.7;
-  color: var(--gris-medio);
   max-width: 600px;
   margin-bottom: var(--spacing-lg);
 }
