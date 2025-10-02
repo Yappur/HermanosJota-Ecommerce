@@ -14,18 +14,18 @@ const HeroSection = () => {
         <div
           className={`hero-content ${isVisible ? "hero-content-visible" : ""}`}
         >
-          <div className="hero-eyebrow">
-            <span className="hero-eyebrow-line"></span>
+          <div className="eyebrow">
+            <span className="eyebrow-line"></span>
             <span> Desde 1987 </span>
-            <span className="hero-eyebrow-line"></span>
+            <span className="eyebrow-line"></span>
           </div>
 
-          <h1 className="hero-title">
+          <h1 className="hero-title heading">
             Donde cada mueble
             <span className="hero-title-accent"> cuenta una historia</span>
           </h1>
 
-          <p className="hero-description">
+          <p className="hero-description text-body">
             Tres generaciones transformando madera noble en legados familiares.
             Cada veta, cada unión, cada acabado lleva el alma de manos expertas
             que entienden que un mueble no es solo un objeto—es el testigo
