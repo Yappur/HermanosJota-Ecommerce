@@ -39,7 +39,7 @@ const About = () => {
             <span>Nuestro equipo</span>
             <span className="eyebrow-line"></span>
           </div>
-          <h2 className="about-title">
+          <h2 className="heading about-title">
             Tres generaciones,
             <span className="about-title-accent"> una misma pasión</span>
           </h2>
@@ -51,7 +51,6 @@ const About = () => {
         </div>
 
         <div className="about-grid">
-          {/* Persona Principal */}
           <div
             className={`about-card about-card-main ${
               isVisible ? "about-card-visible" : ""
@@ -67,13 +66,14 @@ const About = () => {
               <div className="about-card-overlay"></div>
             </div>
             <div className="about-card-content">
-              <h3 className="about-card-name">Roberto Martínez</h3>
-              <p className="about-card-role">Maestro Ebanista · Fundador</p>
+              <h3 className="about-card-name">Carla Jota</h3>
+              <p className="about-card-role">Directora General (CEO)</p>
               <p className="text-body">
-                Con más de 40 años de experiencia, Roberto fundó el taller en
-                1987. Su filosofía: "La madera habla, solo hay que saber
-                escucharla". Cada pieza lleva su sello de excelencia y
-                dedicación.
+                Tercera generación al frente de Hermanos Jota, Carla combina la
+                herencia familiar con una visión contemporánea. Lidera la
+                estrategia global de la marca, asegurando que cada decisión
+                honre la tradición artesanal mientras impulsa la innovación y la
+                sustentabilidad.
               </p>
             </div>
           </div>
@@ -95,14 +95,15 @@ const About = () => {
                 <div className="about-card-overlay"></div>
               </div>
               <div className="about-card-content">
-                <h3 className="about-card-name">Ana Martínez</h3>
+                <h3 className="about-card-name">Martin Elizalde</h3>
                 <p className="about-card-role">
-                  Diseñadora · Segunda Generación
+                  Director de Diseño e Innovación (CPO)
                 </p>
-                <p className="text-body">
-                  Fusiona la tradición familiar con diseño contemporáneo. Su
-                  visión moderna mantiene viva la esencia artesanal en cada
-                  creación.
+                <p className="text-body ">
+                  Diseñador industrial apasionado por la madera y los procesos
+                  sustentables. Martín encabeza el desarrollo de nuevas
+                  colecciones, buscando siempre el equilibrio entre nostalgia e
+                  innovación, con líneas limpias y materiales nobles.
                 </p>
               </div>
             </div>
@@ -122,11 +123,16 @@ const About = () => {
                 <div className="about-card-overlay"></div>
               </div>
               <div className="about-card-content">
-                <h3 className="about-card-name">Diego Martínez</h3>
-                <p className="about-card-role">Artesano · Tercera Generación</p>
+                <h3 className="about-card-name">Sofia Rinaldi</h3>
+                <p className="about-card-role">
+                  Directora de Sustentabilidad y Operaciones (COO)
+                </p>
                 <p className="text-body">
-                  La nueva generación que honra el legado familiar. Combina
-                  técnicas ancestrales con innovación sostenible para el futuro.
+                  Ingeniera en gestión ambiental, Sofía asegura que cada etapa
+                  de producción respete la naturaleza y la filosofía sustentable
+                  de la empresa. Supervisa la certificación de materiales, los
+                  programas ecológicos y la excelencia en los procesos
+                  operativos.
                 </p>
               </div>
             </div>
