@@ -3,7 +3,7 @@ import NavBar from '../navbar/Navbar';
 import ProductGallery from './ProductGallery';
 import ProductInfo from './ProductInfo';
 import ProductSpecs from './ProductSpecs';
-import Footer from '../Footer';
+import Footer from '../Footer/Footer';
 import './productDetail.css';
 
 const ProductDetail = ({ productId }) => {
@@ -12,34 +12,39 @@ const ProductDetail = ({ productId }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simular carga de producto - reemplazar con API real
     const loadProduct = async () => {
       try {
-        // Aquí iría la llamada a la API
-        // const response = await fetch(`/api/products/${productId}`);
-        // const productData = await response.json();
+        setLoading(true);
         
-        // Datos de ejemplo mientras no hay API
-        const productData = {
-          id: productId,
-          name: "Mesa de Comedor Artesanal",
-          description: "Mesa de comedor fabricada con madera certificada FSC®. Diseño moderno con toques vintage que aporta calidez a cualquier espacio.",
-          price: 125000,
+        // Llamada a la API real del backend
+        const response = await fetch(`http://localhost:3001/api/productos/${productId}`);
+        
+        if (!response.ok) {
+          throw new Error('Producto no encontrado');
+        }
+        
+        const productData = await response.json();
+        
+        // Transformar los datos del backend al formato que espera el componente
+        const formattedProduct = {
+          id: productData.id,
+          name: productData.nombre,
+          description: productData.descripcion,
+          price: productData.precio,
           currency: "ARS",
-          image: "/img/productos/mesa-comedor.jpg",
+          image: productData.imagen,
           availability: "InStock",
           specs: [
-            { label: "Material", value: "Madera de Roble" },
-            { label: "Dimensiones", value: "180 x 90 x 75 cm" },
-            { label: "Peso", value: "45 kg" },
-            { label: "Acabado", value: "Barniz natural" },
-            { label: "Certificación", value: "FSC®" }
+            { label: "Medidas", value: productData.medidas },
+            { label: "Materiales", value: productData.materiales },
+            { label: "Acabado", value: productData.acabado }
           ]
         };
         
-        setProduct(productData);
+        setProduct(formattedProduct);
       } catch (error) {
-        console.error('Error loading product:', error);
+        console.error('Error al cargar el producto:', error);
+        setProduct(null);
       } finally {
         setLoading(false);
       }
@@ -52,7 +57,6 @@ const ProductDetail = ({ productId }) => {
 
   const handleAddToCart = () => {
     setCartCount(prev => prev + 1);
-    // Aquí agregarías la lógica para añadir al carrito
     console.log('Producto añadido al carrito');
   };
 
