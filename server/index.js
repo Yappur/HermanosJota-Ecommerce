@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const productosRoutes = require("./routes/productos");
 
 const app = express();
 const PORT = 3001;
@@ -13,6 +14,9 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+
+// Rutas
+app.use("/api/productos", productosRoutes);
 
 // Prueba
 app.get("/api/hello", (req, res) => {

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import './navbar.css';
+import { useState } from "react";
+import "./navbar.css";
 
 const NavBar = ({ cartCount = 0 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,7 +14,7 @@ const NavBar = ({ cartCount = 0 }) => {
         <div className="header-content">
           <div className="logo">
             <img
-              src="/img/logo.svg"
+              src="/logo.svg"
               alt="Logo de Hermanos Jota"
               className="logo-img"
               role="img"
@@ -26,7 +26,11 @@ const NavBar = ({ cartCount = 0 }) => {
             </div>
           </div>
 
-          <nav className="nav" role="navigation" aria-label="Navegaci�n principal">
+          <nav
+            className="nav"
+            role="navigation"
+            aria-label="Navegaci�n principal"
+          >
             <button
               className="nav-toggle"
               aria-label="Abrir men� de navegaci�n"
@@ -38,9 +42,9 @@ const NavBar = ({ cartCount = 0 }) => {
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
             </button>
-            <ul 
-              className={`nav-list ${isMenuOpen ? 'nav-list--open' : ''}`}
-              id="nav-menu" 
+            <ul
+              className={`nav-list ${isMenuOpen ? "nav-list--open" : ""}`}
+              id="nav-menu"
               role="menubar"
             >
               <li role="none">
