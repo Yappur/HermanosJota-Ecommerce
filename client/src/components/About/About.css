@@ -1,7 +1,10 @@
 .about-section {
   position: relative;
-  padding: var(--spacing-3xl) 0;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
 
+  padding: var(--spacing-3xl) 0;
   overflow: hidden;
 }
 
@@ -9,9 +12,9 @@
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 0 var(--container-padding);
+  width: 100%;
 }
 
-/* Header */
 .about-header {
   text-align: center;
   max-width: 800px;
@@ -24,29 +27,6 @@
 .about-header-visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-.about-eyebrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-md);
-}
-
-.about-eyebrow-line {
-  width: 40px;
-  height: 1px;
-  background-color: var(--verde-salvia);
-}
-
-.about-eyebrow-text {
-  font-family: var(--font-primary);
-  font-size: 0.875rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--verde-salvia);
-  font-weight: 500;
 }
 
 .about-title {
@@ -64,39 +44,42 @@
   color: var(--vara-de-oro);
   margin-top: var(--spacing-xs);
 }
-
-.about-description {
-  font-family: var(--font-primary);
-  font-size: clamp(1rem, 2vw, 1.125rem);
-  line-height: 1.7;
-  color: var(--gris-medio);
-  margin: 0;
-}
-
-/* Grid Layout */
+/*  GRID LAYOUT - 2 BLOQUES*/
 .about-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--spacing-lg);
+
+  /* Altura automática para llenar el espacio disponible */
+  align-items: stretch;
 }
 
-.about-secondary-grid {
-  display: grid;
-  grid-template-columns: 1fr;
+/* BLOQUE 2: Contenedor de tarjetas secundarias */
+.about-secondary-block {
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-lg);
+  height: 100%;
 }
 
-/* Card Styles */
 .about-card {
   position: relative;
   background-color: var(--alabastro-calido);
-  border-radius: 2px;
+  border-radius: 40px;
   overflow: hidden;
+
+  /* Animación de entrada */
   opacity: 0;
   transform: translateY(40px);
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.about-card:hover {
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Estados visibles */
 .about-card-visible {
   opacity: 1;
   transform: translateY(0);
@@ -110,10 +93,11 @@
   transition-delay: 0.4s;
 }
 
+/* IMÁGENES*/
 .about-card-image-wrapper {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 1 / 4;
 }
 
 .about-card-image {
@@ -132,7 +116,7 @@
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(160, 82, 45, 0.4) 0%,
+    rgba(139, 90, 60, 0.4) 0%,
     transparent 50%
   );
   opacity: 0;
@@ -143,6 +127,7 @@
   opacity: 1;
 }
 
+/* CONTENIDO DE TARJETAS */
 .about-card-content {
   padding: var(--spacing-lg);
 }
@@ -165,17 +150,18 @@
   font-weight: 500;
 }
 
-.about-card-bio {
-  font-family: var(--font-primary);
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--gris-medio);
-  margin: 0;
+/*  ESTILOS ESPECÍFICOS - TARJETA PRINCIPAL*/
+.about-card-main {
+  /* Ocupa todo el alto disponible en desktop */
+  height: 70%;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Main Card Specific Styles */
 .about-card-main .about-card-image-wrapper {
-  aspect-ratio: 3 / 4;
+  flex: 1;
+  aspect-ratio: unset;
+  min-height: 400px;
 }
 
 .about-card-main .about-card-content {
@@ -186,51 +172,69 @@
   font-size: clamp(1.75rem, 4vw, 2.5rem);
 }
 
-.about-card-main .about-card-bio {
+.about-card-main .text-body {
   font-size: 1.125rem;
 }
 
-/* Secondary Card Specific Styles */
-.about-card-secondary .about-card-image-wrapper {
-  aspect-ratio: 4 / 3;
+.about-card-secondary {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Responsive Design */
+.about-card-secondary .about-card-image-wrapper {
+  flex: 1;
+  aspect-ratio: unset;
+  min-height: 200px;
+}
+
+.about-card-secondary .about-card-content {
+  flex-shrink: 0;
+}
+
+.about-secondary-block {
+  gap: var(--spacing-xl);
+}
+
+/*  RESPONSIVE DESIGN */
+
+/* Tablet y Desktop */
 @media (min-width: 768px) {
   .about-grid {
-    grid-template-columns: 1fr 1fr;
+    /* 2 columnas: izquierda más grande */
+    grid-template-columns: 1.2fr 1fr;
     gap: var(--spacing-xl);
+
+    min-height: 600px;
   }
 
-  .about-card-main {
-    grid-row: 1 / 3;
-  }
-
-  .about-secondary-grid {
-    display: flex;
-    flex-direction: column;
+  .about-secondary-block {
     gap: var(--spacing-xl);
   }
 
   .about-card-secondary .about-card-image-wrapper {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 3;
   }
 }
 
+/* Desktop grande */
 @media (min-width: 1024px) {
   .about-grid {
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 1.3fr 0.9fr;
     gap: var(--spacing-2xl);
+    min-height: 700px;
   }
 
-  .about-secondary-grid {
-    gap: var(--spacing-2xl);
+  .about-secondary-block {
+    gap: 2.5rem;
   }
 }
 
+/* Móvil */
 @media (max-width: 767px) {
   .about-section {
     padding: var(--spacing-2xl) 0;
+    min-height: auto;
   }
 
   .about-header {
@@ -247,5 +251,9 @@
 
   .about-card-main .about-card-content {
     padding: var(--spacing-lg);
+  }
+
+  .about-card-main .about-card-image-wrapper {
+    min-height: 300px;
   }
 }

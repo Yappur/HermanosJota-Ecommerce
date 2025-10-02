@@ -34,16 +34,16 @@ const About = () => {
         <div
           className={`about-header ${isVisible ? "about-header-visible" : ""}`}
         >
-          <div className="about-eyebrow">
-            <span className="about-eyebrow-line"></span>
-            <span className="about-eyebrow-text">Nuestro equipo</span>
-            <span className="about-eyebrow-line"></span>
+          <div className="eyebrow">
+            <span className="eyebrow-line"></span>
+            <span>Nuestro equipo</span>
+            <span className="eyebrow-line"></span>
           </div>
           <h2 className="about-title">
             Tres generaciones,
             <span className="about-title-accent"> una misma pasión</span>
           </h2>
-          <p className="about-description">
+          <p className="text-body">
             Detrás de cada mueble hay manos expertas, corazones dedicados y una
             tradición familiar que se transmite con orgullo. Conoce a las
             personas que dan vida a cada pieza.
@@ -69,7 +69,7 @@ const About = () => {
             <div className="about-card-content">
               <h3 className="about-card-name">Roberto Martínez</h3>
               <p className="about-card-role">Maestro Ebanista · Fundador</p>
-              <p className="about-card-bio">
+              <p className="text-body">
                 Con más de 40 años de experiencia, Roberto fundó el taller en
                 1987. Su filosofía: "La madera habla, solo hay que saber
                 escucharla". Cada pieza lleva su sello de excelencia y
@@ -99,7 +99,7 @@ const About = () => {
                 <p className="about-card-role">
                   Diseñadora · Segunda Generación
                 </p>
-                <p className="about-card-bio">
+                <p className="text-body">
                   Fusiona la tradición familiar con diseño contemporáneo. Su
                   visión moderna mantiene viva la esencia artesanal en cada
                   creación.
@@ -124,7 +124,7 @@ const About = () => {
               <div className="about-card-content">
                 <h3 className="about-card-name">Diego Martínez</h3>
                 <p className="about-card-role">Artesano · Tercera Generación</p>
-                <p className="about-card-bio">
+                <p className="text-body">
                   La nueva generación que honra el legado familiar. Combina
                   técnicas ancestrales con innovación sostenible para el futuro.
                 </p>
