@@ -1,3 +1,6 @@
+
+// <-- useProduct.js para usar más adelante en componentes con contexto de productos -->
+
 import { useState, useEffect } from "react";
 import productsApi from "../api/products.api.js";
 

@@ -71,3 +71,22 @@
   margin-bottom: var(--spacing-sm);
   margin-top: auto;
 }
+
+@media (max-width: 900px) {
+  .products-image { height: 220px; }
+  .products-card { max-width: 340px; }
+}
+
+@media (max-width: 850px) {
+  .products-image { height: 220px; }
+  .products-card { max-width: 70%; }
+}
+
+@media (max-width: 700px) {
+  .products-image { height: 280px; }
+  .products-card { max-width: none; }
+}
+
+@media (max-width: 480px) {
+  .products-image { height: 180px; }
+}
