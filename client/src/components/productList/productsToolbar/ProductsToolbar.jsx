@@ -1,12 +1,18 @@
 import React from 'react'
 import "./products-toolbar.css"
 
-const ProductsToolbar = () => {
+const ProductsToolbar = ({ value, onSearch }) => {
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    onSearch(value)
+  }
+
   return (
     <div className='products-toolbar'>
-        <form class="searchbar" role="search" aria-label="Buscar productos">
-            <input id="product-search" class="searchbar-input" type="search" placeholder="Buscar productos..."></input>
-            <button id="product-search-btn" class="searchbar-btn" type="submit" aria-label="Buscar">
+        <form className="searchbar" role="search" aria-label="Buscar productos" onSubmit={handleSubmit}>
+            <input id="product-search" className="searchbar-input" type="search" placeholder="Buscar productos..." value={value} onChange={(e) => onSearch(e.target.value)} />
+            <button id="product-search-btn" className="searchbar-btn" type="submit" aria-label="Buscar">
                 Buscar
             </button>
         </form>

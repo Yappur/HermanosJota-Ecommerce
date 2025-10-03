@@ -7,6 +7,7 @@ const ProductList = () => {
     const [productos, setProductos] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [query, setQuery] = useState("")
 
     // Fetch para traer los productos del backend
     useEffect(() => {
@@ -30,10 +31,19 @@ const ProductList = () => {
         fetchProductos()
     }, [])
 
+    // Filtrado de productos para el search
+    const filtered = productos.filter(product => {
+    const queryLower = query.toLowerCase()
+    return (
+      product.nombre.toLowerCase().includes(queryLower) ||
+      (product.descripcion && product.descripcion.toLowerCase().includes(queryLower))
+    )
+  })
+
     return (
         <div className='product-list'>
 
-            {<ProductsToolbar />}
+            {<ProductsToolbar value={query} onSearch={setQuery} />}
 
             <div className='products-container'>
                 {loading && <p>Cargando productos...</p>}
@@ -46,12 +56,12 @@ const ProductList = () => {
                     </div>
                 }
 
-                {!loading && !error && productos.length === 0 && <p>No hay productos.</p>}
+                {!loading && !error && filtered.length === 0 && <p>No hay productos.</p>}
 
                 {
                 !loading &&
                 !error &&
-                productos.map(producto => (
+                filtered.map(producto => (
                     <ProductItem key={producto.id} producto={producto} />
                 ))}
             </div>
