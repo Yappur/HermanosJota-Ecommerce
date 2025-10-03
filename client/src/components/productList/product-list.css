@@ -42,13 +42,20 @@ body {
 
 
 @media (max-width: 850px) {
-  .products-grid-container { display: flex; flex-direction: column; justify-content: center; align-items: center; }
+  .products-container { display: flex; flex-direction: column; justify-content: center; align-items: center; justify-content: center; }
 }
 
 @media (max-width: 700px) {
-  .products-grid-container { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));padding: var(--spacing-xl); }
+  .products-container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    padding: var(--spacing-xl);
+    justify-content: center;
+  }
 }
 
 @media (max-width: 480px) {
-  .products-grid-container {padding: var(--spacing-xl);}
+  .products-container {
+    padding: var(--spacing-xl);
+  }
+
 }

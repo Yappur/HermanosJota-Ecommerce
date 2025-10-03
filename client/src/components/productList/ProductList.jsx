@@ -2,6 +2,7 @@ import ProductItem from './productItem/ProductItem'
 // import { productos } from '../../api/data/products.js'
 import { useEffect, useState } from 'react'
 import "./product-list.css"
+import ProductsToolbar from './productsToolbar/ProductsToolbar'
 
 const ProductList = () => {
     const [productos, setProductos] = useState([])
@@ -15,12 +16,12 @@ const ProductList = () => {
         setLoading(true)
         setError(null)
         try {
-            const response = await fetch('http://localhost:3001/api/productos')
+            const response = await fetch('http://localhost:5000/api/products')
             if (!response.ok) {
             throw new Error('Error al traer productos')
             }
             const data = await response.json()
-            setProductos(data)
+           setProductos(Array.isArray(data.data) ? data.data : [])
         } catch (err) {
             setError(err.message)
         } finally {
