@@ -16,16 +16,14 @@ function App() {
   return (
     <CartProvider>
       <NavBar onNavigate={navigate} />
-      { currentPage === "home" && (
+      {currentPage === "home" && (
         <>
-          <HeroSection />
-          <About />
+          <HeroSection onNavigate={navigate} />
         </>
-      )
-      }
+      )}
       {currentPage === "products" && <ProductList />}
       {currentPage === "contact" && <ContactForm />}
-      {}
+      {currentPage === "about" && <About />}
       <Footer />
     </CartProvider>
   );
