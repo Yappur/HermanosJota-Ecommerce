@@ -7,7 +7,7 @@ const products = [
     medidas: '180 × 45 × 75 cm',
     materiales: 'Nogal macizo FSC®, herrajes de latón',
     acabado: 'Aceite natural ecológico',
-    imagen: '../img/Aparador-Uspallata.webp',
+    imagen: '/public/img/Aparador-Uspallata.webp',
     precio: 250000,
   },
   {
@@ -18,7 +18,7 @@ const products = [
     medidas: '100 × 35 × 200 cm',
     materiales: 'Estructura de acero, estantes de roble',
     acabado: 'Laca mate ecológica',
-    imagen: '../img/Biblioteca-Recoleta.webp',
+    imagen: '/public/img/Biblioteca-Recoleta.webp',
     precio: 180000,
   },
   {
@@ -29,7 +29,7 @@ const products = [
     medidas: '80 × 75 × 85 cm',
     materiales: 'Guatambú macizo, tela bouclé',
     acabado: 'Cera vegetal, tapizado premium',
-    imagen: '../img/Butaca-Mendoza.webp',
+    imagen: '/public/img/Butaca-Mendoza.webp',
     precio: 145000,
   },
   {
@@ -40,7 +40,7 @@ const products = [
     medidas: '90 × 85 × 95 cm',
     materiales: 'Cuero curtido vegetal, acero pintado',
     acabado: 'Cuero anilina premium',
-    imagen: '../img/Sillon-Copacabana.webp',
+    imagen: '/public/img/Sillon-Copacabana.webp',
     precio: 320000,
   },
   {
@@ -51,7 +51,7 @@ const products = [
     medidas: '90 × 90 × 45 cm',
     materiales: 'Sobre de mármol Patagonia, patas de nogal',
     acabado: 'Mármol pulido, aceite natural en madera',
-    imagen: '../img/Mesa-de-Centro-Araucaria.webp',
+    imagen: '/public/img/Mesa-de-Centro-Araucaria.webp',
     precio: 210000,
   },
   {
@@ -62,7 +62,7 @@ const products = [
     medidas: '45 × 35 × 60 cm',
     materiales: 'Roble macizo FSC®, herrajes soft-close',
     acabado: 'Barniz mate de poliuretano',
-    imagen: '../img/Mesa-de-Noche-Aconcagua.webp',
+    imagen: '/public/img/Mesa-de-Noche-Aconcagua.webp',
     precio: 95000,
   },
   {
@@ -73,7 +73,7 @@ const products = [
     medidas: '160 × 200 × 90 cm',
     materiales: 'Roble macizo FSC®, tapizado lino',
     acabado: 'Aceite natural, tapizado premium',
-    imagen: '../img/Cama-Neuquen.webp',
+    imagen: '/public/img/Cama-Neuquen.webp',
     precio: 340000,
   },
   {
@@ -84,7 +84,7 @@ const products = [
     medidas: '220 × 90 × 80 cm',
     materiales: 'Madera de eucalipto FSC®, lino 100% natural',
     acabado: 'Tapizado premium',
-    imagen: '../img/Sofa-Patagonia.webp',
+    imagen: '/public/img/Sofa-Patagonia.webp',
     precio: 280000,
   },
   {
@@ -95,7 +95,7 @@ const products = [
     medidas: '160-240 × 90 × 75 cm',
     materiales: 'Roble macizo FSC®, mecanismo alemán',
     acabado: 'Aceite-cera natural',
-    imagen: '../img/Mesa-Comedor-Pampa.webp',
+    imagen: '/public/img/Mesa-Comedor-Pampa.webp',
     precio: 310000,
   },
   {
@@ -106,7 +106,7 @@ const products = [
     medidas: '45 × 52 × 80 cm (cada una)',
     materiales: 'Contrachapado nogal, tubo de acero',
     acabado: 'Laca mate, pintura epoxi',
-    imagen: '../img/Sillas-Cordoba.webp',
+    imagen: '/public/img/Sillas-Cordoba.webp',
     precio: 120000,
   },
   {
@@ -117,7 +117,7 @@ const products = [
     medidas: '120 × 60 × 75 cm',
     materiales: 'Bambú laminado, herrajes ocultos',
     acabado: 'Laca mate resistente',
-    imagen: '../img/Escritorio-Costa.webp',
+    imagen: '/public/img/Escritorio-Costa.webp',
     precio: 150000,
   },
   {
@@ -128,7 +128,7 @@ const products = [
     medidas: '60 × 60 × 90-100 cm',
     materiales: 'Malla técnica, tejido reciclado',
     acabado: 'Base cromada, tapizado premium',
-    imagen: '../img/Silla-de-Trabajo-Belgrano.webp',
+    imagen: '/public/img/Silla-de-Trabajo-Belgrano.webp',
     precio: 110000,
   },
 ];

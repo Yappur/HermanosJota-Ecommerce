@@ -22,6 +22,9 @@ console.log("Iniciando E-commerce API...");
 // Trust proxy para Heroku, AWS, etc.
 app.set("trust proxy", 1);
 
+// Servir archivos estáticos desde la carpeta "public"
+app.use("/public", express.static(path.join(__dirname, "public")));
+
 // Logging de requests
 app.use(requestLogger);
 
@@ -29,7 +32,7 @@ app.use(requestLogger);
 app.use(corsMiddleware);
 
 // Establecer charset UTF-8 para todas las respuestas
-app.use((req, res, next) => {
+app.use("/api", (req, res, next) => {
   res.charset = "utf-8";
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   next();

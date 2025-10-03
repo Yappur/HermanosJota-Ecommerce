@@ -47,7 +47,7 @@ body {
 
 @media (max-width: 700px) {
   .products-container {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     padding: var(--spacing-xl);
     justify-content: center;
   }

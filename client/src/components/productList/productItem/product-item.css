@@ -1,7 +1,7 @@
 .products-card {
   background-color: var(--blanco);
   padding: var(--spacing-md);
-  max-width: none;
+  max-width: 450px;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(160, 82, 45, 0.1);
@@ -74,12 +74,12 @@
 
 @media (max-width: 900px) {
   .products-image { height: 220px; }
-  .products-card { max-width: none; }
+  .products-card { max-width: 450px; }
 }
 
 @media (max-width: 850px) {
   .products-image { height: 220px; }
-  .products-card { max-width: none; }
+  .products-card { max-width: 450px; }
 }
 
 @media (max-width: 700px) {

@@ -5,7 +5,7 @@ import "./product-list.css"
 import ProductsToolbar from './productsToolbar/ProductsToolbar'
 
 const ProductList = () => {
-    const [productos, setProductos] = useState([])
+    const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [query, setQuery] = useState("")
@@ -21,7 +21,7 @@ const ProductList = () => {
             throw new Error('Error al traer productos')
             }
             const data = await response.json()
-           setProductos(Array.isArray(data.data) ? data.data : [])
+           setProducts(Array.isArray(data.data) ? data.data : [])
         } catch (err) {
             setError(err.message)
         } finally {
@@ -33,7 +33,7 @@ const ProductList = () => {
     }, [])
 
     // Filtrado de productos para el search
-    const filtered = productos.filter(product => {
+    const filtered = products.filter(product => {
     const queryLower = query.toLowerCase()
     return (
       product.nombre.toLowerCase().includes(queryLower) ||
@@ -62,8 +62,8 @@ const ProductList = () => {
                 {
                 !loading &&
                 !error &&
-                filtered.map(producto => (
-                    <ProductItem key={producto.id} producto={producto} />
+                filtered.map(product => (
+                    <ProductItem key={product.id} product={product} />
                 ))}
             </div>
         </div>
