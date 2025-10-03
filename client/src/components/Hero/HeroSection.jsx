@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./heroSection.css";
 
-const HeroSection = () => {
+const HeroSection = ({ onNavigate }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -50,8 +50,18 @@ const HeroSection = () => {
           </div>
 
           <div className="hero-actions">
-            <button className="btn btn-primary">Explorar colección</button>
-            <button className="btn btn-secondary">Nuestra historia</button>
+            <button
+              className="btn btn-primary"
+              onClick={() => onNavigate("products")}
+            >
+              Explorar colección
+            </button>
+            <button
+              className="btn btn-secondary"
+              onClick={() => onNavigate("about")}
+            >
+              Nuestra historia
+            </button>
           </div>
 
           <div className="hero-trust">
