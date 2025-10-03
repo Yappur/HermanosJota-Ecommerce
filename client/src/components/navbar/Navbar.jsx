@@ -1,12 +1,17 @@
 import { useState } from "react";
 import "./navbar.css";
 
-const NavBar = ({ cartCount = 0 }) => {
+const NavBar = ({ cartCount = 0 , onNavigate}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const navigatTo = (e, page) => {
+    e.preventDefault();
+    onNavigate(page);
+  }
 
   return (
     <header className="header" role="banner">
@@ -53,22 +58,23 @@ const NavBar = ({ cartCount = 0 }) => {
                   className="nav-link"
                   role="menuitem"
                   aria-current="page"
+                  onClick={(e) => navigatTo(e, "home")}
                 >
                   Inicio
                 </a>
               </li>
               <li role="none">
-                <a href="/productos" className="nav-link" role="menuitem">
+                <a href="/productos" className="nav-link" role="menuitem" onClick={(e) => navigatTo(e, "products")}>
                   Productos
                 </a>
               </li>
               <li role="none">
-                <a href="/nosotros" className="nav-link" role="menuitem">
+                <a href="/nosotros" className="nav-link" role="menuitem" onClick={(e) => navigatTo(e, "about")}>
                   Nosotros
                 </a>
               </li>
               <li role="none">
-                <a href="/contacto" className="nav-link" role="menuitem">
+                <a href="/contacto" className="nav-link" role="menuitem" onClick={(e) => navigatTo(e, "contact")}>
                   Contacto
                 </a>
               </li>

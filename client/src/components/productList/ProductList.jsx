@@ -11,6 +11,7 @@ const ProductList = () => {
     useEffect(() => {
         const fetchProductos = async () => {
         setLoading(true)
+        setError(null)
         try {
             const response = await fetch('http://localhost:3001/api/productos')
             if (!response.ok) {
