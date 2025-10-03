@@ -1,0 +1,40 @@
+body {
+  overflow-x: hidden;
+}
+
+main {
+  margin-top: 150px;
+  overflow: hidden;
+}
+
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
+  gap: var(--spacing-xl);
+  padding: var(--spacing-md);
+  margin: 0;
+}
+
+/* ESTILOS PARA EL ESTADO VACÍO */
+.products-empty {
+  display: flex;
+  height: 65vh;
+  padding: var(--spacing-xl);
+  text-align: center;
+}
+
+.products-empty-content {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.products-empty h4 {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-xs);
+}
+
+.products-empty p {
+  color: var(--gris-medio);
+  font-size: 0.9rem;
+  margin-top: var(--spacing-xs);
+}

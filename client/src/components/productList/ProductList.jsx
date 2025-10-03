@@ -1,6 +1,7 @@
 import ProductItem from './productItem/ProductItem'
 // import { productos } from '../../api/data/products.js'
 import { useEffect, useState } from 'react'
+import "./product-list.css"
 
 const ProductList = () => {
     const [productos, setProductos] = useState([])
@@ -33,7 +34,13 @@ const ProductList = () => {
         <div className='products-container'>
             {loading && <p>Cargando productos...</p>}
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error &&
+                <div className='products-empty'>
+                    <div className="products-empty-content">
+                        <h4>No se encontraron productos</h4>
+                    </div>
+                </div>
+            }
 
             {!loading && !error && productos.length === 0 && <p>No hay productos.</p>}
 
