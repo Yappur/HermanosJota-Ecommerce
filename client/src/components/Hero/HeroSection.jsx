@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./heroSection.css";
+import "./HeroSection.css";
 
 const HeroSection = ({ onNavigate }) => {
   const [isVisible, setIsVisible] = useState(false);
