@@ -57,10 +57,9 @@ const About = () => {
             }`}
           >
             <div className="about-card-image-wrapper">
-              {/* URL de imagen momentanea */}
               <img
-                src="https://maderia.es/wp-content/uploads/2024/04/que-habilidades-de-trabajo-en-equipo-son-importantes-para-un-carpintero.jpg"
-                alt="Maestro artesano trabajando madera"
+                src="https://res.cloudinary.com/doh6efk57/image/upload/v1759596207/Carla-Jota_pkhrnw.webp"
+                alt="Carla Jota, CEO de Hermanos Jota"
                 className="about-card-image"
               />
               <div className="about-card-overlay"></div>
@@ -88,8 +87,8 @@ const About = () => {
               <div className="about-card-image-wrapper">
                 {/* URL de imagen momentanea */}
                 <img
-                  src="https://media.istockphoto.com/id/973329650/es/foto/mujer-joven-haciendo-carpinter%C3%ADa-en-un-taller.jpg?s=612x612&w=0&k=20&c=Ielb-HSsNaeaTDSCeTbtPZswe3ICqUXlAY_9FbLfFzY="
-                  alt="Diseñadora de muebles"
+                  src="https://res.cloudinary.com/doh6efk57/image/upload/v1759596221/Martin-Elizalde_t1hjt4.webp"
+                  alt="Martín Elizalde, CPO de Hermanos Jota"
                   className="about-card-image"
                 />
                 <div className="about-card-overlay"></div>
@@ -114,10 +113,9 @@ const About = () => {
               }`}
             >
               <div className="about-card-image-wrapper">
-                {/* URL de imagen momentanea */}
                 <img
-                  src="https://www.iberianpress.es/wp-content/uploads/2025/02/694795-Carpinteria-Gomez-Pardiel.jpg"
-                  alt="Joven artesano aprendiz"
+                  src="https://res.cloudinary.com/doh6efk57/image/upload/v1759596231/Sofia-Rinaldi_otjwns.webp"
+                  alt="Sofía Rinaldi, COO de Hermanos Jota"
                   className="about-card-image"
                 />
                 <div className="about-card-overlay"></div>

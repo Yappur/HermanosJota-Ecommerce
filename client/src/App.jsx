@@ -7,6 +7,7 @@ import About from "./components/About/About";
 import ProductList from "./components/productList/ProductList";
 import ContactForm from "./components/Contact/contactForm";
 import { useState } from "react";
+import FAQ from "./components/FAQ/FAQ.jsx";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -19,6 +20,7 @@ function App() {
       {currentPage === "home" && (
         <>
           <HeroSection onNavigate={navigate} />
+          <FAQ />
         </>
       )}
       {currentPage === "products" && <ProductList />}
