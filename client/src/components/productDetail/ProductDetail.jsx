@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
-import NavBar from '../navbar/Navbar';
 import ProductGallery from './ProductGallery';
 import ProductInfo from './ProductInfo';
 import ProductSpecs from './ProductSpecs';
 import Footer from '../Footer/Footer';
 import './productDetail.css';
 
-const ProductDetail = ({ productId }) => {
+const ProductDetail = ({ productId, onNavigate, onAddToCart }) => {
   const [product, setProduct] = useState(null);
-  const [cartCount, setCartCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -56,8 +54,10 @@ const ProductDetail = ({ productId }) => {
   }, [productId]);
 
   const handleAddToCart = () => {
-    setCartCount(prev => prev + 1);
-    console.log('Producto añadido al carrito');
+    if (product && onAddToCart) {
+      onAddToCart(product);
+      console.log('Producto añadido al carrito:', product.name);
+    }
   };
 
   if (loading) {
@@ -78,7 +78,6 @@ const ProductDetail = ({ productId }) => {
 
   return (
     <>
-      <NavBar cartCount={cartCount} />
       
       <main 
         className="product container" 
@@ -94,6 +93,7 @@ const ProductDetail = ({ productId }) => {
         <ProductInfo 
           product={product}
           onAddToCart={handleAddToCart}
+          onNavigate={onNavigate}
         />
         
         <ProductSpecs specs={product.specs} />

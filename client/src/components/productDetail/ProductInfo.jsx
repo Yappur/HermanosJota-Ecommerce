@@ -1,4 +1,4 @@
-const ProductInfo = ({ product, onAddToCart }) => {
+const ProductInfo = ({ product, onAddToCart, onNavigate }) => {
   const formatPrice = (price, currency) => {
     return new Intl.NumberFormat('es-AR', {
       style: 'currency',
@@ -39,9 +39,12 @@ const ProductInfo = ({ product, onAddToCart }) => {
       </div>
 
       <div className="cta-row">
-        <a className="btn btn-secondary" href="/productos">
+        <button 
+          className="btn btn-secondary" 
+          onClick={() => onNavigate && onNavigate("products")}
+        >
           Ver más productos
-        </a>
+        </button>
         <button 
           id="btnAddToCart" 
           className="btn btn-primary"

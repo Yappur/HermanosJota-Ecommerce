@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import "./product-list.css"
 import ProductsToolbar from './productsToolbar/ProductsToolbar'
 
-const ProductList = () => {
+const ProductList = ({ onNavigate }) => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -63,7 +63,7 @@ const ProductList = () => {
                 !loading &&
                 !error &&
                 filtered.map(product => (
-                    <ProductItem key={product.id} product={product} />
+                    <ProductItem key={product.id} product={product} onNavigate={onNavigate} />
                 ))}
             </div>
         </div>
