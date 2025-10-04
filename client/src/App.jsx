@@ -5,13 +5,45 @@ import About from "./components/About/About";
 import ProductList from "./components/productList/ProductList";
 import ProductDetail from "./components/productDetail/ProductDetail";
 import ContactForm from "./components/Contact/contactForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FAQ from "./components/FAQ/FAQ.jsx";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [cart, setCart] = useState([]);
+  const [isCartLoaded, setIsCartLoaded] = useState(false);
+
+  // Cargar carrito desde localStorage al iniciar la aplicación
+  useEffect(() => {
+    try {
+      const savedCart = localStorage.getItem('hermanos-jota-cart');
+      console.log('🔄 Cargando carrito desde localStorage:', savedCart);
+      if (savedCart) {
+        const parsedCart = JSON.parse(savedCart);
+        if (Array.isArray(parsedCart)) {
+          console.log('✅ Carrito cargado:', parsedCart);
+          setCart(parsedCart);
+        }
+      }
+    } catch (error) {
+      console.error('Error al cargar el carrito desde localStorage:', error);
+    } finally {
+      setIsCartLoaded(true);
+    }
+  }, []);
+
+  // Guardar carrito en localStorage cuando cambie (solo después de cargar)
+  useEffect(() => {
+    if (!isCartLoaded) return; // No guardar hasta que se haya cargado
+    
+    try {
+      console.log('💾 Guardando carrito en localStorage:', cart);
+      localStorage.setItem('hermanos-jota-cart', JSON.stringify(cart));
+    } catch (error) {
+      console.error('Error al guardar el carrito en localStorage:', error);
+    }
+  }, [cart, isCartLoaded]);
 
   const navigate = (page, productId = null) => {
     setCurrentPage(page);
