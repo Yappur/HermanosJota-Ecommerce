@@ -1,0 +1,61 @@
+body {
+  overflow-x: hidden;
+}
+
+.product-list {
+  margin-top: 150px;
+  overflow: hidden;
+}
+
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
+  gap: var(--spacing-xl);
+  padding: var(--spacing-md);
+  margin: 0;
+}
+
+/* ESTILOS PARA EL ESTADO VACÍO */
+.products-empty {
+  display: flex;
+  height: 65vh;
+  padding: var(--spacing-xl);
+  text-align: center;
+}
+
+.products-empty-content {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.products-empty h4 {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-xs);
+}
+
+.products-empty p {
+  color: var(--gris-medio);
+  font-size: 0.9rem;
+  margin-top: var(--spacing-xs);
+}
+
+
+
+@media (max-width: 850px) {
+  .products-container { display: flex; flex-direction: column; justify-content: center; align-items: center; justify-content: center; }
+}
+
+@media (max-width: 700px) {
+  .products-container {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    padding: var(--spacing-xl);
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-container {
+    padding: var(--spacing-xl);
+  }
+
+}

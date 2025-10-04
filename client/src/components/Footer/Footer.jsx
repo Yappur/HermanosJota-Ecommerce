@@ -95,7 +95,7 @@ const Footer = () => {
               </a>
               <a
                 href="https://wa.me/541145678900"
-                class="social-link"
+                className="social-link"
                 aria-label="Contactar por WhatsApp"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -117,7 +117,7 @@ const Footer = () => {
 
         <div className="footer-bottom">
           <p className="footer-copyright">
-            &copy;<time datetime="2025">2025</time> Hermanos Jota. Todos los
+            &copy;<time dateTime="2025">2025</time> Hermanos Jota. Todos los
             derechos reservados.
           </p>
         </div>
