@@ -1,6 +1,7 @@
 import Footer from "./components/Footer/Footer";
 import NavBar from "./components/navbar/Navbar";
 import HeroSection from "./components/Hero/HeroSection";
+import ProductosDestacados from "./components/ProductosDestacados/ProductosDestacados";
 import About from "./components/About/About";
 import ProductList from "./components/productList/ProductList";
 import ProductView from "./components/productView/ProductView";
@@ -78,6 +79,7 @@ function App() {
       {currentPage === "home" && (
         <>
           <HeroSection onNavigate={navigate} />
+          <ProductosDestacados onNavigate={navigate} />
           <FAQ />
         </>
       )}
