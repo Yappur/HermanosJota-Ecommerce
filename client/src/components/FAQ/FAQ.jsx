@@ -48,7 +48,7 @@ const FAQ = () => {
   };
   return (
     <section className="faq-section">
-      <div className="container">
+      <div className="grid-faq container">
         <div className="section-header">
           <div className="eyebrow">
             <span className="eyebrow-line"></span>
