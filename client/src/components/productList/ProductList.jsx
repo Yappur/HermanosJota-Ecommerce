@@ -1,4 +1,4 @@
-import ProductItem from './productItem/ProductItem'
+import ProductCard from './productCard/ProductCard'
 // import { productos } from '../../api/data/products.js'
 import { useEffect, useState } from 'react'
 import "./product-list.css"
@@ -63,7 +63,7 @@ const ProductList = ({ onNavigate }) => {
                 !loading &&
                 !error &&
                 filtered.map(product => (
-                    <ProductItem key={product.id} product={product} onNavigate={onNavigate} />
+                    <ProductCard key={product.id} product={product} onNavigate={onNavigate} />
                 ))}
             </div>
         </div>

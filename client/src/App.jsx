@@ -3,7 +3,7 @@ import NavBar from "./components/navbar/Navbar";
 import HeroSection from "./components/Hero/HeroSection";
 import About from "./components/About/About";
 import ProductList from "./components/productList/ProductList";
-import ProductDetail from "./components/productDetail/ProductDetail";
+import ProductView from "./components/productView/ProductView";
 import ContactForm from "./components/Contact/contactForm";
 import { useState, useEffect } from "react";
 import FAQ from "./components/FAQ/FAQ.jsx";
@@ -82,7 +82,7 @@ function App() {
         </>
       )}
       {currentPage === "products" && <ProductList onNavigate={navigate} />}
-      {currentPage === "product-detail" && <ProductDetail productId={selectedProductId} onNavigate={navigate} onAddToCart={addToCart} />}
+      {currentPage === "product-detail" && <ProductView productId={selectedProductId} onNavigate={navigate} onAddToCart={addToCart} />}
       {currentPage === "contact" && <ContactForm />}
       {currentPage === "about" && <About />}
       <Footer />

@@ -1,10 +1,9 @@
 import React from 'react'
-import "./product-item.css";
+import "./product-card.css";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 
-
-const ProductItem = (props) => {
+const ProductCard = (props) => {
     const {
         product,
         onNavigate
@@ -27,4 +26,4 @@ const ProductItem = (props) => {
   )
 }
 
-export default ProductItem
+export default ProductCard
