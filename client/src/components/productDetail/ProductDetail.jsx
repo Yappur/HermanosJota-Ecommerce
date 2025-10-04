@@ -1,111 +1,59 @@
-import { useState, useEffect } from 'react';
-import NavBar from '../navbar/Navbar';
-import ProductGallery from './ProductGallery';
-import ProductInfo from './ProductInfo';
-import ProductSpecs from './ProductSpecs';
-import Footer from '../Footer/Footer';
-import './productDetail.css';
-
-const ProductDetail = ({ productId }) => {
-  const [product, setProduct] = useState(null);
-  const [cartCount, setCartCount] = useState(0);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadProduct = async () => {
-      try {
-        setLoading(true);
-        
-        // Llamada a la API real del backend
-        const response = await fetch(`http://localhost:3001/api/productos/${productId}`);
-        
-        if (!response.ok) {
-          throw new Error('Producto no encontrado');
-        }
-        
-        const productData = await response.json();
-        
-        // Transformar los datos del backend al formato que espera el componente
-        const formattedProduct = {
-          id: productData.id,
-          name: productData.nombre,
-          description: productData.descripcion,
-          price: productData.precio,
-          currency: "ARS",
-          image: productData.imagen,
-          availability: "InStock",
-          specs: [
-            { label: "Medidas", value: productData.medidas },
-            { label: "Materiales", value: productData.materiales },
-            { label: "Acabado", value: productData.acabado }
-          ]
-        };
-        
-        setProduct(formattedProduct);
-      } catch (error) {
-        console.error('Error al cargar el producto:', error);
-        setProduct(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (productId) {
-      loadProduct();
-    }
-  }, [productId]);
-
-  const handleAddToCart = () => {
-    setCartCount(prev => prev + 1);
-    console.log('Producto añadido al carrito');
+const ProductDetail = ({ product, onAddToCart, onNavigate }) => {
+  const formatPrice = (price, currency) => {
+    return new Intl.NumberFormat('es-AR', {
+      style: 'currency',
+      currency: currency || 'ARS'
+    }).format(price);
   };
 
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <p>Cargando producto...</p>
-      </div>
-    );
-  }
-
-  if (!product) {
-    return (
-      <div className="error-container">
-        <p>Producto no encontrado</p>
-      </div>
-    );
-  }
-
   return (
-    <>
-      <NavBar cartCount={cartCount} />
+    <section className="details">
+      <h1 id="title" className="title" itemProp="name">
+        {product.name}
+      </h1>
       
-      <main 
-        className="product container" 
-        itemScope 
-        itemType="https://schema.org/Product"
-      >
-        <ProductGallery 
-          image={product.image} 
-          alt={product.name}
-          productName={product.name}
-        />
-        
-        <ProductInfo 
-          product={product}
-          onAddToCart={handleAddToCart}
-        />
-        
-        <ProductSpecs specs={product.specs} />
-        
-        <aside className="badge">
-          <span className="dot"></span>
-          Madera certificada FSC® — Hecho en Argentina
-        </aside>
-      </main>
+      <p id="desc" className="desc" itemProp="description">
+        {product.description}
+      </p>
 
-      <Footer />
-    </>
+      <div 
+        className="price" 
+        itemProp="offers" 
+        itemScope 
+        itemType="https://schema.org/Offer"
+      >
+        <meta itemProp="priceCurrency" content={product.currency || "ARS"} />
+        <span className="price-label">Precio</span>
+        <span 
+          id="priceValue" 
+          className="price-value" 
+          itemProp="price"
+        >
+          {formatPrice(product.price, product.currency)}
+        </span>
+        <link 
+          id="availability" 
+          itemProp="availability" 
+          href={`https://schema.org/${product.availability || 'InStock'}`} 
+        />
+      </div>
+
+      <div className="cta-row">
+        <button 
+          className="btn btn-secondary" 
+          onClick={() => onNavigate && onNavigate("products")}
+        >
+          Ver más productos
+        </button>
+        <button 
+          id="btnAddToCart" 
+          className="btn btn-primary"
+          onClick={onAddToCart}
+        >
+          Añadir al Carrito
+        </button>
+      </div>
+    </section>
   );
 };
 

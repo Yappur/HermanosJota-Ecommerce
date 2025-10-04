@@ -1,11 +1,34 @@
 import { useState } from "react";
 import "./navbar.css";
 
-const NavBar = ({ cartCount = 0 , onNavigate}) => {
+const NavBar = ({ onNavigate, cartCount = 0, cartItems = [], onClearCart }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleCart = () => {
+    setIsCartOpen(!isCartOpen);
+  };
+
+  const handleClearCart = () => {
+    if (onClearCart) {
+      onClearCart();
+      setIsCartOpen(false);
+    }
+  };
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('es-AR', {
+      style: 'currency',
+      currency: 'ARS'
+    }).format(price);
+  };
+
+  const getTotalPrice = () => {
+    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
   const navigatTo = (e, page) => {
@@ -79,9 +102,66 @@ const NavBar = ({ cartCount = 0 , onNavigate}) => {
                 </a>
               </li>
               <li role="none" className="cart">
-                <span className="cart-icon">
-                  🛒 <span className="cart-count">{cartCount}</span>
-                </span>
+                <button 
+                  className="cart-button"
+                  onClick={toggleCart}
+                  aria-label="Ver carrito de compras"
+                >
+                  <span className="cart-icon">
+                    🛒 <span className="cart-count">{cartCount}</span>
+                  </span>
+                </button>
+                
+                {isCartOpen && (
+                  <div className="cart-dropdown">
+                    <div className="cart-header">
+                      <h3>Carrito de Compras</h3>
+                      <button 
+                        className="cart-close"
+                        onClick={toggleCart}
+                        aria-label="Cerrar carrito"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    
+                    <div className="cart-content">
+                      {cartItems.length === 0 ? (
+                        <p className="cart-empty">Tu carrito está vacío</p>
+                      ) : (
+                        <>
+                          <div className="cart-items">
+                            {cartItems.map((item) => (
+                              <div key={item.id} className="cart-item">
+                                <div className="cart-item-info">
+                                  <h4 className="cart-item-name">{item.name}</h4>
+                                  <p className="cart-item-details">
+                                    Cantidad: {item.quantity} × {formatPrice(item.price)}
+                                  </p>
+                                  <p className="cart-item-total">
+                                    Subtotal: {formatPrice(item.price * item.quantity)}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          
+                          <div className="cart-footer">
+                            <div className="cart-total">
+                              <strong>Total: {formatPrice(getTotalPrice())}</strong>
+                            </div>
+                            <button 
+                              className="cart-clear-btn"
+                              onClick={handleClearCart}
+                            >
+                              Vaciar Carrito
+                            </button>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
               </li>
             </ul>
           </nav>

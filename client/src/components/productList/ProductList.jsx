@@ -1,10 +1,10 @@
-import ProductItem from './productItem/ProductItem'
+import ProductCard from './productCard/ProductCard'
 // import { productos } from '../../api/data/products.js'
 import { useEffect, useState } from 'react'
 import "./product-list.css"
 import ProductsToolbar from './productsToolbar/ProductsToolbar'
 
-const ProductList = () => {
+const ProductList = ({ onNavigate }) => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -16,7 +16,7 @@ const ProductList = () => {
         setLoading(true)
         setError(null)
         try {
-            const response = await fetch('http://localhost:5000/api/products')
+            const response = await fetch('http://localhost:5001/api/products')
             if (!response.ok) {
             throw new Error('Error al traer productos')
             }
@@ -63,7 +63,7 @@ const ProductList = () => {
                 !loading &&
                 !error &&
                 filtered.map(product => (
-                    <ProductItem key={product.id} product={product} />
+                    <ProductCard key={product.id} product={product} onNavigate={onNavigate} />
                 ))}
             </div>
         </div>
