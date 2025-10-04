@@ -21,16 +21,20 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
           throw new Error('Producto no encontrado');
         }
         
-        const productData = await response.json();
+        const responseData = await response.json();
+        const productData = responseData.data; // Extraer el producto del objeto response
         
         // Transformar los datos del backend al formato que espera el componente
+        const imageUrl = `http://localhost:5001${productData.imagen}`;
+        console.log('URL de imagen construida:', imageUrl);
+        
         const formattedProduct = {
           id: productData.id,
           name: productData.nombre,
           description: productData.descripcion,
           price: productData.precio,
           currency: "ARS",
-          image: productData.imagen,
+          image: imageUrl,
           availability: "InStock",
           specs: [
             { label: "Medidas", value: productData.medidas },
