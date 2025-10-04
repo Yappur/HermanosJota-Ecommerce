@@ -34,11 +34,15 @@ function App() {
     });
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <>
-      <NavBar onNavigate={navigate} cartCount={cartItemCount} />
+      <NavBar onNavigate={navigate} cartCount={cartItemCount} cartItems={cart} onClearCart={clearCart} />
       {currentPage === "home" && (
         <>
           <HeroSection onNavigate={navigate} />
