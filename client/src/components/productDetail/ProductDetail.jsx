@@ -17,7 +17,7 @@ const ProductDetail = ({ productId }) => {
         setLoading(true);
         
         // Llamada a la API real del backend
-        const response = await fetch(`http://localhost:3001/api/productos/${productId}`);
+        const response = await fetch(`http://localhost:5001/api/products/${productId}`);
         
         if (!response.ok) {
           throw new Error('Producto no encontrado');
