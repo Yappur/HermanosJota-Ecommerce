@@ -1,5 +1,4 @@
 import ProductCard from './productCard/ProductCard'
-// import { productos } from '../../api/data/products.js'
 import { useEffect, useState } from 'react'
 import "./product-list.css"
 import ProductsToolbar from './productsToolbar/ProductsToolbar'
@@ -10,7 +9,6 @@ const ProductList = ({ onNavigate, onAddToCart }) => {
     const [error, setError] = useState(null)
     const [query, setQuery] = useState("")
 
-    // Fetch para traer los productos del backend
     useEffect(() => {
         const fetchProductos = async () => {
         setLoading(true)

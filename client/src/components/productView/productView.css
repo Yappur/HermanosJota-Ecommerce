@@ -149,7 +149,7 @@ main.product.container {
   background: var(--verde-salvia);
 }
 
-/* RESPONSIVE - Mobile First */
+/* RESPONSIVE */
 @media (max-width: 480px) {
   .product .gallery .hero-img {
     max-height: 280px;
@@ -217,7 +217,6 @@ main.product.container {
   }
 }
 
-/* Tablet y Desktop */
 @media (min-width: 769px) {
   .product .gallery .hero-img {
     max-height: 500px;
@@ -238,16 +237,16 @@ main.product.container {
   .product .cta-row {
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-sm);
-    max-width: 500px; /* Limita el ancho total */
-    margin: 0 auto; /* Centra el contenedor */
+    max-width: 500px; 
+    margin: 0 auto;
   }
 
   .product .cta-row .btn {
     width: 100%;
-    min-width: 0; /* Permite que se ajuste al grid */
-    font-size: 0.95rem; /* Reduce ligeramente el tamaño de fuente si es necesario */
-    padding: 0.75rem 1rem; /* Ajusta el padding */
-    white-space: nowrap; /* Evita saltos de línea en el texto */
+    min-width: 0;
+    font-size: 0.95rem; 
+    padding: 0.75rem 1rem; 
+    white-space: nowrap; 
   }
 
   .product .cta-row .btn:last-child {

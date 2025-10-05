@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import "./contactForm.css";
 
@@ -400,7 +398,6 @@ const ContactForm = () => {
           </div>
         </div>
 
-        {/* Mapa de Google Maps */}
         <div className="contact-map">
           <h2>Nuestra Ubicación</h2>
           <div className="map-container">

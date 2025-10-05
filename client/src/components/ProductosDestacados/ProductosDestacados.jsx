@@ -32,7 +32,7 @@ const ProductosDestacados = ({ onNavigate }) => {
       } catch (error) {
         console.error('Error al cargar productos destacados:', error)
       } finally {
-        setTimeout(() => setLoading(false), 1000) // Simular tiempo de carga
+        setTimeout(() => setLoading(false), 1000) 
       }
     }
 

@@ -4,8 +4,6 @@ const router = express.Router();
 // POST /api/contact - Recibir formulario de contacto
 router.post("/", (req, res) => {
   console.log(JSON.stringify(req.body, null, 2));
-
-  // Validar que se recibieron los datos necesarios
   const { nombre, apellido, email, telefono, pais, mensaje } = req.body;
 
   if (!nombre || !apellido || !email || !telefono || !mensaje) {
