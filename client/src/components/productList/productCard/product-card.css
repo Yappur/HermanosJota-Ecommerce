@@ -71,7 +71,14 @@
   margin-top: auto;
 }
 
-
+.products-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 44px;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+}
 
 /* Mobile first approach */
 .products-image {
