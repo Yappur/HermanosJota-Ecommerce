@@ -109,7 +109,7 @@
   transform: translateX(30px);
   transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
   width: 100%;
-  max-width: 600px; 
+  max-width: 600px;
 }
 
 .hero-image-visible {
@@ -170,6 +170,17 @@
   color: var(--vara-de-oro);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  background: linear-gradient(
+    135deg,
+    #ffffffc5 0%,
+    var(--vara-de-oro) 50%,
+    #ffffffc5 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% auto;
+  animation: shimmer 5s ease-in-out infinite;
 }
 
 .hero-badge-subtitle {

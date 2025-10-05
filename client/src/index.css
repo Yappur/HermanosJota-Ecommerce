@@ -199,3 +199,14 @@ a:hover {
   line-height: 1.7;
   color: var(--gris-medio);
 }
+
+/* Animacion Brillo */
+@keyframes shimmer {
+  0%,
+  100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}

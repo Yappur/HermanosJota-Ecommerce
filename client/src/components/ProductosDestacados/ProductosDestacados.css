@@ -27,16 +27,6 @@
   animation: shimmer 3s ease-in-out infinite;
 }
 
-@keyframes shimmer {
-  0%,
-  100% {
-    background-position: 0% center;
-  }
-  50% {
-    background-position: 100% center;
-  }
-}
-
 .section-description {
   font-size: 1.125rem;
   color: var(--texto-secundario, #666);
