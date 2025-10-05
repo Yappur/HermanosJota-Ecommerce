@@ -28,7 +28,7 @@ const ProductCard = ({ product, onNavigate, onAddToCart }) => {
         <span className='products-price'>${Number(product.precio || 0).toLocaleString('es-AR')}</span>
         <div className="products-actions">
             <a
-            href={`./product.html?id=${encodeURIComponent(product.id)}`}
+            href="#" onClick={handleProductClick}
             className="btn btn-see-product"
             >
             Ver producto
