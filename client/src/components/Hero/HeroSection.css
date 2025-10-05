@@ -189,7 +189,7 @@
   margin-top: 2px;
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 999px) {
   .hero-container {
     grid-template-columns: 1fr;

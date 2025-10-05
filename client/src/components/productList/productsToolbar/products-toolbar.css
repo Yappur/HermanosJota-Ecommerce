@@ -21,8 +21,6 @@
   box-shadow: 0 1px 0 rgba(0,0,0,.04);
 }
 
-
-/* Input */
 .searchbar-input {
   flex: 1;
   border: 0;
@@ -37,7 +35,6 @@
   color: var(--gris-medio);
 }
 
- /* Accesibilidad/foco */
 .searchbar:has(.searchbar-input:focus) {
   border-color: var(--siena-tostado);
   box-shadow: 0 0 0 3px rgba(160,82,45,.15);

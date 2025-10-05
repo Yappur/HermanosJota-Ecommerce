@@ -41,7 +41,7 @@
   height: 24px;
 }
 
-/* Responsive: ajustar posición en móviles */
+/* Responsive*/
 @media (max-width: 768px) {
   .scroll-to-top {
     bottom: 1.5rem;
