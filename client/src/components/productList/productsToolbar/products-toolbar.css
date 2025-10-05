@@ -5,7 +5,7 @@
   justify-content: flex-end;
   margin-top: var(--spacing-md);
   margin-bottom: var(--spacing-md);
-  padding-right: 2rem;  
+  padding-right: 2rem;
 }
 
 
@@ -36,24 +36,6 @@
 .searchbar-input::placeholder {
   color: var(--gris-medio);
 }
-
-/* Botón */
-.searchbar-btn {
-  display: grid;
-  color: var(--blanco);
-  place-items: center;
-  border: 0;
-  background: var(--siena-tostado);
-  padding: .5rem .65rem;
-  cursor: pointer;
-  border-left: 1px solid #e6d3be;
-}
-
-.searchbar-btn:hover { 
-  background: var(--blanco);
-  color: var(--siena-tostado);
-
- }
 
  /* Accesibilidad/foco */
 .searchbar:has(.searchbar-input:focus) {
