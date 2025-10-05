@@ -13,8 +13,18 @@ const ProductCard = ({ product, onNavigate, onAddToCart }) => {
     const handleAddToCart = (e) => {
         e.preventDefault();
         if (product && onAddToCart) {
-        onAddToCart(product);
-        console.log("Producto añadido al carrito:", product.name);
+            // Transformar el producto al formato esperado por el carrito
+            const formattedProduct = {
+                id: product.id,
+                name: product.nombre,
+                description: product.descripcion,
+                price: product.precio,
+                currency: "ARS",
+                image: `${API_BASE}${product.imagen}`,
+                availability: "InStock"
+            };
+            onAddToCart(formattedProduct);
+            console.log("Producto añadido al carrito:", product.nombre);
         }
     };
 
