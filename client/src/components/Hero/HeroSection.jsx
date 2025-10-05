@@ -75,8 +75,9 @@ const HeroSection = ({ onNavigate }) => {
           <div className="hero-image-wrapper">
             <img
               src="https://res.cloudinary.com/doh6efk57/image/upload/v1759597534/48ef6a66-0335-44d8-8ad9-53430fb13e6a_fxu74k.webp"
-              alt=""
+              alt="Banner principal de Hermanos Jota"
               className="hero-image-main"
+              loading="eager"
             />
             <div className="hero-image-accent"></div>
           </div>

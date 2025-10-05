@@ -8,7 +8,7 @@
 }
 
 .hero-container {
-  max-width: 1400px; /* Limita el ancho máximo */
+  max-width: 1400px;
   width: 100%;
   margin: 120px auto 0 auto;
   padding: 0 var(--container-padding);
@@ -48,7 +48,6 @@
   margin-bottom: var(--spacing-lg);
 }
 
-/* Stats Section */
 .hero-stats {
   display: flex;
   align-items: center;
@@ -110,7 +109,7 @@
   transform: translateX(30px);
   transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
   width: 100%;
-  max-width: 600px; /* Limita el ancho de la imagen */
+  max-width: 600px; 
 }
 
 .hero-image-visible {
@@ -135,7 +134,6 @@
   object-position: center;
 }
 
-/* Badge */
 .hero-badge {
   position: absolute;
   bottom: var(--spacing-lg);
@@ -197,7 +195,6 @@
   }
 }
 
-/* Tablets y pantallas medianas (768px en adelante) */
 @media (min-width: 1000px) {
   .hero-container {
     grid-template-columns: 1fr 1fr;
@@ -213,7 +210,6 @@
   }
 }
 
-/* Móviles (hasta 767px) */
 @media (max-width: 767px) {
   .hero {
     min-height: auto;
@@ -243,7 +239,6 @@
   }
 }
 
-/* Móviles pequeños (hasta 480px) */
 @media (max-width: 480px) {
   .hero-stats {
     justify-content: space-between;

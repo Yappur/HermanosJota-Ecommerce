@@ -21,20 +21,23 @@ const NavBar = ({ onNavigate, cartCount = 0, cartItems = [], onClearCart }) => {
   };
 
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('es-AR', {
-      style: 'currency',
-      currency: 'ARS'
+    return new Intl.NumberFormat("es-AR", {
+      style: "currency",
+      currency: "ARS",
     }).format(price);
   };
 
   const getTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
   };
 
   const navigatTo = (e, page) => {
     e.preventDefault();
     onNavigate(page);
-  }
+  };
 
   return (
     <header className="header" role="banner">
@@ -87,22 +90,37 @@ const NavBar = ({ onNavigate, cartCount = 0, cartItems = [], onClearCart }) => {
                 </a>
               </li>
               <li role="none">
-                <a href="/productos" className="nav-link" role="menuitem" onClick={(e) => navigatTo(e, "products")}>
+                <a
+                  href="/productos"
+                  className="nav-link"
+                  role="menuitem"
+                  onClick={(e) => navigatTo(e, "products")}
+                >
                   Productos
                 </a>
               </li>
               <li role="none">
-                <a href="/nosotros" className="nav-link" role="menuitem" onClick={(e) => navigatTo(e, "about")}>
+                <a
+                  href="/nosotros"
+                  className="nav-link"
+                  role="menuitem"
+                  onClick={(e) => navigatTo(e, "about")}
+                >
                   Nosotros
                 </a>
               </li>
               <li role="none">
-                <a href="/contacto" className="nav-link" role="menuitem" onClick={(e) => navigatTo(e, "contact")}>
+                <a
+                  href="/contacto"
+                  className="nav-link"
+                  role="menuitem"
+                  onClick={(e) => navigatTo(e, "contact")}
+                >
                   Contacto
                 </a>
               </li>
               <li role="none" className="cart">
-                <button 
+                <button
                   className="cart-button"
                   onClick={toggleCart}
                   aria-label="Ver carrito de compras"
@@ -111,12 +129,12 @@ const NavBar = ({ onNavigate, cartCount = 0, cartItems = [], onClearCart }) => {
                     🛒 <span className="cart-count">{cartCount}</span>
                   </span>
                 </button>
-                
+
                 {isCartOpen && (
                   <div className="cart-dropdown">
                     <div className="cart-header">
                       <h3>Carrito de Compras</h3>
-                      <button 
+                      <button
                         className="cart-close"
                         onClick={toggleCart}
                         aria-label="Cerrar carrito"
@@ -124,7 +142,7 @@ const NavBar = ({ onNavigate, cartCount = 0, cartItems = [], onClearCart }) => {
                         ✕
                       </button>
                     </div>
-                    
+
                     <div className="cart-content">
                       {cartItems.length === 0 ? (
                         <p className="cart-empty">Tu carrito está vacío</p>
@@ -134,23 +152,29 @@ const NavBar = ({ onNavigate, cartCount = 0, cartItems = [], onClearCart }) => {
                             {cartItems.map((item) => (
                               <div key={item.id} className="cart-item">
                                 <div className="cart-item-info">
-                                  <h4 className="cart-item-name">{item.name}</h4>
+                                  <h4 className="cart-item-name">
+                                    {item.name}
+                                  </h4>
                                   <p className="cart-item-details">
-                                    Cantidad: {item.quantity} × {formatPrice(item.price)}
+                                    Cantidad: {item.quantity} ×{" "}
+                                    {formatPrice(item.price)}
                                   </p>
                                   <p className="cart-item-total">
-                                    Subtotal: {formatPrice(item.price * item.quantity)}
+                                    Subtotal:{" "}
+                                    {formatPrice(item.price * item.quantity)}
                                   </p>
                                 </div>
                               </div>
                             ))}
                           </div>
-                          
+
                           <div className="cart-footer">
                             <div className="cart-total">
-                              <strong>Total: {formatPrice(getTotalPrice())}</strong>
+                              <strong>
+                                Total: {formatPrice(getTotalPrice())}
+                              </strong>
                             </div>
-                            <button 
+                            <button
                               className="cart-clear-btn"
                               onClick={handleClearCart}
                             >
