@@ -1,0 +1,313 @@
+/* ProductosDestacados Component Styles */
+.featured-products {
+  padding: var(--spacing-2xl, 4rem) 0;
+  background-color: var(--blanco, #ffffff);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl, 4rem);
+}
+
+.section-title {
+  font-size: 2.5rem;
+  color: var(--siena-tostado, #A0522D);
+  margin-bottom: var(--spacing-lg, 2rem);
+  font-weight: 600;
+}
+
+.section-description {
+  font-size: 1.125rem;
+  color: var(--texto-secundario, #666);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.loading {
+  text-align: center;
+  padding: var(--spacing-xl, 3rem) 0;
+  display: none;
+}
+
+.loading.active {
+  display: block;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--alabastro-calido, #f5f5f5);
+  border-top: 3px solid var(--siena-tostado, #A0522D);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto var(--spacing-sm, 1rem);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* PRODUCTS CAROUSEL */
+.products-carousel {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto var(--spacing-xl, 3rem);
+  padding: 0 var(--spacing-sm, 1rem);
+}
+
+.carousel-container {
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.8s ease-in-out;
+  align-items: center;
+  gap: 0;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: none;
+}
+
+.carousel-item.active {
+  opacity: 1;
+  transform: scale(1);
+  filter: none;
+  z-index: 2;
+}
+
+.product-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 280px;
+  margin: 0 auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.product-info {
+  text-align: left;
+}
+
+.product-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--siena-tostado, #A0522D);
+  margin-bottom: 0.5rem;
+}
+
+.product-description {
+  color: var(--texto-secundario, #666);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.product-price {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--texto-principal, #333);
+  margin-bottom: 0.75rem;
+}
+
+.product-badge {
+  display: inline-block;
+  background: var(--verde-suave, #e8f5e8);
+  color: var(--verde-oscuro, #2d5a2d);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--siena-tostado, #A0522D);
+  box-shadow: 0 4px 12px rgba(160, 82, 45, 0.2);
+  transition: all 0.3s ease;
+  z-index: 10;
+  touch-action: manipulation;
+}
+
+.carousel-btn:hover {
+  background: var(--siena-tostado, #A0522D);
+  color: var(--blanco, #ffffff);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn-prev {
+  left: 0;
+}
+
+.carousel-btn-next {
+  right: 0;
+}
+
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-xs, 0.5rem);
+  margin-top: var(--spacing-lg, 2rem);
+}
+
+.carousel-indicator {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-indicator::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--siena-tostado, #A0522D);
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.carousel-indicator.active::before {
+  background: var(--siena-tostado, #A0522D);
+}
+
+.section-footer {
+  text-align: center;
+  margin-top: var(--spacing-xl, 3rem);
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--siena-tostado, #A0522D);
+  border: 2px solid var(--siena-tostado, #A0522D);
+}
+
+.btn-outline:hover {
+  background: var(--siena-tostado, #A0522D);
+  color: var(--blanco, #ffffff);
+}
+
+/* Media Queries - Mobile First Approach */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .section-title {
+    font-size: 2.2rem;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 2.5rem;
+  }
+  
+  .section-description {
+    font-size: 1.125rem;
+  }
+  
+  .products-carousel {
+    padding: 0 60px;
+  }
+  
+  .product-card {
+    max-width: 320px;
+    padding: 1.5rem;
+  }
+  
+  .carousel-item {
+    opacity: 0.4;
+    transform: scale(0.8);
+    filter: blur(2px);
+  }
+  
+  .carousel-item.active {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+  
+  .carousel-btn {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .featured-products {
+    padding: var(--spacing-2xl, 4rem) 0;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .products-carousel {
+    max-width: 1200px;
+  }
+}
