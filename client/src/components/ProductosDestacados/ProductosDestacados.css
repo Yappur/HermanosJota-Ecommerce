@@ -1,7 +1,6 @@
-/* ProductosDestacados Component Styles */
 .featured-products {
   padding: var(--spacing-2xl, 4rem) 0;
-  background-color: var(--blanco, #ffffff);
+  background: linear-gradient(125deg, var(--blanco) 40%, #b1b1b15b 100%);
 }
 
 .section-header {
@@ -280,26 +279,40 @@
 }
 
 @media (min-width: 768px) {
+  .featured-products {
+    padding: 2.5rem 0;
+  }
+
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
   .section-title {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
   }
 
   .section-description {
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
 
   .products-carousel {
     padding: 0 60px;
+    margin: 0 auto 2rem;
   }
 
   .product-card {
-    max-width: 320px;
-    padding: 1.5rem;
+    max-width: 300px;
+    padding: 1.25rem;
+  }
+
+  .product-image {
+    height: 180px;
   }
 
   .carousel-item {
     opacity: 0.4;
-    transform: scale(0.8);
+    transform: scale(0.85);
     filter: blur(2px);
   }
 
@@ -310,20 +323,49 @@
   }
 
   .carousel-btn {
-    width: 50px;
-    height: 50px;
-    min-width: 50px;
-    min-height: 50px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .carousel-indicators {
+    margin-top: 1.5rem;
+  }
+
+  .section-footer {
+    margin-top: 2rem;
   }
 }
+
 @media (min-width: 992px) {
   .featured-products {
-    padding: var(--spacing-2xl, 4rem) 0;
+    padding: 3rem 0;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+  }
+
+  .products-carousel {
+    max-width: 900px;
+  }
+
+  .product-card {
+    max-width: 320px;
+  }
+
+  .product-image {
+    height: 200px;
   }
 }
 
 @media (min-width: 1200px) {
   .products-carousel {
-    max-width: 1200px;
+    max-width: 950px;
   }
 }
