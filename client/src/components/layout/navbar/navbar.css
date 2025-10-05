@@ -141,7 +141,6 @@
   text-align: center;
 }
 
-/* Cart Dropdown Styles */
 .cart-dropdown {
   position: absolute;
   top: 100%;
@@ -269,7 +268,7 @@
 }
 
 
-/* Responsive design */
+/* Responsive */
 @media (max-width: 768px) {
   .nav-toggle {
     display: flex;

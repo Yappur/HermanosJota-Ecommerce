@@ -1,16 +1,14 @@
 import ProductCard from './productCard/ProductCard'
-// import { productos } from '../../api/data/products.js'
 import { useEffect, useState } from 'react'
 import "./product-list.css"
 import ProductsToolbar from './productsToolbar/ProductsToolbar'
 
-const ProductList = ({ onNavigate }) => {
+const ProductList = ({ onNavigate, onAddToCart }) => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [query, setQuery] = useState("")
 
-    // Fetch para traer los productos del backend
     useEffect(() => {
         const fetchProductos = async () => {
         setLoading(true)
@@ -63,7 +61,7 @@ const ProductList = ({ onNavigate }) => {
                 !loading &&
                 !error &&
                 filtered.map(product => (
-                    <ProductCard key={product.id} product={product} onNavigate={onNavigate} />
+                    <ProductCard key={product.id} product={product} onNavigate={onNavigate} onAddToCart={onAddToCart} />
                 ))}
             </div>
         </div>

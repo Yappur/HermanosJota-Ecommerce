@@ -12,9 +12,6 @@ const ProductsToolbar = ({ value, onSearch }) => {
     <div className='products-toolbar'>
         <form className="searchbar" role="search" aria-label="Buscar productos" onSubmit={handleSubmit}>
             <input id="product-search" className="searchbar-input" type="search" placeholder="Buscar productos..." value={value} onChange={(e) => onSearch(e.target.value)} />
-            <button id="product-search-btn" className="searchbar-btn" type="submit" aria-label="Buscar">
-                Buscar
-            </button>
         </form>
     </div>
   )

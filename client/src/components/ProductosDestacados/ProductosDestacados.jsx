@@ -32,7 +32,7 @@ const ProductosDestacados = ({ onNavigate }) => {
       } catch (error) {
         console.error('Error al cargar productos destacados:', error)
       } finally {
-        setTimeout(() => setLoading(false), 1000) // Simular tiempo de carga
+        setTimeout(() => setLoading(false), 1000) 
       }
     }
 
@@ -51,7 +51,6 @@ const ProductosDestacados = ({ onNavigate }) => {
     if (featuredProducts.length > 0) {
       setCurrentIndex((prevIndex) => {
         const newIndex = (prevIndex + 1) % featuredProducts.length
-        console.log(`Next slide: ${prevIndex} -> ${newIndex}`)
         return newIndex
       })
     }
@@ -61,14 +60,12 @@ const ProductosDestacados = ({ onNavigate }) => {
     if (featuredProducts.length > 0) {
       setCurrentIndex((prevIndex) => {
         const newIndex = (prevIndex - 1 + featuredProducts.length) % featuredProducts.length
-        console.log(`Prev slide: ${prevIndex} -> ${newIndex}`)
         return newIndex
       })
     }
   }
 
   const goToSlide = (index) => {
-    console.log(`Go to slide: ${currentIndex} -> ${index}`)
     setCurrentIndex(index)
   }
 
@@ -87,12 +84,9 @@ const ProductosDestacados = ({ onNavigate }) => {
     if (carouselRef.current && featuredProducts.length > 0) {
       const track = carouselRef.current.querySelector('.carousel-track')
       if (track) {
-        const itemWidth = 100 // Percentage per item
+        const itemWidth = 100 
         const translateX = -currentIndex * itemWidth
         track.style.transform = `translateX(${translateX}%)`
-        
-        // Debug log
-        console.log(`Moving to slide ${currentIndex}, translateX: ${translateX}%`)
       }
     }
   }

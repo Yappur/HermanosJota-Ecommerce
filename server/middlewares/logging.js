@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-// Crear directorio de logs si no existe
 const logsDir = path.join(__dirname, '../logs');
 if (!fs.existsSync(logsDir)) {
   fs.mkdirSync(logsDir, { recursive: true });
@@ -52,7 +51,6 @@ const requestLogger = (req, res, next) => {
       contentLength: res.get('Content-Length') || 0,
     };
 
-    // Escribir diferentes tipos de logs según el status
     if (res.statusCode >= 400) {
       writeLog('errors.log', {
         ...responseData,
@@ -68,7 +66,6 @@ const requestLogger = (req, res, next) => {
   next();
 };
 
-// Logger para errores específicos
 const errorLogger = (error, req, res, next) => {
   const errorData = {
     error: {
@@ -89,8 +86,7 @@ const errorLogger = (error, req, res, next) => {
   };
 
   writeLog('errors.log', errorData);
-
-  // También loggear en consola en desarrollo
+  
   if (process.env.NODE_ENV === 'development') {
     console.error('Error logged:', errorData);
   }

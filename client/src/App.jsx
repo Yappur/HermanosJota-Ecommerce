@@ -16,15 +16,13 @@ function App() {
   const [cart, setCart] = useState([]);
   const [isCartLoaded, setIsCartLoaded] = useState(false);
 
-  // Cargar carrito desde localStorage al iniciar la aplicación
+  // Cargar carrito
   useEffect(() => {
     try {
       const savedCart = localStorage.getItem("hermanos-jota-cart");
-      console.log("🔄 Cargando carrito desde localStorage:", savedCart);
       if (savedCart) {
         const parsedCart = JSON.parse(savedCart);
         if (Array.isArray(parsedCart)) {
-          console.log("✅ Carrito cargado:", parsedCart);
           setCart(parsedCart);
         }
       }
@@ -35,12 +33,11 @@ function App() {
     }
   }, []);
 
-  // Guardar carrito en localStorage cuando cambie (solo después de cargar)
+  // Guardar carrito en localStorage
   useEffect(() => {
-    if (!isCartLoaded) return; // No guardar hasta que se haya cargado
+    if (!isCartLoaded) return; 
 
     try {
-      console.log("💾 Guardando carrito en localStorage:", cart);
       localStorage.setItem("hermanos-jota-cart", JSON.stringify(cart));
     } catch (error) {
       console.error("Error al guardar el carrito en localStorage:", error);
@@ -89,7 +86,12 @@ function App() {
           <FAQ />
         </>
       )}
-      {currentPage === "products" && <ProductList onNavigate={navigate} />}
+      {currentPage === "products" && (
+        <ProductList 
+        onNavigate={navigate}
+        onAddToCart={addToCart}
+        />
+      )}
       {currentPage === "product-detail" && (
         <ProductView
           productId={selectedProductId}

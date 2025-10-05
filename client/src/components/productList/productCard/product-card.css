@@ -71,36 +71,89 @@
   margin-top: auto;
 }
 
-/* Mobile first approach */
-.products-image { 
-  height: 180px; 
+.products-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 44px;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
 }
 
-.products-card { 
-  max-width: none; 
+.btn-see-product {
+  display: inline-block;
+  text-align: center;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s,
+    transform 0.1s;
+  background-color: var(--siena-tostado);
+  color: var(--blanco);
+  border: 1px solid var(--siena-tostado);
 }
 
-/* Small devices (landscape phones, 576px and up) */
+.btn-see-product:hover {
+  background-color: var(--blanco);
+  color: var(--siena-tostado);
+  transform: translateY(-1px);
+}
+
+.btn-add-cart {
+  display: inline-block;
+  text-align: center;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s,
+    transform 0.1s;
+  background-color: transparent;
+  color: var(--siena-tostado);
+  border: 1px solid var(--siena-tostado);
+}
+
+.btn-add-cart:hover {
+  background-color: var(--siena-tostado);
+  color: var(--blanco);
+  transform: translateY(-1px);
+}
+
+.products-image {
+  height: 180px;
+}
+
+.products-card {
+  max-width: none;
+}
+
 @media (min-width: 576px) {
-  .products-image { 
-    height: 220px; 
+  .products-image {
+    height: 220px;
+  }
+
+.products-card {
+    max-width: 450px;
   }
 }
 
-/* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
-  .products-image { 
-    height: 280px; 
+  .products-image {
+    height: 280px;
   }
-  
-  .products-card { 
-    max-width: 450px; 
+
+  .products-card {
+    max-width: 450px;
   }
 }
 
-/* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-  .products-image { 
-    height: 250px; 
+  .products-image {
+    height: 250px;
   }
 }

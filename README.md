@@ -66,7 +66,7 @@ npm run dev
 - Mateo Yapur
 - Ana Sol Murzi
 - Jermias Longo
-- Emannuel Martinez
+- Emmanuel Martínez
 - Abril Gavilan
 
 ---

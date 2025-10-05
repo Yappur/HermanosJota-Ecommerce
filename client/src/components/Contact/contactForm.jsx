@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import "./contactForm.css";
 
@@ -25,7 +23,7 @@ const ContactForm = () => {
     { codigo: "+1", nombre: "Estados Unidos" },
   ];
 
-  // Validación en tiempo real
+  // Validación tiempo real
   const validateField = (name, value) => {
     let error = "";
 
@@ -82,7 +80,7 @@ const ContactForm = () => {
       [name]: value,
     }));
 
-    // Validar el campo mientras el usuario escribe
+    // Validar tiempo real
     const error = validateField(name, value);
     setErrors((prev) => ({
       ...prev,
@@ -93,7 +91,7 @@ const ContactForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar todos los campos
+    // Validar campos
     const newErrors = {};
     Object.keys(formData).forEach((key) => {
       const error = validateField(key, formData[key]);
@@ -104,9 +102,6 @@ const ContactForm = () => {
       setErrors(newErrors);
       return;
     }
-
-    console.log("Datos del formulario:", formData);
-    console.log("Objeto completo:", JSON.stringify(formData, null, 2));
 
     setIsSubmitting(true);
     setErrors({});
@@ -126,8 +121,6 @@ const ContactForm = () => {
         throw new Error(data.message || "Error al enviar el formulario");
       }
 
-      console.log("Respuesta del servidor:", data);
-
       setSubmitSuccess(true);
 
       // Limpiar el formulario
@@ -140,7 +133,6 @@ const ContactForm = () => {
         mensaje: "",
       });
 
-      // Ocultar mensaje de éxito después de 5 segundos
       setTimeout(() => setSubmitSuccess(false), 5000);
     } catch (error) {
       console.error("Error:", error);
@@ -406,7 +398,6 @@ const ContactForm = () => {
           </div>
         </div>
 
-        {/* Mapa de Google Maps */}
         <div className="contact-map">
           <h2>Nuestra Ubicación</h2>
           <div className="map-container">
