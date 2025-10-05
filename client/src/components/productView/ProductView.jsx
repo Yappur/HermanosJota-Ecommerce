@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import ProductGallery from './ProductGallery';
-import ProductDetail from '../productDetail/ProductDetail';
-import ProductSpecs from './ProductSpecs';
-import Footer from '../Footer/Footer';
-import './productView.css';
+import { useState, useEffect } from "react";
+import ProductGallery from "./ProductGallery";
+import ProductDetail from "../productDetail/ProductDetail";
+import ProductSpecs from "./ProductSpecs";
+import Footer from "../layout/Footer/Footer";
+import "./productView.css";
 
 const ProductView = ({ productId, onNavigate, onAddToCart }) => {
   const [product, setProduct] = useState(null);
@@ -13,21 +13,23 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
     const loadProduct = async () => {
       try {
         setLoading(true);
-        
+
         // Llamada a la API real del backend
-        const response = await fetch(`http://localhost:5001/api/products/${productId}`);
-        
+        const response = await fetch(
+          `http://localhost:5001/api/products/${productId}`
+        );
+
         if (!response.ok) {
-          throw new Error('Producto no encontrado');
+          throw new Error("Producto no encontrado");
         }
-        
+
         const responseData = await response.json();
         const productData = responseData.data; // Extraer el producto del objeto response
-        
+
         // Transformar los datos del backend al formato que espera el componente
         const imageUrl = `http://localhost:5001${productData.imagen}`;
-        console.log('URL de imagen construida:', imageUrl);
-        
+        console.log("URL de imagen construida:", imageUrl);
+
         const formattedProduct = {
           id: productData.id,
           name: productData.nombre,
@@ -39,13 +41,13 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
           specs: [
             { label: "Medidas", value: productData.medidas },
             { label: "Materiales", value: productData.materiales },
-            { label: "Acabado", value: productData.acabado }
-          ]
+            { label: "Acabado", value: productData.acabado },
+          ],
         };
-        
+
         setProduct(formattedProduct);
       } catch (error) {
-        console.error('Error al cargar el producto:', error);
+        console.error("Error al cargar el producto:", error);
         setProduct(null);
       } finally {
         setLoading(false);
@@ -60,7 +62,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
   const handleAddToCart = () => {
     if (product && onAddToCart) {
       onAddToCart(product);
-      console.log('Producto añadido al carrito:', product.name);
+      console.log("Producto añadido al carrito:", product.name);
     }
   };
 
@@ -82,26 +84,25 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
 
   return (
     <>
-      
-      <main 
-        className="product container" 
-        itemScope 
+      <main
+        className="product container"
+        itemScope
         itemType="https://schema.org/Product"
       >
-        <ProductGallery 
-          image={product.image} 
+        <ProductGallery
+          image={product.image}
           alt={product.name}
           productName={product.name}
         />
-        
-        <ProductDetail 
+
+        <ProductDetail
           product={product}
           onAddToCart={handleAddToCart}
           onNavigate={onNavigate}
         />
-        
+
         <ProductSpecs specs={product.specs} />
-        
+
         <aside className="badge">
           <span className="dot"></span>
           Madera certificada FSC® — Hecho en Argentina
