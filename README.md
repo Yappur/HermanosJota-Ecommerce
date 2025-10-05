@@ -1,4 +1,4 @@
-# 👨🏽‍🤝‍👨🏻 Hermanos Jota - Ecommerce
+# 👨🏽‍🤝‍👨🏻 Hermanos Jota Ecommerce
 
 <div align="center">
 
