@@ -13,8 +13,6 @@ const routes = require("./routes");
 
 const app = express();
 
-console.log("Iniciando E-commerce API...");
-
 // ================================
 // CONFIGURACIÓN DE MIDDLEWARES BÁSICOS
 // ================================
@@ -89,12 +87,6 @@ const startServer = async () => {
     // Iniciar servidor
     const server = app.listen(PORT, HOST, () => {
       console.log("Servidor iniciado exitosamente!");
-      console.log(`URL: http://${HOST}:${PORT}`);
-      console.log(`API: http://${HOST}:${PORT}/api`);
-      console.log(`Health: http://${HOST}:${PORT}/health`);
-      console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
-      console.log("");
-      console.log("E-commerce API is running!");
     });
 
     // Graceful shutdown

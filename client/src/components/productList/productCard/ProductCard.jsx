@@ -24,7 +24,6 @@ const ProductCard = ({ product, onNavigate, onAddToCart }) => {
                 availability: "InStock"
             };
             onAddToCart(formattedProduct);
-            console.log("Producto añadido al carrito:", product.nombre);
         }
     };
 
