@@ -77,7 +77,6 @@ const About = () => {
             </div>
           </div>
 
-          {/* Personas Secundarias */}
           <div className="about-secondary-grid">
             <div
               className={`about-card about-card-secondary ${
@@ -85,7 +84,6 @@ const About = () => {
               }`}
             >
               <div className="about-card-image-wrapper">
-                {/* URL de imagen momentanea */}
                 <img
                   src="https://res.cloudinary.com/doh6efk57/image/upload/v1759596221/Martin-Elizalde_t1hjt4.webp"
                   alt="Martín Elizalde, CPO de Hermanos Jota"

@@ -110,7 +110,7 @@
   margin: 0;
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
   .grid-faq {
     grid-template-columns: 1fr;

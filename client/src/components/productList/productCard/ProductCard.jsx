@@ -13,7 +13,6 @@ const ProductCard = ({ product, onNavigate, onAddToCart }) => {
     const handleAddToCart = (e) => {
         e.preventDefault();
         if (product && onAddToCart) {
-            // Transformar el producto al formato esperado por el carrito
             const formattedProduct = {
                 id: product.id,
                 name: product.nombre,
@@ -24,7 +23,6 @@ const ProductCard = ({ product, onNavigate, onAddToCart }) => {
                 availability: "InStock"
             };
             onAddToCart(formattedProduct);
-            console.log("Producto añadido al carrito:", product.nombre);
         }
     };
 

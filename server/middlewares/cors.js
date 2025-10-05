@@ -28,7 +28,7 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS policy'));
     }
   },
-  credentials: process.env.CORS_CREDENTIALS === 'true', // Permitir cookies (configurable)
+  credentials: process.env.CORS_CREDENTIALS === 'true', 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: [
     'Origin',
@@ -41,10 +41,9 @@ const corsOptions = {
     'X-API-Key',
   ],
   exposedHeaders: ['X-Total-Count', 'X-Page-Count', 'X-Current-Page'],
-  maxAge: 86400, // 24 horas
+  maxAge: 86400,
 };
 
-// CORS específico para AR (puede requerir configuración especial)
 const arCorsOptions = {
   ...corsOptions,
   methods: ['GET', 'POST', 'OPTIONS'],
