@@ -89,7 +89,12 @@ function App() {
           <FAQ />
         </>
       )}
-      {currentPage === "products" && <ProductList onNavigate={navigate} />}
+      {currentPage === "products" && (
+        <ProductList 
+        onNavigate={navigate}
+        onAddToCart={addToCart}
+        />
+      )}
       {currentPage === "product-detail" && (
         <ProductView
           productId={selectedProductId}

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import "./product-list.css"
 import ProductsToolbar from './productsToolbar/ProductsToolbar'
 
-const ProductList = ({ onNavigate }) => {
+const ProductList = ({ onNavigate, onAddToCart }) => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -63,7 +63,7 @@ const ProductList = ({ onNavigate }) => {
                 !loading &&
                 !error &&
                 filtered.map(product => (
-                    <ProductCard key={product.id} product={product} onNavigate={onNavigate} />
+                    <ProductCard key={product.id} product={product} onNavigate={onNavigate} onAddToCart={onAddToCart} />
                 ))}
             </div>
         </div>

@@ -71,6 +71,8 @@
   margin-top: auto;
 }
 
+
+
 /* Mobile first approach */
 .products-image {
   height: 180px;
@@ -79,6 +81,9 @@
 .products-card {
   max-width: none;
 }
+
+
+
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
