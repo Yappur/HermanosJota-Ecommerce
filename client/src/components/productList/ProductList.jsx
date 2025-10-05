@@ -16,7 +16,7 @@ const ProductList = ({ onNavigate, onAddToCart }) => {
         setLoading(true)
         setError(null)
         try {
-            const response = await fetch('http://localhost:5001/api/products')
+            const response = await fetch('http://localhost:5000/api/products')
             if (!response.ok) {
             throw new Error('Error al traer productos')
             }
