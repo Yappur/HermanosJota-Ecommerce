@@ -72,35 +72,39 @@
 }
 
 /* Mobile first approach */
-.products-image { 
-  height: 180px; 
+.products-image {
+  height: 180px;
 }
 
-.products-card { 
-  max-width: none; 
+.products-card {
+  max-width: none;
 }
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
-  .products-image { 
-    height: 220px; 
+  .products-image {
+    height: 220px;
+  }
+
+.products-card {
+    max-width: 450px;
   }
 }
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
-  .products-image { 
-    height: 280px; 
+  .products-image {
+    height: 280px;
   }
-  
-  .products-card { 
-    max-width: 450px; 
+
+  .products-card {
+    max-width: 450px;
   }
 }
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-  .products-image { 
-    height: 250px; 
+  .products-image {
+    height: 250px;
   }
 }
