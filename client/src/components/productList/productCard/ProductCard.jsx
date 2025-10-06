@@ -1,5 +1,6 @@
 import "./product-card.css";
-import API_BASE from '../../../../config.js'
+
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 
 const ProductCard = ({ product, onNavigate, onAddToCart }) => {
 

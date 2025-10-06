@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import "./ProductosDestacados.css";
-import API_BASE from "../../../config.js";
+
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 
 const ProductosDestacados = ({ onNavigate }) => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -20,8 +21,7 @@ const ProductosDestacados = ({ onNavigate }) => {
     const fetchFeaturedProducts = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${API_BASE}/products`);
-
+        const response = await fetch(`${API_BASE}/api/products`);
         if (!response.ok) {
           throw new Error("Error al cargar productos");
         }

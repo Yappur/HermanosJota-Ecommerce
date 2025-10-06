@@ -1,8 +1,7 @@
-"use client";
-
 import { useState } from "react";
 import "./contactForm.css";
-import API_BASE from "../../../config.js";
+
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 const ContactForm = () => {
   const [formData, setFormData] = useState({
     nombre: "",
@@ -106,7 +105,7 @@ const ContactForm = () => {
     setErrors({});
 
     try {
-      const response = await fetch(`${API_BASE}/contacto`, {
+      const response = await fetch(`${API_BASE}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -138,7 +137,7 @@ const ContactForm = () => {
 
       if (error.message.includes("Failed to fetch")) {
         errorMessage =
-          "No se puede conectar al servidor. Asegúrate de que el backend esté corriendo en el puerto 3000";
+          "No se puede conectar al servidor. Verifica tu conexión a internet.";
       }
 
       setErrors({ submit: errorMessage });

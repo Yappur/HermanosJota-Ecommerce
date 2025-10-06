@@ -1,22 +1,29 @@
 {
   "version": 2,
-  "buildCommand": "npm install && npm run build:client",
-  "outputDirectory": "client/dist",
-  "installCommand": "npm install --legacy-peer-deps",
+  "builds": [
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    },
+    {
+      "src": "server/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/server/index.js"
+      "dest": "server/index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "client/dist/index.html"
     }
-  ],
-  "functions": {
-    "server/index.js": {
-      "runtime": "nodejs20.x",
-      "includeFiles": "server/**"
-    }
-  }
+  ]
 }

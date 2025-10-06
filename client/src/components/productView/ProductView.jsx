@@ -1,19 +1,15 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import ProductGallery from "./ProductGallery";
 import ProductDetail from "../productDetail/ProductDetail";
 import ProductSpecs from "./ProductSpecs";
-import CartNotification from "./cartNotification";
 import "./productView.css";
-import API_BASE from "../../../config.js";
+
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 
 const ProductView = ({ productId, onNavigate, onAddToCart }) => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showNotification, setShowNotification] = useState(false);
-  const [notificationProduct, setNotificationProduct] = useState("");
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -22,7 +18,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         setError(null);
 
         const response = await fetch(
-          `${API_BASE}/products/${productId}`
+          `${API_BASE}/api/products/${productId}`
         );
 
         if (!response.ok) {
@@ -32,7 +28,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         const responseData = await response.json();
         const productData = responseData.data;
 
-        const imageUrl = `${productData.imagen}`;
+        const imageUrl = `${API_BASE}${productData.imagen}`;
 
         const formattedProduct = {
           id: productData.id,
@@ -67,13 +63,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
   const handleAddToCart = () => {
     if (product && onAddToCart) {
       onAddToCart(product);
-      setNotificationProduct(product.name);
-      setShowNotification(true);
     }
-  };
-
-  const handleCloseNotification = () => {
-    setShowNotification(false);
   };
 
   if (loading) {
@@ -93,18 +83,11 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
   }
 
   return (
-    <>
-      <CartNotification
-        show={showNotification}
-        productName={notificationProduct}
-        onClose={handleCloseNotification}
-      />
-
-      <main
-        className="product container"
-        itemScope
-        itemType="https://schema.org/Product"
-      >
+    <main
+      className="product container"
+      itemScope
+      itemType="https://schema.org/Product"
+    >
         <div className="gallery-container">
           <ProductGallery
             image={product.image}
@@ -125,9 +108,8 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
           />
 
           {product.specs.length > 0 && <ProductSpecs specs={product.specs} />}
-        </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 };
 

@@ -1,4 +1,3 @@
-"use client";
 
 import Footer from "./components/layout/Footer/Footer.jsx";
 import NavBar from "./components/layout/navbar/Navbar.jsx";
