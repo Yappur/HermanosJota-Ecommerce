@@ -17,9 +17,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(
-          `${API_BASE}/api/products/${productId}`
-        );
+        const response = await fetch(`${API_BASE}/api/products/${productId}`);
 
         if (!response.ok) {
           throw new Error("Producto no encontrado");
@@ -28,7 +26,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         const responseData = await response.json();
         const productData = responseData.data;
 
-        const imageUrl = `${API_BASE}/public/img/${productData.imagen}`;
+        const imageUrl = `${productData.imagen}`;
 
         const formattedProduct = {
           id: productData.id,
@@ -88,26 +86,26 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
       itemScope
       itemType="https://schema.org/Product"
     >
-        <div className="gallery-container">
-          <ProductGallery
-            image={product.image}
-            alt={product.name}
-            productName={product.name}
-          />
-          <aside className="badge">
-            <span className="dot"></span>
-            Madera certificada FSC® — Hecho en Argentina
-          </aside>
-        </div>
+      <div className="gallery-container">
+        <ProductGallery
+          image={product.image}
+          alt={product.name}
+          productName={product.name}
+        />
+        <aside className="badge">
+          <span className="dot"></span>
+          Madera certificada FSC® — Hecho en Argentina
+        </aside>
+      </div>
 
-        <div>
-          <ProductDetail
-            product={product}
-            onAddToCart={handleAddToCart}
-            onNavigate={onNavigate}
-          />
+      <div>
+        <ProductDetail
+          product={product}
+          onAddToCart={handleAddToCart}
+          onNavigate={onNavigate}
+        />
 
-          {product.specs.length > 0 && <ProductSpecs specs={product.specs} />}
+        {product.specs.length > 0 && <ProductSpecs specs={product.specs} />}
       </div>
     </main>
   );

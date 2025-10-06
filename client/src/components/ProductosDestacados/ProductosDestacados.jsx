@@ -215,7 +215,7 @@ const ProductosDestacados = ({ onNavigate }) => {
                 >
                   <div className="product-card">
                     <img
-                      src={`${API_BASE}${product.imagen}`}
+                      src={`${product.imagen}`}
                       alt={product.nombre}
                       className="product-image"
                       loading="lazy"
