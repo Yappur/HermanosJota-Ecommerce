@@ -66,7 +66,6 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
   const handleAddToCart = () => {
     if (product && onAddToCart) {
       onAddToCart(product);
-      // Mostrar notificación
       setNotificationProduct(product.name);
       setShowNotification(true);
     }

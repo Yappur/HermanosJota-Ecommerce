@@ -189,7 +189,7 @@
   line-height: 1.5;
 }
 
-/* Nueva sección de valores */
+/* Sección de valores */
 .values-section {
   padding: 5rem 2rem;
   background: var(--gris-claro, #f9f9f9);
@@ -250,7 +250,7 @@
   font-size: 0.95rem;
 }
 
-/* Nueva sección de llamado a la acción */
+/* Sección de llamado a la acción */
 .cta-section {
   padding: 5rem 2rem;
   background: var(--rosa-polvoriento);
