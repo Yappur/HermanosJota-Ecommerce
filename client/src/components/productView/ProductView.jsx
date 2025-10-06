@@ -3,6 +3,7 @@ import ProductGallery from "./ProductGallery";
 import ProductDetail from "../productDetail/ProductDetail";
 import ProductSpecs from "./ProductSpecs";
 import "./productView.css";
+import API_BASE from "../../../config.js";
 
 const ProductView = ({ productId, onNavigate, onAddToCart }) => {
   const [product, setProduct] = useState(null);
@@ -16,7 +17,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         setError(null);
 
         const response = await fetch(
-          `http://localhost:5001/api/products/${productId}`
+          `${API_BASE}/products/${productId}`
         );
 
         if (!response.ok) {
@@ -26,7 +27,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         const responseData = await response.json();
         const productData = responseData.data;
 
-        const imageUrl = `http://localhost:5001${productData.imagen}`;
+        const imageUrl = `${productData.imagen}`;
 
         const formattedProduct = {
           id: productData.id,

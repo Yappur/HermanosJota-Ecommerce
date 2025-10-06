@@ -1,7 +1,5 @@
-import React from 'react'
 import "./product-card.css";
-
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
+import API_BASE from '../../../../config.js'
 
 const ProductCard = ({ product, onNavigate, onAddToCart }) => {
 

@@ -2,6 +2,7 @@ import ProductCard from './productCard/ProductCard'
 import { useEffect, useState } from 'react'
 import "./product-list.css"
 import ProductsToolbar from './productsToolbar/ProductsToolbar'
+import API_BASE from '../../../config.js'
 
 const ProductList = ({ onNavigate, onAddToCart }) => {
     const [products, setProducts] = useState([])
@@ -14,7 +15,7 @@ const ProductList = ({ onNavigate, onAddToCart }) => {
         setLoading(true)
         setError(null)
         try {
-            const response = await fetch('http://localhost:5001/api/products')
+            const response = await fetch(`${API_BASE}/products`)
             if (!response.ok) {
             throw new Error('Error al traer productos')
             }
