@@ -18,7 +18,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         setError(null);
 
         const response = await fetch(
-          `${API_BASE}/api/products/${productId}`
+          `${API_BASE}/products/${productId}`
         );
 
         if (!response.ok) {

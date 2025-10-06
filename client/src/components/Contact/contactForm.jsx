@@ -105,7 +105,7 @@ const ContactForm = () => {
     setErrors({});
 
     try {
-      const response = await fetch(`${API_BASE}/api/contact`, {
+      const response = await fetch(`${API_BASE}/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
