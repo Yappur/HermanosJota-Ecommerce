@@ -2,113 +2,67 @@ const express = require("express");
 const path = require("path");
 require("dotenv").config();
 
-const {
-  corsMiddleware,
-  errorHandler,
-  requestLogger,
-} = require("./middlewares");
+// Importa solo el middleware esencial
+const { corsMiddleware } = require("./middlewares/cors"); // ajusta la ruta
 
 const routes = require("./routes");
 
 const app = express();
 
-
+// TRUST PROXY para Vercel
 app.set("trust proxy", 1);
 
-// Servir archivos estáticos desde la carpeta "public"
-app.use("/public", express.static(path.join(__dirname, "public")));
-
-// Logging de requests
-app.use(requestLogger);
-
-// CORS configurado
-app.use(corsMiddleware);
-
-// Establecer charset UTF-8 para las respuestas
-app.use("/api", (req, res, next) => {
-  res.charset = "utf-8";
-  res.setHeader("Content-Type", "application/json; charset=utf-8");
+// MIDDLEWARE SIMPLIFICADO - elimina temporalmente los complejos
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   next();
 });
 
-app.use(
-  express.json({
-    limit: "50mb",
-    charset: "utf-8",
-    verify: (req, res, buf) => {
-      req.rawBody = buf;
-    },
-  })
-);
+// CORS simplificado
+app.use(corsMiddleware);
 
-app.use(
-  express.urlencoded({
-    extended: true,
-    limit: "50mb",
-    charset: "utf-8",
-  })
-);
+// Body parsers básicos
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
+// Ruta de health check básica (antes de las rutas principales)
+app.get("/api/health", (req, res) => {
+  res.json({
+    status: "OK",
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || "development",
+  });
+});
 
 // Rutas de la API
 app.use("/api", routes);
 
-app.use((req, res) => {
-  res.status(404).json({
-    message: "Page not found",
-    path: req.originalUrl,
-    suggestion: "Try /api for API documentation for system status",
+// Manejo de errores simplificado
+app.use((err, req, res, next) => {
+  console.error("Error global:", err);
+  res.status(500).json({
+    error: "Internal Server Error",
+    message:
+      process.env.NODE_ENV === "development"
+        ? err.message
+        : "Something went wrong",
   });
 });
 
-app.use(errorHandler);
-
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: "Endpoint not found", path: req.originalUrl });
+});
 
 const PORT = process.env.PORT || 3000;
 
-// iniciar el servidor
-const startServer = async () => {
-  try {
-    const server = app.listen(PORT, () => {
-      console.log(`Servidor iniciado exitosamente en puerto ${PORT}!`);
-    });
-
-    const gracefulShutdown = (signal) => {
-      console.log(`\nRecibido ${signal}. Cerrando servidor gracefully...`);
-
-      server.close(async () => {
-        console.log("Servidor HTTP cerrado");
-      });
-
-      setTimeout(() => {
-        console.log("Forzando cierre del servidor...");
-        process.exit(1);
-      }, 10000);
-    };
-
-    // señales del sistema
-    process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
-    process.on("SIGINT", () => gracefulShutdown("SIGINT"));
-
-    // errores no capturados
-    process.on("uncaughtException", (error) => {
-      console.error("Uncaught Exception:", error);
-      process.exit(1);
-    });
-
-    process.on("unhandledRejection", (reason, promise) => {
-      console.error("Unhandled Rejection at:", promise, "reason:", reason);
-      process.exit(1);
-    });
-  } catch (error) {
-    console.error("Error iniciando servidor:", error);
-    process.exit(1);
-  }
-};
+// Inicio del servidor SIMPLIFICADO
+app.listen(PORT, () => {
+  console.log(
+    `Server running on port ${PORT} in ${
+      process.env.NODE_ENV || "development"
+    } mode`
+  );
+});
 
 module.exports = app;
-
-// Iniciar servidor si este archivo se ejecuta directamente
-if (require.main === module) {
-  startServer();
-}
