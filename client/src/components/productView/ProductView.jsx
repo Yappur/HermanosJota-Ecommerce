@@ -1,7 +1,10 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import ProductGallery from "./ProductGallery";
 import ProductDetail from "../productDetail/ProductDetail";
 import ProductSpecs from "./ProductSpecs";
+import CartNotification from "./cartNotification";
 import "./productView.css";
 import API_BASE from "../../../config.js";
 
@@ -9,6 +12,8 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationProduct, setNotificationProduct] = useState("");
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -62,7 +67,13 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
   const handleAddToCart = () => {
     if (product && onAddToCart) {
       onAddToCart(product);
+      setNotificationProduct(product.name);
+      setShowNotification(true);
     }
+  };
+
+  const handleCloseNotification = () => {
+    setShowNotification(false);
   };
 
   if (loading) {
@@ -82,33 +93,41 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
   }
 
   return (
-    <main
-      className="product container"
-      itemScope
-      itemType="https://schema.org/Product"
-    >
-      <div className="gallery-container">
-        <ProductGallery
-          image={product.image}
-          alt={product.name}
-          productName={product.name}
-        />
-        <aside className="badge">
-          <span className="dot"></span>
-          Madera certificada FSC® — Hecho en Argentina
-        </aside>
-      </div>
+    <>
+      <CartNotification
+        show={showNotification}
+        productName={notificationProduct}
+        onClose={handleCloseNotification}
+      />
 
-      <div>
-        <ProductDetail
-          product={product}
-          onAddToCart={handleAddToCart}
-          onNavigate={onNavigate}
-        />
+      <main
+        className="product container"
+        itemScope
+        itemType="https://schema.org/Product"
+      >
+        <div className="gallery-container">
+          <ProductGallery
+            image={product.image}
+            alt={product.name}
+            productName={product.name}
+          />
+          <aside className="badge">
+            <span className="dot"></span>
+            Madera certificada FSC® — Hecho en Argentina
+          </aside>
+        </div>
 
-        {product.specs.length > 0 && <ProductSpecs specs={product.specs} />}
-      </div>
-    </main>
+        <div>
+          <ProductDetail
+            product={product}
+            onAddToCart={handleAddToCart}
+            onNavigate={onNavigate}
+          />
+
+          {product.specs.length > 0 && <ProductSpecs specs={product.specs} />}
+        </div>
+      </main>
+    </>
   );
 };
 
