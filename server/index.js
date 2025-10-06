@@ -34,6 +34,9 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+// Servir archivos estáticos
+app.use(express.static(path.join(__dirname, "public")));
+
 // Rutas de la API
 app.use("/api", routes);
 
