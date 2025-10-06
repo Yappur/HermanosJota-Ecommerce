@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./contactForm.css";
-import API_BASE from "./config";
+import API_BASE from "../../../config.js";
 const ContactForm = () => {
   const [formData, setFormData] = useState({
     nombre: "",
