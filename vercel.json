@@ -13,6 +13,9 @@
       "use": "@vercel/node"
     }
   ],
+  "env": {
+    "NODE_ENV": "production"
+  },
   "routes": [
     {
       "src": "/api/(.*)",

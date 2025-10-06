@@ -64,14 +64,13 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 
-const PORT = process.env.PORT;
-const HOST = process.env.HOST;
+const PORT = process.env.PORT || 3000;
 
 // iniciar el servidor
 const startServer = async () => {
   try {
-    const server = app.listen(PORT, HOST, () => {
-      console.log("Servidor iniciado exitosamente!");
+    const server = app.listen(PORT, () => {
+      console.log(`Servidor iniciado exitosamente en puerto ${PORT}!`);
     });
 
     const gracefulShutdown = (signal) => {

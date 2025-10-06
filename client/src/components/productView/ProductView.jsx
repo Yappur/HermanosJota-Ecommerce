@@ -4,6 +4,8 @@ import ProductDetail from "../productDetail/ProductDetail";
 import ProductSpecs from "./ProductSpecs";
 import "./productView.css";
 
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
+
 const ProductView = ({ productId, onNavigate, onAddToCart }) => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,7 +18,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         setError(null);
 
         const response = await fetch(
-          `http://localhost:5001/api/products/${productId}`
+          `${API_BASE}/api/products/${productId}`
         );
 
         if (!response.ok) {
@@ -26,7 +28,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         const responseData = await response.json();
         const productData = responseData.data;
 
-        const imageUrl = `http://localhost:5001${productData.imagen}`;
+        const imageUrl = `${API_BASE}${productData.imagen}`;
 
         const formattedProduct = {
           id: productData.id,
