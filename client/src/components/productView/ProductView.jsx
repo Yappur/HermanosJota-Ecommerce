@@ -18,7 +18,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         setError(null);
 
         const response = await fetch(
-          `${API_BASE}/products/${productId}`
+          `${API_BASE}/api/products/${productId}`
         );
 
         if (!response.ok) {
@@ -28,7 +28,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         const responseData = await response.json();
         const productData = responseData.data;
 
-        const imageUrl = `https://hermanosjota-api.vercel.app/public/img/${productData.imagen}`;
+        const imageUrl = `${API_BASE}/public/img/${productData.imagen}`;
 
         const formattedProduct = {
           id: productData.id,

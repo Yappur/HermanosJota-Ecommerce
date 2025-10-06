@@ -16,7 +16,7 @@ const ProductList = ({ onNavigate, onAddToCart }) => {
         setLoading(true)
         setError(null)
         try {
-            const response = await fetch(`${API_BASE}/products`)
+            const response = await fetch(`${API_BASE}/api/products`)
             if (!response.ok) {
             throw new Error('Error al traer productos')
             }
