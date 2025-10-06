@@ -64,47 +64,47 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 
-const PORT = process.env.PORT;
-const HOST = process.env.HOST;
+const PORT = process.env.PORT || 5001;
+const HOST = process.env.HOST || "0.0.0.0";
 
 // iniciar el servidor
 const startServer = async () => {
-  try {
-    const server = app.listen(PORT, HOST, () => {
-      console.log("Servidor iniciado exitosamente!");
-    });
+ try {
+   const server = app.listen(PORT, HOST, () => {
+     console.log(`Servidor iniciado en ${HOST}:${PORT}`);
+   });
 
-    const gracefulShutdown = (signal) => {
-      console.log(`\nRecibido ${signal}. Cerrando servidor gracefully...`);
+   const gracefulShutdown = (signal) => {
+     console.log(`\nRecibido ${signal}. Cerrando servidor gracefully...`);
 
-      server.close(async () => {
-        console.log("Servidor HTTP cerrado");
-      });
+     server.close(async () => {
+       console.log("Servidor HTTP cerrado");
+     });
 
-      setTimeout(() => {
-        console.log("Forzando cierre del servidor...");
-        process.exit(1);
-      }, 10000);
-    };
+     setTimeout(() => {
+       console.log("Forzando cierre del servidor...");
+       process.exit(1);
+     }, 10000);
+   };
 
-    // señales del sistema
-    process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
-    process.on("SIGINT", () => gracefulShutdown("SIGINT"));
+   // señales del sistema
+   process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+   process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
-    // errores no capturados
-    process.on("uncaughtException", (error) => {
-      console.error("Uncaught Exception:", error);
-      process.exit(1);
-    });
+   // errores no capturados
+   process.on("uncaughtException", (error) => {
+     console.error("Uncaught Exception:", error);
+     process.exit(1);
+   });
 
-    process.on("unhandledRejection", (reason, promise) => {
-      console.error("Unhandled Rejection at:", promise, "reason:", reason);
-      process.exit(1);
-    });
-  } catch (error) {
-    console.error("Error iniciando servidor:", error);
-    process.exit(1);
-  }
+   process.on("unhandledRejection", (reason, promise) => {
+     console.error("Unhandled Rejection at:", promise, "reason:", reason);
+     process.exit(1);
+   });
+ } catch (error) {
+   console.error("Error iniciando servidor:", error);
+   process.exit(1);
+ }
 };
 
 module.exports = app;
