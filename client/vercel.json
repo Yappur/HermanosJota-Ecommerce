@@ -9,12 +9,6 @@
       }
     }
   ],
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "https://hermanos-jota-proyecto02-server.vercel.app/$1"
-    }
-  ],
   "routes": [
     {
       "handle": "filesystem"
