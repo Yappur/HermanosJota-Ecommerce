@@ -17,9 +17,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(
-          `${API_BASE}/api/products/${productId}`
-        );
+        const response = await fetch(`${API_BASE}/api/products/${productId}`);
 
         if (!response.ok) {
           throw new Error("Producto no encontrado");
@@ -28,7 +26,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         const responseData = await response.json();
         const productData = responseData.data;
 
-        const imageUrl = `${API_BASE}${productData.imagen}`;
+        const imageUrl = `${productData.imagen}`;
 
         const formattedProduct = {
           id: productData.id,

@@ -1,4 +1,4 @@
-# 👨🏽‍🤝‍👨🏻 Hermanos Jota - Ecommerce
+# 👨🏽‍🤝‍👨🏻 Hermanos Jota Ecommerce
 
 <div align="center">
 
@@ -30,6 +30,7 @@ La web busca transmitir los valores de la empresa:
 | Tecnologías                 | Descripción                                                      |
 | -------------------------- | ---------------------------------------------------------------- |
 | ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)                  | Biblioteca de JavaScript para crear interfaces de usuario interactivas y dinámicas.|
+| ![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)        | Herramienta de construcción rápida y moderna para proyectos web.             |
 | ![Css3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)           | Lenguaje de estilos en cascada que controla la presentación visual del DOM             |
 | ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)                 | Entorno de ejecución que permite usar JavaScript en el servidor.                   |
 | ![Express](https://img.shields.io/badge/Express%20js-000000?style=for-the-badge&logo=express&logoColor=white)                 | Framework minimalista para Node.js que facilita la creación de APIs y servidores web.                   |
@@ -42,16 +43,16 @@ La web busca transmitir los valores de la empresa:
 
 <div align="center">
 
-<img src="" alt="Captura de la demo" width="600"/>
+<img src="https://i.imgur.com/EPln7Qv.jpeg" alt="Captura de la demo" width="600"/>
 
-Ver Demo en Vivo: https://hermanosjota-eccomerce.vercel.app/
+Ver Demo en Vivo: https://hermanosjota-ecommerce.vercel.app/
 
 </div>
 
 ## ⚙️ Instalación y Ejecución
 
 1️⃣ Clonar el repositorio <br/>
-git clone https://github.com/Yappur/HermanosJota-Proyecto02.git
+git clone https://github.com/Yappur/HermanosJota-Ecommerce.git
 
 2️⃣ Entrar al proyecto <br/>
 cd HermanosJota-Proyecto02
@@ -75,6 +76,6 @@ npm run dev
   
 Desarrollado con ❤️ por Equipo 3. 
 <br/> Agradecimientos a nuestro profesor Pedro Braude. <br/>
-<a href="#-hermanos-jota">⬆️ Volver arriba ⬆️</a>
+<a href="#-hermanos-jota-ecommerce">⬆️ Volver arriba ⬆️</a>
   
 <div/>

@@ -1,80 +1,74 @@
-const cors = require('cors');
+const cors = require("cors");
 
-// Configuración básica de CORS
+// Configuración SIMPLIFICADA para producción
 const corsOptions = {
   origin: function (origin, callback) {
-    // Permitir requests sin origin (mobile apps, Postman, etc.)
-    if (!origin) return callback(null, true);
+    // En producción, permite los orígenes específicos de Vercel
+    if (process.env.NODE_ENV === "production") {
+      const allowedOrigins = [
+        "https://hermanosjota-api.vercel.app",
+        "https://hermanosjota.vercel.app", // si tienes frontend
+        "http://localhost:3000", // para desarrollo local
+        "http://localhost:3001",
+      ];
 
-    // Lista de dominios permitidos
-    const allowedOrigins = [...process.env.CORS_ORIGIN.split(',')];
+      // Permitir requests sin origin (mobile apps, curl, etc.)
+      if (!origin) return callback(null, true);
 
-    // En desarrollo, permitir cualquier localhost
-    if (process.env.NODE_ENV === 'development') {
-      if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
-        return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.warn(`CORS bloqueado para origin: ${origin}`);
+        callback(new Error("Not allowed by CORS"));
       }
-    }
-
-    // Verificar subdominios dinámicos (para multi-tenant)
-    const isSubdomain =
-      /^https?:\/\/[\w-]+\.([\w-]+\.)*(localhost|127\.0\.0\.1|yourdomain\.com)(:\d+)?$/.test(
-        origin
-      );
-
-    if (allowedOrigins.includes(origin) || isSubdomain) {
-      callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS policy'));
+      // En desarrollo, permitir todo
+      callback(null, true);
     }
   },
-  credentials: process.env.CORS_CREDENTIALS === 'true', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: [
-    'Origin',
-    'X-Requested-With',
-    'Content-Type',
-    'Accept',
-    'Authorization',
-    'X-Commerce-Id',
-    'X-User-Agent',
-    'X-API-Key',
-  ],
-  exposedHeaders: ['X-Total-Count', 'X-Page-Count', 'X-Current-Page'],
-  maxAge: 86400,
-};
-
-const arCorsOptions = {
-  ...corsOptions,
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: [
-    ...corsOptions.allowedHeaders,
-    'X-AR-Session',
-    'X-Device-Type',
+    "Origin",
+    "X-Requested-With",
+    "Content-Type",
+    "Accept",
+    "Authorization",
   ],
 };
 
-// Middleware CORS personalizado para desarrollo
-const developmentCors = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+// Middleware CORS de emergencia
+const fallbackCors = (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
   res.header(
-    'Access-Control-Allow-Methods',
-    'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );
   res.header(
-    'Access-Control-Allow-Headers',
-    'Content-Type, Authorization, Content-Length, X-Requested-With, X-Commerce-Id'
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, X-Requested-With"
   );
 
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(200);
-  } else {
-    next();
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
   }
+  next();
+};
+
+// Middleware principal con fallback
+const corsMiddleware = (req, res, next) => {
+  // Usa el CORS configurado, pero si falla usa el fallback
+  cors(corsOptions)(req, res, (err) => {
+    if (err) {
+      console.warn("CORS error, using fallback:", err.message);
+      fallbackCors(req, res, next);
+    } else {
+      next();
+    }
+  });
 };
 
 module.exports = {
-  corsMiddleware: cors(corsOptions),
-  arCorsMiddleware: cors(arCorsOptions),
-  developmentCors,
+  corsMiddleware,
+  developmentCors: fallbackCors, // mismo para desarrollo por ahora
 };

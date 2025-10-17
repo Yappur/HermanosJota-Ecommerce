@@ -1,0 +1,8 @@
+node_modules
+.npm
+.next
+client/node_modules
+server/node_modules
+client/.env.local
+server/.env.local
+*.log

@@ -1,7 +1,6 @@
 .contact-form-container {
   max-width: 800px;
-  margin: 2rem auto;
-  margin-top: 2rem;
+  margin: 3rem auto;
   padding: 2rem;
   background: var(--blanco);
   border-radius: 8px;
@@ -20,14 +19,14 @@
   background: var(--rosa-polvoriento);
   color: var(--blanco);
   text-align: center;
-  padding: 3rem 1rem 2rem 1rem;
+  padding: 4rem 2rem;
   box-sizing: border-box;
   width: 100%;
 }
 
 .contact-hero h1 {
   font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   letter-spacing: 2px;
 }
 
@@ -35,6 +34,7 @@
   font-size: 1.1rem;
   margin: 0 auto;
   max-width: 600px;
+  line-height: 1.6;
 }
 
 .contact-form {
@@ -137,51 +137,59 @@
   cursor: not-allowed;
 }
 
-.contact-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  padding: 3rem 1rem;
-  max-width: 900px;
-  margin: 0 auto;
-  align-items: start;
-  box-sizing: border-box;
+.contact-info-section {
+  padding: 4rem 2rem;
+  background: var(--gris-claro, #f5f5f5);
   width: 100%;
+  box-sizing: border-box;
 }
 
-.contact-info {
+.contact-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+
+.contact-info-card,
+.contact-map-card {
   background: var(--blanco);
   border-radius: 12px;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
-  padding: 2rem;
+  padding: 2.5rem;
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
 }
 
-.contact-info:hover {
+.contact-info-card:hover,
+.contact-map-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
-.contact-info h2 {
+.contact-info-card h2,
+.contact-map-card h2 {
   color: var(--rosa-polvoriento);
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  margin-bottom: 2rem;
   font-weight: 700;
 }
 
 .contact-details {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .contact-item {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .contact-icon {
@@ -192,15 +200,15 @@
 
 .contact-text h3 {
   color: var(--rosa-polvoriento);
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
 }
 
 .contact-text p {
   color: var(--negro);
-  font-size: 0.9rem;
-  line-height: 1.4;
+  font-size: 0.95rem;
+  line-height: 1.6;
   margin: 0;
 }
 
@@ -214,6 +222,12 @@
   color: var(--verde-salvia);
 }
 
+.social-links {
+  margin-top: auto;
+  padding-top: 2rem;
+  border-top: 1px solid var(--gris-claro, #e5e5e5);
+}
+
 .social-links h3 {
   color: var(--rosa-polvoriento);
   font-size: 1.1rem;
@@ -223,73 +237,57 @@
 
 .social-icons {
   display: flex;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .social-icons a {
   color: var(--rosa-polvoriento);
-  transition: color 0.2s;
+  transition: color 0.2s, transform 0.2s;
+  display: inline-block;
 }
 
 .social-icons a:hover {
   color: var(--verde-salvia);
-}
-
-.contact-map {
-  background: var(--blanco);
-  border-radius: 12px;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.contact-map:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-}
-
-.contact-map h2 {
-  color: var(--rosa-polvoriento);
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  font-weight: 700;
+  transform: scale(1.1);
 }
 
 .map-container {
   border-radius: 8px;
   overflow: hidden;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   flex-grow: 1;
+  min-height: 350px;
   display: flex;
-  flex-direction: column;
 }
 
 .map-container iframe {
   width: 100%;
-  flex-grow: 1;
-  min-height: 250px;
+  height: 100%;
   border: none;
 }
 
 .map-info {
   text-align: center;
   color: var(--negro);
+  padding-top: 1rem;
+  border-top: 1px solid var(--gris-claro, #e5e5e5);
 }
 
 .map-info p {
-  margin: 0.2rem 0;
-  font-size: 0.9rem;
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .map-info p:first-child {
   font-weight: 600;
   color: var(--rosa-polvoriento);
+  font-size: 1rem;
 }
 
-@media (max-width: 900px) {
-  .contact-container {
+/* Responsive */
+@media (max-width: 1024px) {
+  .contact-info-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
@@ -301,11 +299,12 @@
   }
 
   .contact-form-container {
-    padding: 1rem;
+    padding: 1.5rem;
+    margin: 2rem 1rem;
   }
 
   .contact-hero {
-    padding: 2rem 1rem 1.5rem 1rem;
+    padding: 3rem 1.5rem;
   }
 
   .contact-hero h1 {
@@ -314,52 +313,52 @@
 
   .contact-hero p {
     font-size: 1rem;
-    padding: 0 0.5rem;
   }
 
-  .contact-container {
-    padding: 1.5rem 1rem;
-    gap: 1.2rem;
+  .contact-info-section {
+    padding: 2.5rem 1.5rem;
   }
 
-  .contact-info,
-  .contact-map {
-    padding: 1.5rem;
-    border-radius: 8px;
+  .contact-info-card,
+  .contact-map-card {
+    padding: 2rem;
   }
 
-  .contact-info h2,
-  .contact-map h2 {
-    font-size: 1.2rem;
+  .contact-info-card h2,
+  .contact-map-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
   }
 
-  .map-container iframe {
-    min-height: 200px;
+  .map-container {
+    min-height: 280px;
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 480px) {
   .contact-hero {
-    padding: 1.5rem 1.5rem 1.2rem 1.5rem;
-    margin: 100px auto 0 auto;
-    width: 100%;
-    max-width: 100%;
+    padding: 2.5rem 1rem;
+    margin-top: 80px;
   }
 
-  .contact-container {
-    padding: 1rem 1.5rem;
-    gap: 1rem;
-    max-width: 100%;
-    width: 100%;
-    margin: 0 auto;
+  .contact-hero h1 {
+    font-size: 1.75rem;
   }
 
-  .contact-info,
-  .contact-map {
-    padding: 1.2rem;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
+  .contact-info-section {
+    padding: 2rem 1rem;
+  }
+
+  .contact-info-card,
+  .contact-map-card {
+    padding: 1.5rem;
+  }
+
+  .contact-details {
+    gap: 1.5rem;
+  }
+
+  .map-container {
+    min-height: 250px;
   }
 }
