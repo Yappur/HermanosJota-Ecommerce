@@ -237,16 +237,16 @@ main.product.container {
   .product .cta-row {
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-sm);
-    max-width: 500px; 
+    max-width: 500px;
     margin: 0 auto;
   }
 
   .product .cta-row .btn {
     width: 100%;
     min-width: 0;
-    font-size: 0.95rem; 
-    padding: 0.75rem 1rem; 
-    white-space: nowrap; 
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    white-space: nowrap;
   }
 
   .product .cta-row .btn:last-child {
@@ -365,4 +365,106 @@ main.product.container {
 .error-container p {
   font-size: 1.2rem;
   color: var(--gris-medio);
+}
+
+/* Estilos de la notificación del carrito */
+.cart-notification {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: var(--blanco, #ffffff);
+  border-left: 4px solid var(--verde-salvia, #4caf50);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 1rem 1.5rem;
+  z-index: 9999;
+  min-width: 300px;
+  max-width: 400px;
+  transform: translateX(450px);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cart-notification.show {
+  transform: translateX(0);
+}
+
+.cart-notification.hide {
+  transform: translateX(450px);
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.notification-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: var(--verde-salvia, #4caf50);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blanco, #ffffff);
+}
+
+.notification-text {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--negro, #333);
+  margin: 0 0 0.25rem 0;
+}
+
+.notification-product {
+  font-size: 0.875rem;
+  color: var(--gris-medio, #666);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Responsive para notificación */
+@media (max-width: 768px) {
+  .cart-notification {
+    top: 80px;
+    right: 10px;
+    left: 10px;
+    min-width: auto;
+    max-width: none;
+    transform: translateY(-150px);
+  }
+
+  .cart-notification.show {
+    transform: translateY(0);
+  }
+
+  .cart-notification.hide {
+    transform: translateY(-150px);
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-notification {
+    padding: 0.875rem 1rem;
+  }
+
+  .notification-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .notification-title {
+    font-size: 0.9rem;
+  }
+
+  .notification-product {
+    font-size: 0.8rem;
+  }
 }

@@ -1,3 +1,4 @@
+
 import Footer from "./components/layout/Footer/Footer.jsx";
 import NavBar from "./components/layout/navbar/Navbar.jsx";
 import HeroSection from "./components/Hero/HeroSection";
@@ -35,7 +36,7 @@ function App() {
 
   // Guardar carrito en localStorage
   useEffect(() => {
-    if (!isCartLoaded) return; 
+    if (!isCartLoaded) return;
 
     try {
       localStorage.setItem("hermanos-jota-cart", JSON.stringify(cart));
@@ -87,10 +88,7 @@ function App() {
         </>
       )}
       {currentPage === "products" && (
-        <ProductList 
-        onNavigate={navigate}
-        onAddToCart={addToCart}
-        />
+        <ProductList onNavigate={navigate} onAddToCart={addToCart} />
       )}
       {currentPage === "product-detail" && (
         <ProductView
@@ -100,7 +98,7 @@ function App() {
         />
       )}
       {currentPage === "contact" && <ContactForm />}
-      {currentPage === "about" && <About />}
+      {currentPage === "about" && <About onNavigate={navigate} />}
       <ScrollToTop />
       <Footer />
     </>

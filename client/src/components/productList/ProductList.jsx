@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import "./product-list.css"
 import ProductsToolbar from './productsToolbar/ProductsToolbar'
 
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
+
 const ProductList = ({ onNavigate, onAddToCart }) => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
@@ -14,7 +16,7 @@ const ProductList = ({ onNavigate, onAddToCart }) => {
         setLoading(true)
         setError(null)
         try {
-            const response = await fetch('http://localhost:5001/api/products')
+            const response = await fetch(`${API_BASE}/api/products`)
             if (!response.ok) {
             throw new Error('Error al traer productos')
             }
