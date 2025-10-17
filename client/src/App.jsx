@@ -1,4 +1,3 @@
-
 import Footer from "./components/layout/Footer/Footer.jsx";
 import NavBar from "./components/layout/navbar/Navbar.jsx";
 import HeroSection from "./components/Hero/HeroSection";
@@ -10,6 +9,8 @@ import ContactForm from "./components/Contact/contactForm";
 import { useState, useEffect } from "react";
 import FAQ from "./components/FAQ/FAQ.jsx";
 import ScrollToTop from "./components/layout/scrollToTop/ScrollToTop.jsx";
+import { BrowserRouter as Router } from "react-router-dom";
+import RoutesView from "./routes/RoutesView.jsx";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -74,33 +75,17 @@ function App() {
 
   return (
     <>
-      <NavBar
-        onNavigate={navigate}
-        cartCount={cartItemCount}
-        cartItems={cart}
-        onClearCart={clearCart}
-      />
-      {currentPage === "home" && (
-        <>
-          <HeroSection onNavigate={navigate} />
-          <ProductosDestacados onNavigate={navigate} />
-          <FAQ />
-        </>
-      )}
-      {currentPage === "products" && (
-        <ProductList onNavigate={navigate} onAddToCart={addToCart} />
-      )}
-      {currentPage === "product-detail" && (
-        <ProductView
-          productId={selectedProductId}
+      <Router>
+        <NavBar
           onNavigate={navigate}
-          onAddToCart={addToCart}
+          cartCount={cartItemCount}
+          cartItems={cart}
+          onClearCart={clearCart}
         />
-      )}
-      {currentPage === "contact" && <ContactForm />}
-      {currentPage === "about" && <About onNavigate={navigate} />}
-      <ScrollToTop />
-      <Footer />
+        <RoutesView />
+        <ScrollToTop />
+        <Footer />
+      </Router>
     </>
   );
 }
