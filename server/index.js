@@ -5,10 +5,11 @@ require("dotenv").config();
 const { corsMiddleware } = require("./middlewares/cors");
 
 const routes = require("./routes");
+const connectDb = require("./database/database");
 
 const app = express();
+connectDb();
 
-// TRUST PROXY para Vercel
 app.set("trust proxy", 1);
 
 // MIDDLEWARE
