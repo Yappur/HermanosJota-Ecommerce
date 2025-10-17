@@ -9,9 +9,10 @@ const {
 } = require("./middlewares");
 
 const routes = require("./routes");
+const connectDb = require("./database/database");
 
 const app = express();
-
+connectDb();
 
 app.set("trust proxy", 1);
 
