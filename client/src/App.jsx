@@ -1,23 +1,16 @@
-
-import Footer from "./components/layout/Footer/Footer.jsx";
-import NavBar from "./components/layout/navbar/Navbar.jsx";
-import HeroSection from "./components/Hero/HeroSection";
-import ProductosDestacados from "./components/ProductosDestacados/ProductosDestacados";
-import About from "./components/About/About";
-import ProductList from "./components/productList/ProductList";
-import ProductView from "./components/productView/ProductView";
-import ContactForm from "./components/Contact/contactForm";
+import { BrowserRouter as Router } from "react-router-dom";
 import { useState, useEffect } from "react";
-import FAQ from "./components/FAQ/FAQ.jsx";
+import NavBar from "./components/layout/navbar/Navbar.jsx";
+import Footer from "./components/layout/Footer/Footer.jsx";
 import ScrollToTop from "./components/layout/scrollToTop/ScrollToTop.jsx";
+import RoutesView from "./routes/RoutesView";
+import AutoScrollToTop from "./components/layout/navbar/AutoScrollToTop.jsx";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("home");
-  const [selectedProductId, setSelectedProductId] = useState(null);
   const [cart, setCart] = useState([]);
   const [isCartLoaded, setIsCartLoaded] = useState(false);
 
-  // Cargar carrito
+  // Cargar carrito desde localStorage
   useEffect(() => {
     try {
       const savedCart = localStorage.getItem("hermanos-jota-cart");
@@ -45,11 +38,6 @@ function App() {
     }
   }, [cart, isCartLoaded]);
 
-  const navigate = (page, productId = null) => {
-    setCurrentPage(page);
-    setSelectedProductId(productId);
-  };
-
   const addToCart = (product) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === product.id);
@@ -73,35 +61,18 @@ function App() {
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <>
+    <Router>
+      <AutoScrollToTop />
       <NavBar
-        onNavigate={navigate}
         cartCount={cartItemCount}
         cartItems={cart}
         onClearCart={clearCart}
       />
-      {currentPage === "home" && (
-        <>
-          <HeroSection onNavigate={navigate} />
-          <ProductosDestacados onNavigate={navigate} />
-          <FAQ />
-        </>
-      )}
-      {currentPage === "products" && (
-        <ProductList onNavigate={navigate} onAddToCart={addToCart} />
-      )}
-      {currentPage === "product-detail" && (
-        <ProductView
-          productId={selectedProductId}
-          onNavigate={navigate}
-          onAddToCart={addToCart}
-        />
-      )}
-      {currentPage === "contact" && <ContactForm />}
-      {currentPage === "about" && <About onNavigate={navigate} />}
+
+      <RoutesView onAddToCart={addToCart} />
       <ScrollToTop />
       <Footer />
-    </>
+    </Router>
   );
 }
 

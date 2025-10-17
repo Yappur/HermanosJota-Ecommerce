@@ -84,6 +84,23 @@
   letter-spacing: 0.05em;
   padding: var(--spacing-xs) 0;
   position: relative;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+.nav-link--active::after {
+  transform: scaleX(1) !important;
+}
+
+@media (max-width: 768px) {
+  .nav-link--active {
+    background-color: rgba(212, 175, 55, 0.1);
+  }
 }
 
 .nav-link::after {
@@ -266,7 +283,6 @@
 .cart-clear-btn:hover {
   background-color: #c82333;
 }
-
 
 /* Responsive */
 @media (max-width: 768px) {
