@@ -52,7 +52,6 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         setLoading(false);
       }
     };
-
     if (productId) {
       loadProduct();
     }

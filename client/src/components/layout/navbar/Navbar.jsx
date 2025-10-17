@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import "./navbar.css";
 
-const NavBar = ({ onNavigate, cartCount = 0, cartItems = [], onClearCart }) => {
+const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -34,16 +35,17 @@ const NavBar = ({ onNavigate, cartCount = 0, cartItems = [], onClearCart }) => {
     );
   };
 
-  const navigatTo = (e, page) => {
-    e.preventDefault();
-    onNavigate(page);
+  // Cerrar menú móvil al hacer clic en un link
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
   };
 
   return (
     <header className="header" role="banner">
       <div className="container">
         <div className="header-content">
-          <div className="logo">
+          {/* Logo con Link a home */}
+          <Link to="/" className="logo" onClick={handleLinkClick}>
             <img
               src="/logo.svg"
               alt="Logo de Hermanos Jota"
@@ -55,16 +57,16 @@ const NavBar = ({ onNavigate, cartCount = 0, cartItems = [], onClearCart }) => {
               <h2 className="logo-title">HERMANOS JOTA</h2>
               <p className="logo-subtitle">Piezas que cuentan historias</p>
             </div>
-          </div>
+          </Link>
 
           <nav
             className="nav"
             role="navigation"
-            aria-label="Navegaci�n principal"
+            aria-label="Navegación principal"
           >
             <button
               className="nav-toggle"
-              aria-label="Abrir men� de navegaci�n"
+              aria-label="Abrir menú de navegación"
               aria-expanded={isMenuOpen}
               aria-controls="nav-menu"
               onClick={toggleMenu}
@@ -73,51 +75,59 @@ const NavBar = ({ onNavigate, cartCount = 0, cartItems = [], onClearCart }) => {
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
             </button>
+
             <ul
               className={`nav-list ${isMenuOpen ? "nav-list--open" : ""}`}
               id="nav-menu"
               role="menubar"
             >
               <li role="none">
-                <a
-                  href="/"
-                  className="nav-link"
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link nav-link--active" : "nav-link"
+                  }
                   role="menuitem"
-                  aria-current="page"
-                  onClick={(e) => navigatTo(e, "home")}
+                  onClick={handleLinkClick}
                 >
                   Inicio
-                </a>
+                </NavLink>
               </li>
               <li role="none">
-                <a
-                  href="/productos"
-                  className="nav-link"
+                <NavLink
+                  to="/productos"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link nav-link--active" : "nav-link"
+                  }
                   role="menuitem"
-                  onClick={(e) => navigatTo(e, "products")}
+                  onClick={handleLinkClick}
                 >
                   Productos
-                </a>
+                </NavLink>
               </li>
               <li role="none">
-                <a
-                  href="/nosotros"
-                  className="nav-link"
+                <NavLink
+                  to="/nosotros"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link nav-link--active" : "nav-link"
+                  }
                   role="menuitem"
-                  onClick={(e) => navigatTo(e, "about")}
+                  onClick={handleLinkClick}
                 >
                   Nosotros
-                </a>
+                </NavLink>
               </li>
               <li role="none">
-                <a
-                  href="/contacto"
-                  className="nav-link"
+                <NavLink
+                  to="/contacto"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link nav-link--active" : "nav-link"
+                  }
                   role="menuitem"
-                  onClick={(e) => navigatTo(e, "contact")}
+                  onClick={handleLinkClick}
                 >
                   Contacto
-                </a>
+                </NavLink>
               </li>
               <li role="none" className="cart">
                 <button
