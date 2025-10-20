@@ -1,10 +1,11 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import NotFound from "../pages/NotFound";
 import ProductList from "../components/productList/ProductList";
 import ProductView from "../components/productView/ProductView";
 import Contact from "../components/Contact/contactForm";
 import About from "../components/About/About";
+import CreateProduct from "../components/admin/CreateProduct";
 
 const RoutesView = ({ onAddToCart }) => {
   return (
@@ -21,6 +22,7 @@ const RoutesView = ({ onAddToCart }) => {
       />
       <Route path="/contacto" element={<Contact />} />
       <Route path="/nosotros" element={<About />} />
+      <Route path="/admin/crear-producto" element={<CreateProduct />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
