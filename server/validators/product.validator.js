@@ -1,5 +1,8 @@
+const ALLOWED_CURRENCIES = ["ARS", "USD", "EUR"];
+const ALLOWED_AVAILABILITY = ["InStock", "OutOfStock", "PreOrder"];
+const ALLOWED_CATEGORIES = ["Muebles", "Sillas", "Mesas", "Decoración", "Iluminación"]; // <-- TODO: ajustá a tus categorías reales
 
-export function validateProduct(body, isUpdate = false) {
+function validateProduct(body, isUpdate = false) {
   const errors = [];
 
   if (!isUpdate) {
@@ -29,11 +32,23 @@ export function validateProduct(body, isUpdate = false) {
     }
   }
 
+  if (body.currency !== undefined && !ALLOWED_CURRENCIES.includes(body.currency)) {
+    errors.push(`currency inválida. Permitidas: ${ALLOWED_CURRENCIES.join(", ")}`);
+  }
+
+  if (body.availability !== undefined && !ALLOWED_AVAILABILITY.includes(body.availability)) {
+    errors.push(`availability inválida. Permitidas: ${ALLOWED_AVAILABILITY.join(", ")}`);
+  }
+
+  if (body.category !== undefined && ALLOWED_CATEGORIES && !ALLOWED_CATEGORIES.includes(body.category)) {
+    errors.push(`category inválida. Permitidas: ${ALLOWED_CATEGORIES.join(", ")}`);
+  }
+
   if (body.imageUrl !== undefined && !String(body.imageUrl).trim()) {
-    errors.push("La URL de la imagen no puede estar vacía");
+    errors.push("imageUrl no puede estar vacía");
   }
 
   return errors;
 }
 
-
+module.exports = { validateProduct };
