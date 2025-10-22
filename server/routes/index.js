@@ -3,10 +3,12 @@ const router = express.Router();
 
 // Importar todas las rutas
 const products = require("./products");
+const productos = require("./productos");
 const contact = require("./contact");
 
 // Configurar rutas principales
 router.use("/products", products);
+router.use("/productos", productos);
 router.use("/contact", contact);
 
 // Ruta de health check
