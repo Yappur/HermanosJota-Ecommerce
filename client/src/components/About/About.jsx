@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./About.css";
 
-const AboutEnhanced = ({ onNavigate }) => {
+const AboutEnhanced = () => {
+  const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -222,13 +224,13 @@ const AboutEnhanced = ({ onNavigate }) => {
           <div className="cta-buttons">
             <button
               className="cta-button cta-primary"
-              onClick={() => onNavigate("products")}
+              onClick={() => navigate("/productos")}
             >
               Ver Productos
             </button>
             <button
               className="cta-button cta-secondary"
-              onClick={() => onNavigate("contact")}
+              onClick={() => navigate("/contacto")}
             >
               Contactar
             </button>

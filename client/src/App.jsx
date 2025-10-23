@@ -1,16 +1,20 @@
-import { BrowserRouter as Router } from "react-router-dom";
-import { useState, useEffect } from "react";
-import NavBar from "./components/layout/navbar/Navbar.jsx";
 import Footer from "./components/layout/Footer/Footer.jsx";
+import NavBar from "./components/layout/navbar/Navbar.jsx";
+import HeroSection from "./components/Hero/HeroSection";
+import ProductosDestacados from "./components/ProductosDestacados/ProductosDestacados";
+import About from "./components/About/About";
+import ProductList from "./components/productList/ProductList";
+import ProductView from "./components/productView/ProductView";
+import ContactForm from "./components/Contact/contactForm";
+import { useState, useEffect } from "react";
+import FAQ from "./components/FAQ/FAQ.jsx";
 import ScrollToTop from "./components/layout/scrollToTop/ScrollToTop.jsx";
-import RoutesView from "./routes/RoutesView";
-import AutoScrollToTop from "./components/layout/navbar/AutoScrollToTop.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   const [cart, setCart] = useState([]);
   const [isCartLoaded, setIsCartLoaded] = useState(false);
 
-  // Cargar carrito desde localStorage
   useEffect(() => {
     try {
       const savedCart = localStorage.getItem("hermanos-jota-cart");
@@ -27,7 +31,6 @@ function App() {
     }
   }, []);
 
-  // Guardar carrito en localStorage
   useEffect(() => {
     if (!isCartLoaded) return;
 
@@ -61,18 +64,31 @@ function App() {
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <Router>
-      <AutoScrollToTop />
+    <BrowserRouter>
       <NavBar
         cartCount={cartItemCount}
         cartItems={cart}
         onClearCart={clearCart}
       />
-
-      <RoutesView onAddToCart={addToCart} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <HeroSection />
+              <ProductosDestacados />
+              <FAQ />
+            </>
+          }
+        />
+        <Route path="/productos" element={<ProductList onAddToCart={addToCart} />} />
+        <Route path="/productos/:id" element={<ProductView onAddToCart={addToCart} />} />
+        <Route path="/contacto" element={<ContactForm />} />
+        <Route path="/nosotros" element={<About />} />
+      </Routes>
       <ScrollToTop />
       <Footer />
-    </Router>
+    </BrowserRouter>
   );
 }
 

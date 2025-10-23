@@ -35,7 +35,6 @@ const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
     );
   };
 
-  // Cerrar menú móvil al hacer clic en un link
   const handleLinkClick = () => {
     setIsMenuOpen(false);
   };
@@ -44,7 +43,6 @@ const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
     <header className="header" role="banner">
       <div className="container">
         <div className="header-content">
-          {/* Logo con Link a home */}
           <Link to="/" className="logo" onClick={handleLinkClick}>
             <img
               src="/logo.svg"

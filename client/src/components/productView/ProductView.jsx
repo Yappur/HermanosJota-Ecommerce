@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import ProductGallery from "./ProductGallery";
 import ProductDetail from "../productDetail/ProductDetail";
 import ProductSpecs from "./ProductSpecs";
@@ -6,7 +7,8 @@ import "./productView.css";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 
-const ProductView = ({ productId, onNavigate, onAddToCart }) => {
+const ProductView = ({ onAddToCart }) => {
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,7 +19,7 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`${API_BASE}/api/products/${productId}`);
+        const response = await fetch(`${API_BASE}/api/productos/${id}`);
 
         if (!response.ok) {
           throw new Error("Producto no encontrado");
@@ -54,10 +56,11 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
         setLoading(false);
       }
     };
-    if (productId) {
+
+    if (id) {
       loadProduct();
     }
-  }, [productId]);
+  }, [id]);
 
     const handleUpdated = (updatedFromServer) => {
     const p = updatedFromServer;
