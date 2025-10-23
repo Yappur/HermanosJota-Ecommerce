@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-import { BrowserRouter as Router } from "react-router-dom";
-=======
 import Footer from "./components/layout/Footer/Footer.jsx";
 import NavBar from "./components/layout/navbar/Navbar.jsx";
 import HeroSection from "./components/Hero/HeroSection";
@@ -9,26 +6,15 @@ import About from "./components/About/About";
 import ProductList from "./components/productList/ProductList";
 import ProductView from "./components/productView/ProductView";
 import ContactForm from "./components/Contact/contactForm";
->>>>>>> endpointProductos
 import { useState, useEffect } from "react";
-import NavBar from "./components/layout/navbar/Navbar.jsx";
-import Footer from "./components/layout/Footer/Footer.jsx";
+import FAQ from "./components/FAQ/FAQ.jsx";
 import ScrollToTop from "./components/layout/scrollToTop/ScrollToTop.jsx";
-<<<<<<< HEAD
-import RoutesView from "./routes/RoutesView";
-import AutoScrollToTop from "./components/layout/navbar/AutoScrollToTop.jsx";
-=======
 import { BrowserRouter, Routes, Route } from "react-router-dom";
->>>>>>> endpointProductos
 
 function App() {
   const [cart, setCart] = useState([]);
   const [isCartLoaded, setIsCartLoaded] = useState(false);
 
-<<<<<<< HEAD
-  // Cargar carrito desde localStorage
-=======
->>>>>>> endpointProductos
   useEffect(() => {
     try {
       const savedCart = localStorage.getItem("hermanos-jota-cart");
@@ -78,24 +64,12 @@ function App() {
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
-<<<<<<< HEAD
-    <Router>
-      <AutoScrollToTop />
-=======
     <BrowserRouter>
->>>>>>> endpointProductos
       <NavBar
         cartCount={cartItemCount}
         cartItems={cart}
         onClearCart={clearCart}
       />
-<<<<<<< HEAD
-
-      <RoutesView onAddToCart={addToCart} />
-      <ScrollToTop />
-      <Footer />
-    </Router>
-=======
       <Routes>
         <Route
           path="/"
@@ -115,7 +89,6 @@ function App() {
       <ScrollToTop />
       <Footer />
     </BrowserRouter>
->>>>>>> endpointProductos
   );
 }
 

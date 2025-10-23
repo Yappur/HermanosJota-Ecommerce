@@ -54,12 +54,8 @@ const ProductView = ({ onAddToCart }) => {
         setLoading(false);
       }
     };
-<<<<<<< HEAD
-    if (productId) {
-=======
 
     if (id) {
->>>>>>> endpointProductos
       loadProduct();
     }
   }, [id]);
