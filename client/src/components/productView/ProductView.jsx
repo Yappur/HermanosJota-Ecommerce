@@ -7,7 +7,7 @@ import "./productView.css";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 
-const ProductView = ({ onAddToCart }) => {
+const ProductView = ({ onNavigate, onAddToCart }) => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
