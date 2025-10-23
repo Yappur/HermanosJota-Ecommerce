@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./navbar.css";
 
-const NavBar = ({ onNavigate, cartCount = 0, cartItems = [], onClearCart }) => {
+const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -32,11 +33,6 @@ const NavBar = ({ onNavigate, cartCount = 0, cartItems = [], onClearCart }) => {
       (total, item) => total + item.price * item.quantity,
       0
     );
-  };
-
-  const navigatTo = (e, page) => {
-    e.preventDefault();
-    onNavigate(page);
   };
 
   return (
@@ -79,45 +75,41 @@ const NavBar = ({ onNavigate, cartCount = 0, cartItems = [], onClearCart }) => {
               role="menubar"
             >
               <li role="none">
-                <a
-                  href="/"
+                <Link
+                  to="/"
                   className="nav-link"
                   role="menuitem"
                   aria-current="page"
-                  onClick={(e) => navigatTo(e, "home")}
                 >
                   Inicio
-                </a>
+                </Link>
               </li>
               <li role="none">
-                <a
-                  href="/productos"
+                <Link
+                  to="/productos"
                   className="nav-link"
                   role="menuitem"
-                  onClick={(e) => navigatTo(e, "products")}
                 >
                   Productos
-                </a>
+                </Link>
               </li>
               <li role="none">
-                <a
-                  href="/nosotros"
+                <Link
+                  to="/nosotros"
                   className="nav-link"
                   role="menuitem"
-                  onClick={(e) => navigatTo(e, "about")}
                 >
                   Nosotros
-                </a>
+                </Link>
               </li>
               <li role="none">
-                <a
-                  href="/contacto"
+                <Link
+                  to="/contacto"
                   className="nav-link"
                   role="menuitem"
-                  onClick={(e) => navigatTo(e, "contact")}
                 >
                   Contacto
-                </a>
+                </Link>
               </li>
               <li role="none" className="cart">
                 <button

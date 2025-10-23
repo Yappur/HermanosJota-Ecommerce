@@ -5,7 +5,7 @@ import ProductsToolbar from './productsToolbar/ProductsToolbar'
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 
-const ProductList = ({ onNavigate, onAddToCart }) => {
+const ProductList = ({ onAddToCart }) => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -63,7 +63,7 @@ const ProductList = ({ onNavigate, onAddToCart }) => {
                 !loading &&
                 !error &&
                 filtered.map(product => (
-                    <ProductCard key={product.id} product={product} onNavigate={onNavigate} onAddToCart={onAddToCart} />
+                    <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
                 ))}
             </div>
         </div>

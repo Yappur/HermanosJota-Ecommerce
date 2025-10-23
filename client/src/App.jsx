@@ -1,4 +1,3 @@
-
 import Footer from "./components/layout/Footer/Footer.jsx";
 import NavBar from "./components/layout/navbar/Navbar.jsx";
 import HeroSection from "./components/Hero/HeroSection";
@@ -10,14 +9,12 @@ import ContactForm from "./components/Contact/contactForm";
 import { useState, useEffect } from "react";
 import FAQ from "./components/FAQ/FAQ.jsx";
 import ScrollToTop from "./components/layout/scrollToTop/ScrollToTop.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("home");
-  const [selectedProductId, setSelectedProductId] = useState(null);
   const [cart, setCart] = useState([]);
   const [isCartLoaded, setIsCartLoaded] = useState(false);
 
-  // Cargar carrito
   useEffect(() => {
     try {
       const savedCart = localStorage.getItem("hermanos-jota-cart");
@@ -34,7 +31,6 @@ function App() {
     }
   }, []);
 
-  // Guardar carrito en localStorage
   useEffect(() => {
     if (!isCartLoaded) return;
 
@@ -44,11 +40,6 @@ function App() {
       console.error("Error al guardar el carrito en localStorage:", error);
     }
   }, [cart, isCartLoaded]);
-
-  const navigate = (page, productId = null) => {
-    setCurrentPage(page);
-    setSelectedProductId(productId);
-  };
 
   const addToCart = (product) => {
     setCart((prevCart) => {
@@ -73,35 +64,31 @@ function App() {
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <>
+    <BrowserRouter>
       <NavBar
-        onNavigate={navigate}
         cartCount={cartItemCount}
         cartItems={cart}
         onClearCart={clearCart}
       />
-      {currentPage === "home" && (
-        <>
-          <HeroSection onNavigate={navigate} />
-          <ProductosDestacados onNavigate={navigate} />
-          <FAQ />
-        </>
-      )}
-      {currentPage === "products" && (
-        <ProductList onNavigate={navigate} onAddToCart={addToCart} />
-      )}
-      {currentPage === "product-detail" && (
-        <ProductView
-          productId={selectedProductId}
-          onNavigate={navigate}
-          onAddToCart={addToCart}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <HeroSection />
+              <ProductosDestacados />
+              <FAQ />
+            </>
+          }
         />
-      )}
-      {currentPage === "contact" && <ContactForm />}
-      {currentPage === "about" && <About onNavigate={navigate} />}
+        <Route path="/productos" element={<ProductList onAddToCart={addToCart} />} />
+        <Route path="/productos/:id" element={<ProductView onAddToCart={addToCart} />} />
+        <Route path="/contacto" element={<ContactForm />} />
+        <Route path="/nosotros" element={<About />} />
+      </Routes>
       <ScrollToTop />
       <Footer />
-    </>
+    </BrowserRouter>
   );
 }
 
