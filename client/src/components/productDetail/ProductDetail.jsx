@@ -167,11 +167,11 @@ const ProductDetail = ({ product, onAddToCart, onNavigate, apiBase, onUpdated })
 
               if (!res.ok) throw new Error(data?.message || `Error HTTP ${res.status}`);
 
-              alert("Producto eliminado correctamente ✅");
+              alert("Producto eliminado correctamente");
 
               onNavigate?.("products");
             } catch (e) {
-              alert(e.message || "Error al eliminar producto ❌");
+              alert(e.message || "Error al eliminar producto");
             }
           }}
         >
