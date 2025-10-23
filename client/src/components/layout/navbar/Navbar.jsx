@@ -1,5 +1,9 @@
 import { useState } from "react";
+<<<<<<< HEAD
 import { Link, NavLink } from "react-router-dom";
+=======
+import { Link } from "react-router-dom";
+>>>>>>> endpointProductos
 import "./navbar.css";
 
 const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
@@ -35,11 +39,14 @@ const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
     );
   };
 
+<<<<<<< HEAD
   // Cerrar menú móvil al hacer clic en un link
   const handleLinkClick = () => {
     setIsMenuOpen(false);
   };
 
+=======
+>>>>>>> endpointProductos
   return (
     <header className="header" role="banner">
       <div className="container">
@@ -82,6 +89,7 @@ const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
               role="menubar"
             >
               <li role="none">
+<<<<<<< HEAD
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
@@ -128,6 +136,43 @@ const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
                 >
                   Contacto
                 </NavLink>
+=======
+                <Link
+                  to="/"
+                  className="nav-link"
+                  role="menuitem"
+                  aria-current="page"
+                >
+                  Inicio
+                </Link>
+              </li>
+              <li role="none">
+                <Link
+                  to="/productos"
+                  className="nav-link"
+                  role="menuitem"
+                >
+                  Productos
+                </Link>
+              </li>
+              <li role="none">
+                <Link
+                  to="/nosotros"
+                  className="nav-link"
+                  role="menuitem"
+                >
+                  Nosotros
+                </Link>
+              </li>
+              <li role="none">
+                <Link
+                  to="/contacto"
+                  className="nav-link"
+                  role="menuitem"
+                >
+                  Contacto
+                </Link>
+>>>>>>> endpointProductos
               </li>
               <li role="none" className="cart">
                 <button

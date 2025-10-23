@@ -1,13 +1,9 @@
+import { Link } from "react-router-dom";
 import "./product-card.css";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 
-const ProductCard = ({ product, onNavigate, onAddToCart }) => {
-  const handleProductClick = (e) => {
-    e.preventDefault();
-    onNavigate("product-detail", product.id);
-  };
-
+const ProductCard = ({ product, onAddToCart }) => {
   const handleAddToCart = (e) => {
     e.preventDefault();
     if (product && onAddToCart) {
@@ -26,26 +22,25 @@ const ProductCard = ({ product, onNavigate, onAddToCart }) => {
 
   return (
     <article className="products-card">
-      <a className="products-link" href="#" onClick={handleProductClick}>
+      <Link className="products-link" to={`/productos/${product.id}`}>
         <img
           className="products-image"
           src={`${product.imagen}`}
           alt={product.nombre}
         />
         <h4 className="products-name">{product.nombre}</h4>
-      </a>
+      </Link>
       <p className="products-description">{product.descripcion}</p>
       <span className="products-price">
         ${Number(product.precio || 0).toLocaleString("es-AR")}
       </span>
       <div className="products-actions">
-        <a
-          href="#"
-          onClick={handleProductClick}
+        <Link
+          to={`/productos/${product.id}`}
           className="btn btn-see-product"
         >
           Ver producto
-        </a>
+        </Link>
         <button
           type="button"
           className={`btn btn-add-cart }`}

@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ProductosDestacados.css";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 
-const ProductosDestacados = ({ onNavigate }) => {
+const ProductosDestacados = () => {
+  const navigate = useNavigate();
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -269,7 +271,7 @@ const ProductosDestacados = ({ onNavigate }) => {
         <div className="section-footer">
           <button
             className="btn btn-outline"
-            onClick={() => onNavigate("products")}
+            onClick={() => navigate("/productos")}
             role="button"
             aria-label="Ver toda la colección de muebles"
           >

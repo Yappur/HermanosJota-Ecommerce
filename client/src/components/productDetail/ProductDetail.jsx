@@ -1,4 +1,8 @@
-const ProductDetail = ({ product, onAddToCart, onNavigate }) => {
+import { useNavigate } from "react-router-dom";
+
+const ProductDetail = ({ product, onAddToCart }) => {
+  const navigate = useNavigate();
+
   const formatPrice = (price, currency) => {
     return new Intl.NumberFormat("es-AR", {
       style: "currency",
@@ -53,7 +57,7 @@ const ProductDetail = ({ product, onAddToCart, onNavigate }) => {
       <div className="cta-row">
         <button
           className="btn btn-outline"
-          onClick={() => onNavigate && onNavigate("products")}
+          onClick={() => navigate("/productos")}
         >
           Ver más productos
         </button>

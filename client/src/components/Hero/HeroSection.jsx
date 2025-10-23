@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./HeroSection.css";
 
-const HeroSection = ({ onNavigate }) => {
+const HeroSection = () => {
+  const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -52,13 +54,13 @@ const HeroSection = ({ onNavigate }) => {
           <div className="hero-actions">
             <button
               className="btn btn-primary"
-              onClick={() => onNavigate("products")}
+              onClick={() => navigate("/productos")}
             >
               Explorar colección
             </button>
             <button
               className="btn btn-secondary"
-              onClick={() => onNavigate("about")}
+              onClick={() => navigate("/nosotros")}
             >
               Nuestra historia
             </button>
