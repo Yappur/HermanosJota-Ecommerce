@@ -25,6 +25,22 @@ main.product.container {
   max-width: 100%;
 }
 
+.product .gallery .gallery-container {
+  
+}
+
+.product .gallery .edit-img-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: 0;
+    border-radius: 999px;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    cursor: pointer;
+}
+
 .product .details {
   max-width: 700px;
   margin: 0 auto;

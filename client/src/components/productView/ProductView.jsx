@@ -30,12 +30,14 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
 
         const formattedProduct = {
           id: productData.id,
-          name: productData.nombre,
-          description: productData.descripcion,
-          price: productData.precio,
+          name: productData.name,
+          description: productData.description,
+          price: productData.price,
           currency: "ARS",
           image: imageUrl,
           availability: "InStock",
+          category: productData.category,
+          stock: productData.stock,
           specs: [
             { label: "Medidas", value: productData.medidas },
             { label: "Materiales", value: productData.materiales },
@@ -56,6 +58,21 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
       loadProduct();
     }
   }, [productId]);
+
+    const handleUpdated = (updatedFromServer) => {
+    const p = updatedFromServer;
+    setProduct((old) => ({
+      ...old,
+      name: p.name,
+      description: p.description,
+      price: p.price,
+      currency: p.currency || "ARS",
+      image: p.imageUrl,
+      availability: p.availability || "InStock",
+      category: p.category,
+      stock: p.stock ?? 0,
+    }));
+  };
 
   const handleAddToCart = () => {
     if (product && onAddToCart) {
@@ -90,6 +107,9 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
           image={product.image}
           alt={product.name}
           productName={product.name}
+          apiBase={API_BASE}
+          productId={product.id}
+          onUpdated={handleUpdated}
         />
         <aside className="badge">
           <span className="dot"></span>
@@ -102,6 +122,8 @@ const ProductView = ({ productId, onNavigate, onAddToCart }) => {
           product={product}
           onAddToCart={handleAddToCart}
           onNavigate={onNavigate}
+          apiBase={API_BASE}
+          onUpdated={handleUpdated}
         />
 
         {product.specs.length > 0 && <ProductSpecs specs={product.specs} />}
