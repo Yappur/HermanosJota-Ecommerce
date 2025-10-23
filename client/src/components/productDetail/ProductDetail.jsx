@@ -153,6 +153,30 @@ const ProductDetail = ({ product, onAddToCart, onNavigate, apiBase, onUpdated })
         <button className="btn btn-ghost" onClick={() => { setForm(product); setEditing(false); }}>
           Cancelar
         </button>
+
+        <button
+          className="btn btn-danger"
+          onClick={async () => {
+            if (!confirm("¿Seguro que deseas eliminar este producto?")) return;
+
+            try {
+              const res = await fetch(`${apiBase}/api/productos/${product.id}`, {
+                method: "DELETE",
+              });
+              const data = await res.json().catch(() => ({}));
+
+              if (!res.ok) throw new Error(data?.message || `Error HTTP ${res.status}`);
+
+              alert("Producto eliminado correctamente ✅");
+
+              onNavigate?.("products");
+            } catch (e) {
+              alert(e.message || "Error al eliminar producto ❌");
+            }
+          }}
+        >
+          Eliminar producto
+        </button>
       </div>
     </section>
   );
