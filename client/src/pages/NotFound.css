@@ -1,0 +1,108 @@
+.notfound-container {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: var(--alabastro-calido);
+}
+
+.notfound-card {
+  background: var(--blanco);
+  border-radius: 8px;
+  padding: 3rem 2rem;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.notfound-icon {
+  font-size: 6rem;
+  font-weight: 700;
+  color: var(--siena-tostado);
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.notfound-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--siena-tostado);
+  margin-bottom: 1rem;
+}
+
+.notfound-message {
+  font-size: 1rem;
+  color: var(--rosa-polvoriento);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.notfound-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.notfound-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.notfound-button.primary {
+  background-color: var(--verde-salvia);
+  color: var(--blanco);
+}
+
+.notfound-button.primary:hover {
+  background-color: var(--rosa-polvoriento);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+}
+
+.notfound-button.secondary {
+  background-color: var(--blanco);
+  color: var(--rosa-polvoriento);
+  border: 2px solid var(--rosa-polvoriento);
+}
+
+.notfound-button.secondary:hover {
+  background-color: var(--vara-de-oro);
+  transform: translateY(-2px);
+  color: var(--blanco);
+  border: 2px solid var(--vara-de-oro);
+}
+
+@media (max-width: 768px) {
+  .notfound-icon {
+    font-size: 4rem;
+  }
+
+  .notfound-title {
+    font-size: 1.5rem;
+  }
+
+  .notfound-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .notfound-actions {
+    flex-direction: column;
+  }
+
+  .notfound-button {
+    width: 100%;
+  }
+}

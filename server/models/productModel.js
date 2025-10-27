@@ -2,41 +2,46 @@ const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema(
   {
-    name: {
+    nombre: {
       type: String,
       required: [true, "El nombre del producto es obligatorio"],
       trim: true,
       maxlength: [100, "El nombre no puede exceder 100 caracteres"],
     },
-    description: {
+    descripcion: {
       type: String,
       required: [true, "La descripción es obligatoria"],
       trim: true,
       maxlength: [500, "La descripción no puede exceder 500 caracteres"],
     },
-    price: {
+    medidas: {
+      type: String,
+      required: [true, "Las medidas son obligatorias"],
+      trim: true,
+    },
+    materiales: {
+      type: String,
+      required: [true, "Los materiales son obligatorios"],
+      trim: true,
+    },
+    acabado: {
+      type: String,
+      required: [true, "El acabado es obligatorio"],
+      trim: true,
+    },
+    precio: {
       type: Number,
       required: [true, "El precio es obligatorio"],
       min: [0, "El precio no puede ser negativo"],
-    },
-    currency: {
-      type: String,
-      default: "ARS",
-      enum: ["ARS", "USD", "EUR"],
     },
     stock: {
       type: Number,
       default: 0,
       min: [0, "El stock no puede ser negativo"],
     },
-    imageUrl: {
+    imagen: {
       type: String,
       default: "/placeholder.svg?height=400&width=400",
-    },
-    category: {
-      type: String,
-      required: [true, "La categoría es obligatoria"],
-      trim: true,
     },
     availability: {
       type: String,

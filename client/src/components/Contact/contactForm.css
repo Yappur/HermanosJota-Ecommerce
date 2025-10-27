@@ -12,10 +12,11 @@
   color: var(--siena-tostado);
   margin-bottom: 2rem;
   font-size: 2rem;
+  font-weight: 700;
 }
 
 .contact-hero {
-  margin-top: 100px;
+  margin-top: 7rem;
   background: var(--rosa-polvoriento);
   color: var(--blanco);
   text-align: center;
@@ -28,6 +29,7 @@
   font-size: 2.5rem;
   margin-bottom: 1rem;
   letter-spacing: 2px;
+  font-weight: 700;
 }
 
 .contact-hero p {
@@ -65,10 +67,11 @@
 .form-group select,
 .form-group textarea {
   padding: 0.75rem;
-  border: 2px solid var(--gris-claro);
+  border: 1px solid var(--gris-medio) !important;
   border-radius: 4px;
-  font-size: 1rem;
-  transition: border-color 0.3s;
+  font-size: var(--spacing-sm);
+  font-family: inherit;
+  transition: border-color 0.2s;
 }
 
 .form-group input:hover,
@@ -117,7 +120,7 @@
 }
 
 .submit-button {
-  background-color: var(--rosa-polvoriento);
+  background-color: var(--verde-salvia);
   color: var(--blanco);
   padding: 1rem 2rem;
   border: none;
@@ -129,7 +132,7 @@
 }
 
 .submit-button:hover:not(:disabled) {
-  background-color: var(--verde-salvia);
+  background-color: var(--rosa-polvoriento);
 }
 
 .submit-button:disabled {
@@ -139,7 +142,7 @@
 
 .contact-info-section {
   padding: 4rem 2rem;
-  background: var(--gris-claro, #f5f5f5);
+  background: #efbca5;
   width: 100%;
   box-sizing: border-box;
 }
