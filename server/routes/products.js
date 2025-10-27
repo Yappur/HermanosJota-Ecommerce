@@ -8,7 +8,9 @@
 
 const express = require('express');
 const router = express.Router();
-const products = require('../data/products');
+const mongoose = require("mongoose");
+const Product = require("../models/productModel");
+const { validateProduct } = require("../validators/product.validator");
 
 const findProductById = (id) => {
   return products.find((product) => product.id === id);
