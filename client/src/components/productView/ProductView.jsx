@@ -32,9 +32,9 @@ const ProductView = ({ onNavigate, onAddToCart }) => {
 
         const formattedProduct = {
           id: productData.id,
-          name: productData.name,
-          description: productData.description,
-          price: productData.price,
+          name: productData.nombre,
+          description: productData.descripcion,
+          price: productData.precio,
           currency: "ARS",
           image: imageUrl,
           availability: "InStock",
