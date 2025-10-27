@@ -3,10 +3,13 @@ const path = require("path");
 require("dotenv").config();
 
 const { corsMiddleware } = require("./middlewares/cors");
+const connectDB = require("./database/database");
 
 const routes = require("./routes");
 
 const app = express();
+
+connectDB();
 
 app.set("trust proxy", 1);
 

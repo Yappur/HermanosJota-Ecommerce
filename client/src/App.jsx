@@ -1,15 +1,10 @@
+import { BrowserRouter as Router } from "react-router-dom";
 import Footer from "./components/layout/Footer/Footer.jsx";
 import NavBar from "./components/layout/navbar/Navbar.jsx";
-import HeroSection from "./components/Hero/HeroSection";
-import ProductosDestacados from "./components/ProductosDestacados/ProductosDestacados";
-import About from "./components/About/About";
-import ProductList from "./components/productList/ProductList";
-import ProductView from "./components/productView/ProductView";
-import ContactForm from "./components/Contact/contactForm";
 import { useState, useEffect } from "react";
-import FAQ from "./components/FAQ/FAQ.jsx";
 import ScrollToTop from "./components/layout/scrollToTop/ScrollToTop.jsx";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import RoutesView from "./routes/RoutesView";
+import AutoScrollToTop from "./components/layout/navbar/AutoScrollToTop.jsx";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -64,31 +59,18 @@ function App() {
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <BrowserRouter>
+    <Router>
+      <AutoScrollToTop />
       <NavBar
         cartCount={cartItemCount}
         cartItems={cart}
         onClearCart={clearCart}
       />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <HeroSection />
-              <ProductosDestacados />
-              <FAQ />
-            </>
-          }
-        />
-        <Route path="/productos" element={<ProductList onAddToCart={addToCart} />} />
-        <Route path="/productos/:id" element={<ProductView onAddToCart={addToCart} />} />
-        <Route path="/contacto" element={<ContactForm />} />
-        <Route path="/nosotros" element={<About />} />
-      </Routes>
+
+      <RoutesView onAddToCart={addToCart} />
       <ScrollToTop />
       <Footer />
-    </BrowserRouter>
+    </Router>
   );
 }
 
