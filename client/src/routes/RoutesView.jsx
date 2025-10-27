@@ -6,6 +6,7 @@ import ProductView from "../components/productView/ProductView";
 import Contact from "../components/Contact/contactForm";
 import About from "../components/About/About";
 import CreateProduct from "../components/admin/CreateProduct";
+import Login from "../components/log-in/login";
 
 const RoutesView = ({ onAddToCart }) => {
   return (
@@ -23,6 +24,7 @@ const RoutesView = ({ onAddToCart }) => {
       <Route path="/contacto" element={<Contact />} />
       <Route path="/nosotros" element={<About />} />
       <Route path="/admin/crear-producto" element={<CreateProduct />} />
+      <Route path="/login" element={<Login />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

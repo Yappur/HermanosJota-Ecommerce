@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./createProduct.css";
+import "./CreateProduct.css";
 
 const CreateProduct = () => {
   const navigate = useNavigate();
@@ -11,13 +11,14 @@ const CreateProduct = () => {
 
   // Estado del formulario controlado
   const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    price: "",
-    currency: "ARS",
+    nombre: "",
+    descripcion: "",
+    medidas: "",
+    materiales: "",
+    acabado: "",
+    precio: "",
     stock: "",
-    imageUrl: "",
-    category: "",
+    imagen: "",
     availability: "InStock",
   });
 
@@ -43,13 +44,14 @@ const CreateProduct = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: formData.name,
-          description: formData.description,
-          price: Number.parseFloat(formData.price),
-          currency: formData.currency,
+          nombre: formData.nombre,
+          descripcion: formData.descripcion,
+          medidas: formData.medidas,
+          materiales: formData.materiales,
+          acabado: formData.acabado,
+          precio: Number.parseFloat(formData.precio),
           stock: Number.parseInt(formData.stock) || 0,
-          imageUrl: formData.imageUrl || undefined,
-          category: formData.category,
+          imagen: formData.imagen || undefined,
           availability: formData.availability,
         }),
       });
@@ -75,8 +77,7 @@ const CreateProduct = () => {
       <div className="create-product-card">
         <h1 className="create-product-title">Crear Nuevo Producto</h1>
         <p className="create-product-subtitle">
-          Complete los siguientes campos para agregar un nuevo producto al
-          catálogo
+          Complete el formulario para agregar un nuevo producto al catálogo
         </p>
 
         {error && (
@@ -87,29 +88,29 @@ const CreateProduct = () => {
 
         <form onSubmit={handleSubmit} className="product-form">
           <div className="form-group">
-            <label htmlFor="name">
+            <label htmlFor="nombre">
               Nombre del Producto <span className="required">*</span>
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
-              value={formData.name}
+              id="nombre"
+              name="nombre"
+              value={formData.nombre}
               onChange={handleChange}
               required
               maxLength={100}
-              placeholder="Ej: Silla de Comedor Moderna"
+              placeholder="Ej: Aparador Uspallata"
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="description">
+            <label htmlFor="descripcion">
               Descripción <span className="required">*</span>
             </label>
             <textarea
-              id="description"
-              name="description"
-              value={formData.description}
+              id="descripcion"
+              name="descripcion"
+              value={formData.descripcion}
               onChange={handleChange}
               required
               maxLength={500}
@@ -118,37 +119,66 @@ const CreateProduct = () => {
             />
           </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="price">
-                Precio <span className="required">*</span>
-              </label>
-              <input
-                type="number"
-                id="price"
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                required
-                min="0"
-                step="0.01"
-                placeholder="0.00"
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="medidas">
+              Medidas <span className="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="medidas"
+              name="medidas"
+              value={formData.medidas}
+              onChange={handleChange}
+              required
+              placeholder="Ej: 180 × 45 × 75 cm"
+            />
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="currency">Moneda</label>
-              <select
-                id="currency"
-                name="currency"
-                value={formData.currency}
-                onChange={handleChange}
-              >
-                <option value="ARS">ARS - Peso Argentino</option>
-                <option value="USD">USD - Dólar</option>
-                <option value="EUR">EUR - Euro</option>
-              </select>
-            </div>
+          <div className="form-group">
+            <label htmlFor="materiales">
+              Materiales <span className="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="materiales"
+              name="materiales"
+              value={formData.materiales}
+              onChange={handleChange}
+              required
+              placeholder="Ej: Nogal macizo FSC®, herrajes de latón"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="acabado">
+              Acabado <span className="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="acabado"
+              name="acabado"
+              value={formData.acabado}
+              onChange={handleChange}
+              required
+              placeholder="Ej: Aceite natural ecológico"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="precio">
+              Precio <span className="required">*</span>
+            </label>
+            <input
+              type="number"
+              id="precio"
+              name="precio"
+              value={formData.precio}
+              onChange={handleChange}
+              required
+              min="0"
+              step="0.01"
+              placeholder="250000"
+            />
           </div>
 
           <div className="form-row">
@@ -181,29 +211,14 @@ const CreateProduct = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="category">
-              Categoría <span className="required">*</span>
-            </label>
-            <input
-              type="text"
-              id="category"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              required
-              placeholder="Ej: Sillas, Mesas, Sofás"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="imageUrl">URL de Imagen</label>
+            <label htmlFor="imagen">URL de Imagen</label>
             <input
               type="url"
-              id="imageUrl"
-              name="imageUrl"
-              value={formData.imageUrl}
+              id="imagen"
+              name="imagen"
+              value={formData.imagen}
               onChange={handleChange}
-              placeholder="https://www.mueblespace.com.ar/images/sliders/grandes/93-1.jpg"
+              placeholder="https://img.freepik.com/psd-gratis/sofa-gris-moderno-mediados-siglo-marco-madera_632498-25556.jpg?semt=ais_hybrid&w=740&q=80"
             />
             <small className="form-help">
               Opcional. Si no se proporciona, se usará una imagen por defecto.
