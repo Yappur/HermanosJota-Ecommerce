@@ -15,11 +15,13 @@ const router = express.Router();
 const products = require("./products");
 const productos = require("./productos");
 const contact = require("./contact");
+const usuarios = require("./users.route");
 
 // Configurar rutas principales
 router.use("/products", products);     // TODO: Migrar a Mongoose cuando esté listo
 router.use("/productos", productos);   // ACTIVO: Usa datos en memoria (server/data/products.js)
 router.use("/contact", contact);
+router.use("/usuarios", usuarios);
 
 // Ruta de health check
 router.get("/health", (req, res) => {
