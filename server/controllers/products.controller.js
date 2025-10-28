@@ -47,8 +47,52 @@ const crearProducto = async (req = request, res = response) => {
       error: error.message,
     });
   }
-}
+};
+
+const obtenerProductos = async (req = request, res = response) => {
+  try {
+    const productos = await Producto.find();
+    res.json({
+      success: true,
+      total: productos.length,
+      data: productos,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error al obtener los productos",
+      error: error.message,
+    });
+  }
+};
+
+const obtenerProductoPorId = async (req = request, res = response) => {
+  try {
+    const { id } = req.params;
+
+    const producto = await Producto.findById(id);
+    if (!producto) {
+      return res.status(404).json({
+        success: false,
+        message: "Producto no encontrado",
+      });
+    }
+
+    res.json({
+      success: true,
+      data: producto,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error al obtener el producto",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = {
   crearProducto,
+  obtenerProductos,
+  obtenerProductoPorId,
 };
