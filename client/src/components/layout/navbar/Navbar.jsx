@@ -127,6 +127,20 @@ const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
                   Contacto
                 </NavLink>
               </li>
+              <li role="none" className="nav-login">
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "nav-link nav-link--button nav-link--button-active"
+                      : "nav-link nav-link--button"
+                  }
+                  role="menuitem"
+                  onClick={handleLinkClick}
+                >
+                  Ingresar
+                </NavLink>
+              </li>
               <li role="none" className="cart">
                 <button
                   className="cart-button"

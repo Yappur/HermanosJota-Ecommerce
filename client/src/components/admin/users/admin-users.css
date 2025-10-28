@@ -1,0 +1,7 @@
+@import "../products/admin-products.css";
+
+.badge--admin {
+  background: rgba(102, 126, 234, 0.16);
+  color: #3b4790;
+  border-color: rgba(102, 126, 234, 0.25);
+}
