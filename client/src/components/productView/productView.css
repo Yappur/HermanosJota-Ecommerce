@@ -284,26 +284,6 @@ main.product.container {
     grid-column: 1 / -1;
   }
 }
-.input-label {
-  display: flex;
-  flex-direction: column;
-  font-weight: 600;
-  margin-top: 1rem;
-  text-align: left;
-}
-
-.input {
-  width: 100%;
-  min-width: 200px;
-  background-color: var(--gris-claro);
-  padding: 0.5rem;
-  margin-top: 0.25rem;
-  border: 1px solid var(--siena-tostado);
-  border-radius: 4px;
-  font-size: 1rem;
-  font-family: inherit;
-  box-sizing: border-box;
-}
 
 .input.input-description {
   resize: vertical;
