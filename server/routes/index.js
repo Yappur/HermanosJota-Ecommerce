@@ -12,31 +12,31 @@ const router = express.Router();
  */
 
 // Importar todas las rutas
-const products = require("./products");
-const productos = require("./productos");
+// const productos = require("./productos");
 const contact = require("./contact");
 const usuarios = require("./users.route");
+const productos = require("./products.route");
 
 // Configurar rutas principales
-router.use("/products", products);     // TODO: Migrar a Mongoose cuando esté listo
-router.use("/productos", productos);   // ACTIVO: Usa datos en memoria (server/data/products.js)
+// router.use("/productos", productos); // ACTIVO: Usa datos en memoria (server/data/products.js)
 router.use("/contact", contact);
 router.use("/usuarios", usuarios);
+router.use("/productos", productos);
 
 // Ruta de health check
 router.get("/health", (req, res) => {
   // TODO: Descomentar cuando Mongoose esté configurado
-  // const mongoose = require("mongoose");
+  const mongoose = require("mongoose");
 
   res.json({
     status: "OK",
     message: "E-commerce API is running",
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || "development",
-    // database: {
-    //   connected: mongoose.connection.readyState === 1,
-    //   status: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
-    // },
+    database: {
+      connected: mongoose.connection.readyState === 1,
+      status: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+    },
   });
 });
 
