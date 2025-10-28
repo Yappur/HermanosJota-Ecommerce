@@ -43,4 +43,60 @@ router.get('/:id', (req, res) => {
   });
 });
 
+// PUT /api/products/:id - Actualizar un producto por ID
+// router.put('/:id', async (req, res) => {
+//   const { error } = validateProduct(req.body);
+//   if (error) {
+//     return res.status(400).json({
+//       success: false,
+//       message: 'Datos de producto inválidos',
+//       details: error.details,
+//     });
+//   }
+
+//   try {
+//     const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+//     if (!updatedProduct) {
+//       return res.status(404).json({
+//         success: false,
+//         message: 'Producto no encontrado',
+//         id: req.params.id,
+//       });
+//     }
+//     res.json({
+//       success: true,
+//       data: updatedProduct,
+//     });
+//   } catch (err) {
+//     res.status(500).json({
+//       success: false,
+//       message: 'Error al actualizar el producto',
+//     });
+//   }
+// });
+
+// // DELETE /api/products/:id - Eliminar un producto por ID
+// router.delete('/:id', async (req, res) => {
+//   try {
+//     const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+//     if (!deletedProduct) {
+//       return res.status(404).json({
+//         success: false,
+//         message: 'Producto no encontrado',
+//         id: req.params.id,
+//       });
+//     }
+//     res.json({
+//       success: true,
+//       message: 'Producto eliminado correctamente',
+//       data: deletedProduct,
+//     });
+//   } catch (err) {
+//     res.status(500).json({
+//       success: false,
+//       message: 'Error al eliminar el producto',
+//     });
+//   }
+// });
+
 module.exports = router;

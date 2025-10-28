@@ -80,7 +80,6 @@ const ProductDetail = ({ product, onAddToCart, onNavigate, apiBase, onUpdated })
     <section className="details">
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
         <h1 id="title" className="title" itemProp="name">{product.name}</h1>
-        <button className="btn btn-sm" onClick={() => setEditing(true)}>Editar</button>
       </div>
 
       <p id="desc" className="desc" itemProp="description">{product.description}</p>
@@ -105,41 +104,43 @@ const ProductDetail = ({ product, onAddToCart, onNavigate, apiBase, onUpdated })
           Añadir al Carrito
         </button>
       </div>
+      <button className="btn btn-primary" onClick={() => setEditing(true)}>Editar</button>
     </section>
   ) : (
     <section className="details">
-      <h2>Editar detalles</h2>
+      <h2 className="title">Editar detalles</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <label className="input-label">Nombre
+          <input className="input input-title" name="name" value={form.name || ""} onChange={handleChange} />
+        </label>
+      </div>
 
-      <label>Nombre
-        <input name="name" value={form.name || ""} onChange={handleChange} />
+      <label className="input-label">Descripción
+        <textarea className="input input-description" name="description" rows={4} value={form.description || ""} onChange={handleChange} />
       </label>
 
-      <label>Descripción
-        <textarea name="description" rows={4} value={form.description || ""} onChange={handleChange} />
+      <label className="input-label">Precio
+        <input className="input input-price" name="price" inputMode="decimal" value={form.price ?? ""} onChange={handleChange} />
       </label>
 
-      <label>Precio
-        <input name="price" inputMode="decimal" value={form.price ?? ""} onChange={handleChange} />
-      </label>
-
-      <label>Moneda
-        <select name="currency" value={form.currency || "ARS"} onChange={handleChange}>
+      <label className="input-label">Moneda
+        <select className="input" name="currency" value={form.currency || "ARS"} onChange={handleChange}>
           <option value="ARS">ARS</option>
           <option value="USD">USD</option>
           <option value="EUR">EUR</option>
         </select>
       </label>
 
-      <label>Stock
-        <input name="stock" inputMode="numeric" value={form.stock ?? ""} onChange={handleChange} />
+      <label className="input-label">Stock
+        <input className="input" name="stock" inputMode="numeric" value={form.stock ?? ""} onChange={handleChange} />
       </label>
 
-      <label>Categoría
-        <input name="category" value={form.category || ""} onChange={handleChange} />
+      <label className="input-label">Categoría
+        <input className="input" name="category" value={form.category || ""} onChange={handleChange} />
       </label>
 
-      <label>Disponibilidad
-        <select name="availability" value={form.availability || "InStock"} onChange={handleChange}>
+      <label className="input-label">Disponibilidad
+        <select className="input" name="availability" value={form.availability || "InStock"} onChange={handleChange}>
           <option value="InStock">En stock</option>
           <option value="OutOfStock">Sin stock</option>
           <option value="PreOrder">Pre-venta</option>
@@ -150,7 +151,7 @@ const ProductDetail = ({ product, onAddToCart, onNavigate, apiBase, onUpdated })
         <button className="btn btn-primary" onClick={saveDetails} disabled={saving}>
           {saving ? "Guardando..." : "Guardar cambios"}
         </button>
-        <button className="btn btn-ghost" onClick={() => { setForm(product); setEditing(false); }}>
+        <button className="btn btn-primary" onClick={() => { setForm(product); setEditing(false); }}>
           Cancelar
         </button>
 

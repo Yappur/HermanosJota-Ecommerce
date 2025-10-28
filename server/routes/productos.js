@@ -20,6 +20,10 @@ const findProductById = (id) => {
   return products.find((product) => product.id === id);
 };
 
+const findIndexById = (id) => {
+  return products.findIndex((product) => product.id === id);
+};
+
 // GET /api/productos - Obtener todos los productos
 router.get('/', (req, res) => {
   res.json({
@@ -45,6 +49,44 @@ router.get('/:id', (req, res) => {
   res.json({
     success: true,
     data: product,
+  });
+});
+
+// PUT /api/products/:id - Actualizar un producto por ID
+router.put('/:id', (req, res) => {
+  const index = findIndexById(req.params.id);
+  if (index === -1) {
+    return res.status(404).json({
+      success: false,
+      message: "Producto no encontrado",
+      id: req.params.id,
+    });
+  }
+
+  products[index] = { ...products[index], ...req.body };
+
+  res.json({
+    success: true,
+    data: products[index],
+  });
+});
+
+// DELETE /api/products/:id - Eliminar un producto por ID
+router.delete('/:id', (req, res) => {
+  const index = findIndexById(req.params.id);
+  if (index === -1) {
+    return res.status(404).json({
+      success: false,
+      message: "Producto no encontrado",
+      id: req.params.id,
+    });
+  }
+
+  const deletedProduct = products.splice(index, 1);
+
+  res.json({
+    success: true,
+    data: deletedProduct[0],
   });
 });
 
