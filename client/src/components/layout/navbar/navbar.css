@@ -88,6 +88,36 @@
   color: inherit;
 }
 
+.nav-login {
+  margin-left: var(--spacing-sm);
+}
+
+.nav-link--button {
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--vara-de-oro);
+  border-radius: 999px;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.nav-link--button::after {
+  display: none;
+}
+
+.nav-link--button:hover,
+.nav-link--button:focus {
+  background-color: rgba(212, 175, 55, 0.12);
+}
+
+.nav-link--button-active {
+  background-color: var(--vara-de-oro);
+  color: var(--blanco);
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+}
+
 .logo {
   text-decoration: none;
   color: inherit;
@@ -315,6 +345,11 @@
   .nav-link {
     padding: var(--spacing-sm);
     text-align: center;
+  }
+
+  .nav-link--button {
+    width: 100%;
+    margin: var(--spacing-xs) 0;
   }
 
   .header {

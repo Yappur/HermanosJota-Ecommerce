@@ -52,6 +52,72 @@ router.get('/:id', (req, res) => {
   });
 });
 
+// POST /api/productos - Crear un nuevo producto
+router.post('/', (req, res) => {
+  const {
+    nombre,
+    descripcion,
+    medidas,
+    materiales,
+    acabado,
+    precio,
+    stock = 0,
+    imagen,
+    availability = 'InStock',
+  } = req.body;
+
+  if (!nombre || !descripcion || !medidas || !materiales || !acabado) {
+    return res.status(400).json({
+      success: false,
+      message:
+        'Los campos nombre, descripcion, medidas, materiales y acabado son obligatorios',
+    });
+  }
+
+  const slugify = (texto) =>
+    texto
+      .toString()
+      .trim()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+  const generatedId = slugify(nombre);
+  const id = generatedId || `producto-${Date.now()}`;
+
+  if (findProductById(id)) {
+    return res.status(409).json({
+      success: false,
+      message: 'Ya existe un producto con ese id generado',
+      id,
+    });
+  }
+
+  const nuevoProducto = {
+    id,
+    nombre,
+    descripcion,
+    medidas,
+    materiales,
+    acabado,
+    imagen:
+      imagen ||
+      'https://res.cloudinary.com/doh6efk57/image/upload/v1759719074/placeholder-producto.webp',
+    precio: Number.parseFloat(precio) || 0,
+    stock: Number.parseInt(stock, 10) || 0,
+    availability,
+  };
+
+  products.unshift(nuevoProducto);
+
+  res.status(201).json({
+    success: true,
+    data: nuevoProducto,
+  });
+});
+
 // PUT /api/products/:id - Actualizar un producto por ID
 router.put('/:id', (req, res) => {
   const index = findIndexById(req.params.id);
