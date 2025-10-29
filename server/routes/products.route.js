@@ -7,14 +7,15 @@ const {
   actualizarProducto,
   eliminarProducto,
 } = require("../controllers/products.controller");
+const { verificarToken, verificarAdmin } = require("../middlewares");
 
 // Rutas Publicas
 router.get("/", obtenerProductos);
 router.get("/:id", obtenerProductoPorId);
 
-// Rutas protegidas. Falta middlewares de auth
-router.post("/crearProducto", crearProducto);
-router.put("/:id", actualizarProducto);
-router.delete("/:id", eliminarProducto);
+// Rutas protegidas - Solo administradores
+router.post("/crearProducto", verificarToken, verificarAdmin, crearProducto);
+router.put("/:id", verificarToken, verificarAdmin, actualizarProducto);
+router.delete("/:id", verificarToken, verificarAdmin, eliminarProducto);
 
 module.exports = router;

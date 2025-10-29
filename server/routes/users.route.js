@@ -5,12 +5,13 @@ const {
   login,
   obtenerUsuarios,
 } = require("../controllers/user.controller");
+const { verificarToken, verificarAdmin } = require("../middlewares");
 
 // Ruta Publica
 router.post("/login", login);
 
-// Rutas protegidas. Falta middlewares de auth
-router.post("/CrearUsuario", crearUsuario);
-router.get("/obtenerUsuarios", obtenerUsuarios);
+// Rutas protegidas - Solo administradores
+router.post("/CrearUsuario", verificarToken, verificarAdmin, crearUsuario);
+router.get("/obtenerUsuarios", verificarToken, verificarAdmin, obtenerUsuarios);
 
 module.exports = router;
