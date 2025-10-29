@@ -1,6 +1,16 @@
 const Producto = require("../models/productModel");
+const { validateProduct } = require("../validators/product.validator");
 
 const crearProducto = async (req = request, res = response) => {
+  // Validar los datos del producto
+  const errores = validateProduct(req.body, false);
+  if (errores.length > 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Datos de producto inválidos",
+      errors: errores,
+    });
+  }
   try {
     const {
       nombre,
@@ -94,6 +104,16 @@ const obtenerProductoPorId = async (req = request, res = response) => {
 const actualizarProducto = async (req = request, res = response) => {
   try {
     const { id } = req.params;
+
+    // Validar los datos del producto
+    const errores = validateProduct(req.body, true);
+    if (errores.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Datos de producto inválidos",
+        errors: errores,
+      });
+    }
     const {
       nombre,
       descripcion,
@@ -106,7 +126,6 @@ const actualizarProducto = async (req = request, res = response) => {
       disponible,
     } = req.body;
 
-    // Verificar si el producto existe
     const producto = await Producto.findById(id);
     if (!producto) {
       return res.status(404).json({
@@ -115,7 +134,6 @@ const actualizarProducto = async (req = request, res = response) => {
       });
     }
 
-    // Verificar si el nuevo nombre ya existe (si se está actualizando el nombre)
     if (nombre && nombre !== producto.nombre) {
       const productoExiste = await Producto.findOne({ nombre });
       if (productoExiste) {
