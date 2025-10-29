@@ -43,10 +43,9 @@ const productSchema = new mongoose.Schema(
       type: String,
       default: "/placeholder.svg?height=400&width=400",
     },
-    availability: {
-      type: String,
-      default: "InStock",
-      enum: ["InStock", "OutOfStock", "PreOrder"],
+    disponible: {
+      type: Boolean,
+      default: true,
     },
   },
   {
@@ -54,4 +53,4 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Product", productSchema);
+module.exports = mongoose.model("Producto", productSchema);
