@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useAuth } from "../../../contexts/AuthContext";
 import "./admin-users.css";
 
 const INITIAL_USER_FORM = {
@@ -25,6 +26,7 @@ const AdminUsers = () => {
   const [panelMode, setPanelMode] = useState(null); // null | "create" | "edit"
 
   const isPanelOpen = panelMode !== null;
+  const auth = useAuth();
 
   useEffect(() => {
     fetchUsers();
@@ -34,7 +36,12 @@ const AdminUsers = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(apiUrl("/api/usuarios"));
+      // Si tu ruta en el servidor es /api/usuarios/obtenerUsuarios, usa esa
+      const token = auth?.token;
+      const response = await fetch(apiUrl("/api/usuarios/obtenerUsuarios"), {
+        method: "GET",
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      });
       const data = await response.json();
 
       if (!response.ok) {
@@ -131,21 +138,27 @@ const AdminUsers = () => {
     try {
       const endpoint = isEditing
         ? apiUrl(`/api/usuarios/${selectedId}`)
-        : apiUrl("/api/usuarios");
+        : apiUrl("/api/usuarios/CrearUsuario");
       const method = isEditing ? "PUT" : "POST";
+
+      // Añadir Authorization si existe token en el context
+      const token = auth?.token;
+      const headers = {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      };
 
       const response = await fetch(endpoint, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(payload),
       });
       const data = await response.json();
 
       if (!response.ok) {
         throw new Error(
-          data.message || `No se pudo ${isEditing ? "actualizar" : "crear"} el usuario`
+          data.message ||
+            `No se pudo ${isEditing ? "actualizar" : "crear"} el usuario`
         );
       }
 
@@ -186,7 +199,9 @@ const AdminUsers = () => {
     const query = searchQuery.trim().toLowerCase();
     if (!query) return users;
     return users.filter((user) => {
-      const texto = [user.nombre, user.email, user.rol].filter(Boolean).join(" ");
+      const texto = [user.nombre, user.email, user.rol]
+        .filter(Boolean)
+        .join(" ");
       return texto.toLowerCase().includes(query);
     });
   }, [users, searchQuery]);
@@ -266,7 +281,11 @@ const AdminUsers = () => {
           ) : error ? (
             <div className="admin-table__empty admin-table__empty--error">
               <p>{error}</p>
-              <button type="button" className="btn-secondary" onClick={fetchUsers}>
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={fetchUsers}
+              >
                 Reintentar
               </button>
             </div>
@@ -392,13 +411,19 @@ const AdminUsers = () => {
                           ? "Dejar vacío para mantener la actual"
                           : ""
                       }
-                      autoComplete={panelMode === "edit" ? "new-password" : "off"}
+                      autoComplete={
+                        panelMode === "edit" ? "new-password" : "off"
+                      }
                     />
                   </label>
 
                   <label className="admin-form__field">
                     <span>Rol</span>
-                    <select name="rol" value={formData.rol} onChange={handleChange}>
+                    <select
+                      name="rol"
+                      value={formData.rol}
+                      onChange={handleChange}
+                    >
                       <option value="admin">Administrador</option>
                     </select>
                   </label>
@@ -412,7 +437,11 @@ const AdminUsers = () => {
                   >
                     Cancelar
                   </button>
-                  <button type="submit" className="btn-primary" disabled={saving}>
+                  <button
+                    type="submit"
+                    className="btn-primary"
+                    disabled={saving}
+                  >
                     {saving
                       ? panelMode === "edit"
                         ? "Guardando..."
