@@ -36,25 +36,33 @@ function validateProduct(body, isUpdate = false) {
     }
   }
 
-  if (
-    body.disponible !== undefined &&
-    !ALLOWED_DISPONIBLE.includes(body.disponible)
-  ) {
-    errors.push(
-      `Estado de disponibilidad inválido. Permitidos: ${ALLOWED_DISPONIBLE.join(
-        ", "
-      )}`
-    );
+  // Acepta tanto string como boolean para disponible
+  if (body.disponible !== undefined) {
+    if (typeof body.disponible === "boolean") {
+    } else if (
+      typeof body.disponible === "string" &&
+      !ALLOWED_DISPONIBLE.includes(body.disponible)
+    ) {
+      errors.push(
+        `Estado de disponibilidad inválido. Permitidos: ${ALLOWED_DISPONIBLE.join(
+          ", "
+        )} o valores booleanos (true/false)`
+      );
+    }
   }
 
-  if (body.acabado !== undefined && !ALLOWED_ACABADOS.includes(body.acabado)) {
-    errors.push(`Acabado inválido. Permitidos: ${ALLOWED_ACABADOS.join(", ")}`);
+  // Acepta tanto string como que esté en el array permitido
+  if (body.acabado !== undefined) {
+    if (typeof body.acabado === "string" && body.acabado.trim()) {
+    } else if (!body.acabado) {
+      errors.push("El acabado no puede estar vacío");
+    }
   }
 
+  // Acepta tanto array como string para materiales
   if (body.materiales !== undefined) {
-    if (!Array.isArray(body.materiales)) {
-      errors.push("Materiales debe ser un array");
-    } else {
+    if (typeof body.materiales === "string" && body.materiales.trim()) {
+    } else if (Array.isArray(body.materiales)) {
       const invalidMateriales = body.materiales.filter(
         (material) => !ALLOWED_MATERIALES.includes(material)
       );
@@ -65,17 +73,25 @@ function validateProduct(body, isUpdate = false) {
           )}. Permitidos: ${ALLOWED_MATERIALES.join(", ")}`
         );
       }
+    } else {
+      errors.push("Materiales debe ser un string o un array");
     }
   }
 
   if (body.medidas !== undefined) {
-    if (
-      typeof body.medidas !== "object" ||
-      !body.medidas.alto ||
-      !body.medidas.ancho ||
-      !body.medidas.profundidad
-    ) {
-      errors.push("Medidas debe incluir alto, ancho y profundidad");
+    if (typeof body.medidas === "string" && body.medidas.trim()) {
+    } else if (typeof body.medidas === "object" && body.medidas !== null) {
+      if (
+        !body.medidas.alto ||
+        !body.medidas.ancho ||
+        !body.medidas.profundidad
+      ) {
+        errors.push("Medidas debe incluir alto, ancho y profundidad");
+      }
+    } else {
+      errors.push(
+        "Medidas debe ser un string o un objeto con alto, ancho y profundidad"
+      );
     }
   }
 

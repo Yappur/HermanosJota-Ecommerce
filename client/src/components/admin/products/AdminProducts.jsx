@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useAuth } from "../../../contexts/AuthContext";
 import "./admin-products.css";
 
 const INITIAL_FORM = {
@@ -30,6 +31,7 @@ const AdminProducts = () => {
   const [panelMode, setPanelMode] = useState(null); // null | "create" | "edit"
 
   const isPanelOpen = panelMode !== null;
+   const auth = useAuth();
 
   useEffect(() => {
     fetchProducts();
@@ -149,7 +151,7 @@ const AdminProducts = () => {
     try {
       const endpoint = isEditing
         ? apiUrl(`/api/productos/${selectedId}`)
-        : apiUrl("/api/productos");
+        : apiUrl("/api/productos/crearProducto");
       const method = isEditing ? "PUT" : "POST";
 
       const response = await fetch(endpoint, {
@@ -163,7 +165,8 @@ const AdminProducts = () => {
 
       if (!response.ok) {
         throw new Error(
-          data.message || `No se pudo ${isEditing ? "actualizar" : "crear"} el producto`
+          data.message ||
+            `No se pudo ${isEditing ? "actualizar" : "crear"} el producto`
         );
       }
 
@@ -286,7 +289,11 @@ const AdminProducts = () => {
           ) : error ? (
             <div className="admin-table__empty admin-table__empty--error">
               <p>{error}</p>
-              <button type="button" className="btn-secondary" onClick={fetchProducts}>
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={fetchProducts}
+              >
                 Reintentar
               </button>
             </div>
@@ -379,7 +386,9 @@ const AdminProducts = () => {
                     {panelMode === "edit" ? "Editar" : "Nuevo"} producto
                   </p>
                   <h2>
-                    {panelMode === "edit" ? "Editar producto" : "Crear producto"}
+                    {panelMode === "edit"
+                      ? "Editar producto"
+                      : "Crear producto"}
                   </h2>
                 </div>
                 <button
@@ -507,7 +516,11 @@ const AdminProducts = () => {
                   >
                     Cancelar
                   </button>
-                  <button type="submit" className="btn-primary" disabled={saving}>
+                  <button
+                    type="submit"
+                    className="btn-primary"
+                    disabled={saving}
+                  >
                     {saving
                       ? panelMode === "edit"
                         ? "Guardando..."
