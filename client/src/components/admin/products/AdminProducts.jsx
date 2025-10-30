@@ -49,7 +49,6 @@ const AdminProducts = () => {
         throw new Error(data.message || "No se pudieron cargar los productos");
       }
 
-      // Normalizar el id para cubrir tanto `id` como `_id` desde el backend
       const items = Array.isArray(data.data) ? data.data : [];
       const normalized = items.map((p) => ({ ...p, id: p.id ?? p._id }));
       setProducts(normalized);

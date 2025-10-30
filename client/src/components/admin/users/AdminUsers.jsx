@@ -47,7 +47,10 @@ const AdminUsers = () => {
         throw new Error(data.message || "No se pudieron obtener los usuarios");
       }
 
-      setUsers(Array.isArray(data.usuarios) ? data.usuarios : []);
+      // Normalizar id: exponer siempre `id` como `._id || .id` para evitar errores
+      const usuarios = Array.isArray(data.usuarios) ? data.usuarios : [];
+      const normalized = usuarios.map((u) => ({ ...u, id: u._id || u.id }));
+      setUsers(normalized);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -94,10 +97,26 @@ const AdminUsers = () => {
     if (!confirmed) return;
 
     try {
+      const token = auth?.token;
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
       const response = await fetch(apiUrl(`/api/usuarios/${user.id}`), {
         method: "DELETE",
+        headers,
       });
-      const data = await response.json();
+
+      let data = {};
+      try {
+        data = await response.json();
+      } catch (e) {
+        // ignore JSON parse errors
+      }
+
+      if (response.status === 401) {
+        throw new Error(
+          data.message || "No autorizado. Por favor inicie sesión nuevamente."
+        );
+      }
 
       if (!response.ok) {
         throw new Error(data.message || "No se pudo eliminar el usuario");
@@ -140,7 +159,6 @@ const AdminUsers = () => {
         : apiUrl("/api/usuarios/CrearUsuario");
       const method = isEditing ? "PUT" : "POST";
 
-      // Añadir Authorization si existe token en el context
       const token = auth?.token;
       const headers = {
         "Content-Type": "application/json",
@@ -176,7 +194,11 @@ const AdminUsers = () => {
       } else {
         const createdUser = data.usuario;
         if (createdUser) {
-          setUsers((prev) => [createdUser, ...prev]);
+          const normalized = {
+            ...createdUser,
+            id: createdUser._id || createdUser.id,
+          };
+          setUsers((prev) => [normalized, ...prev]);
         } else {
           await fetchUsers();
         }
@@ -395,26 +417,20 @@ const AdminUsers = () => {
                     />
                   </label>
 
-                  <label className="admin-form__field admin-form__field--full">
-                    <span>
-                      Contraseña {panelMode === "edit" ? "(opcional)" : "*"}
-                    </span>
-                    <input
-                      type="password"
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      minLength={6}
-                      placeholder={
-                        panelMode === "edit"
-                          ? "Dejar vacío para mantener la actual"
-                          : ""
-                      }
-                      autoComplete={
-                        panelMode === "edit" ? "new-password" : "off"
-                      }
-                    />
-                  </label>
+                  {panelMode !== "edit" && (
+                    <label className="admin-form__field admin-form__field--full">
+                      <span>Contraseña *</span>
+                      <input
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        minLength={6}
+                        required
+                        autoComplete="new-password"
+                      />
+                    </label>
+                  )}
 
                   <label className="admin-form__field">
                     <span>Rol</span>

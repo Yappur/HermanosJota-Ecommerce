@@ -116,9 +116,59 @@ const obtenerUsuarioPorId = async (req = request, res = response) => {
   }
 };
 
+const actualizarUsuario = async (req = request, res = response) => {
+  try {
+    const { id } = req.params;
+    const { nombre, email, rol } = req.body;
+    const usuario = await Usuario.findById(id);
+    if (!usuario) {
+      return res.status(404).json({
+        mensaje: "Usuario no encontrado",
+      });
+    }
+    usuario.nombre = nombre;
+    usuario.email = email;
+    usuario.rol = rol;
+    await usuario.save();
+    res.json({
+      mensaje: "Usuario actualizado exitosamente",
+      usuario,
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: "Error al actualizar el usuario",
+      error: error.message,
+    });
+  }
+};
+
+const eliminarUsuario = async (req = request, res = response) => {
+  try {
+    const { id } = req.params;
+    const usuario = await Usuario.findById(id);
+    if (!usuario) {
+      return res.status(404).json({
+        mensaje: "Usuario no encontrado",
+      });
+    }
+    await Usuario.findByIdAndDelete(id);
+    res.json({
+      mensaje: "Usuario eliminado exitosamente",
+      usuario,
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: "Error al eliminar el usuario",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   crearUsuario,
   login,
   obtenerUsuarios,
   obtenerUsuarioPorId,
+  actualizarUsuario,
+  eliminarUsuario,
 };
