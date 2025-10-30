@@ -4,7 +4,7 @@ import NavBar from "./components/layout/navbar/Navbar.jsx";
 import { useState, useEffect } from "react";
 import ScrollToTop from "./components/layout/scrollToTop/ScrollToTop.jsx";
 import RoutesView from "./routes/RoutesView";
-import AutoScrollToTop from "./components/layout/navbar/AutoScrollToTop.jsx";
+import { AuthProvider } from "./contexts/AuthContext.jsx";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -59,18 +59,19 @@ function App() {
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <Router>
-      <AutoScrollToTop />
-      <NavBar
-        cartCount={cartItemCount}
-        cartItems={cart}
-        onClearCart={clearCart}
-      />
+    <AuthProvider>
+      <Router>
+        <NavBar
+          cartCount={cartItemCount}
+          cartItems={cart}
+          onClearCart={clearCart}
+        />
 
-      <RoutesView onAddToCart={addToCart} />
-      <ScrollToTop />
-      <Footer />
-    </Router>
+        <RoutesView onAddToCart={addToCart} />
+        <ScrollToTop />
+        <Footer />
+      </Router>
+    </AuthProvider>
   );
 }
 

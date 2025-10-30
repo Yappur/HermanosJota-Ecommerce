@@ -1,11 +1,11 @@
-"use client";
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import "./login.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -28,7 +28,7 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("/api/usuarios/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,7 +45,12 @@ const Login = () => {
         throw new Error(data.message || "Error al iniciar sesión");
       }
 
-      navigate("/admin/crear-producto");
+      login({
+        token: data.token,
+        user: data.user, // data.usuario
+      });
+
+      navigate("/admin/productos");
     } catch (err) {
       console.error("Error:", err);
       setError(err.message);
@@ -58,7 +63,7 @@ const Login = () => {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <h1 className="login-title">Inicie Sesión</h1>
+          <h1 className="login-title">Iniciar Sesión</h1>
           <p className="login-subtitle">
             Accede al panel de administración de Hermanos Jota
           </p>
@@ -113,7 +118,7 @@ const Login = () => {
           </button>
 
           <div className="login-footer">
-            <a href="#" className="forgot-password">
+            <a href="*" className="forgot-password">
               ¿Olvidaste tu contraseña?
             </a>
           </div>

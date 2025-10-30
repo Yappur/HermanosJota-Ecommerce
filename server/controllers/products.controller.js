@@ -13,6 +13,7 @@ const extraerDatosProducto = (body) => {
     "stock",
     "imagen",
     "disponible",
+    "destacado",
   ];
 
   return camposPermitidos.reduce((datos, campo) => {
