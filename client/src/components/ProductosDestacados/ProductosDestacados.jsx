@@ -12,13 +12,6 @@ const ProductosDestacados = () => {
   const autoPlayIntervalRef = useRef(null);
   const carouselRef = useRef(null);
 
-  const featuredProductIds = [
-    "aparador-uspallata",
-    "biblioteca-recoleta",
-    "butaca-mendoza",
-    "sillon-copacabana",
-  ];
-
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
       setLoading(true);
@@ -30,8 +23,8 @@ const ProductosDestacados = () => {
         const data = await response.json();
         const products = Array.isArray(data.data) ? data.data : [];
 
-        const featured = products.filter((product) =>
-          featuredProductIds.includes(product.id)
+        const featured = products.filter(
+          (product) => product.destacado === true
         );
 
         setFeaturedProducts(featured);
