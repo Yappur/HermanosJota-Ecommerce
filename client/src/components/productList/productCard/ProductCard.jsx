@@ -8,7 +8,7 @@ const ProductCard = ({ product, onAddToCart }) => {
     e.preventDefault();
     if (product && onAddToCart) {
       const formattedProduct = {
-        id: product.id,
+        id: product._id,
         name: product.nombre,
         description: product.descripcion,
         price: product.precio,
@@ -35,10 +35,7 @@ const ProductCard = ({ product, onAddToCart }) => {
         ${Number(product.precio || 0).toLocaleString("es-AR")}
       </span>
       <div className="products-actions">
-        <Link
-          to={`/productos/${product.id}`}
-          className="btn btn-see-product"
-        >
+        <Link to={`/productos/${product.id}`} className="btn btn-see-product">
           Ver producto
         </Link>
         <button

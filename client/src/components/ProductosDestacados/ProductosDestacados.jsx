@@ -23,7 +23,7 @@ const ProductosDestacados = () => {
     const fetchFeaturedProducts = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${API_BASE}/api/products`);
+        const response = await fetch(`${API_BASE}/api/productos`);
         if (!response.ok) {
           throw new Error("Error al cargar productos");
         }

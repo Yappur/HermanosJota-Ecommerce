@@ -12,6 +12,7 @@ const INITIAL_FORM = {
   stock: "",
   imagen: "",
   availability: "InStock",
+  destacado: false,
 };
 
 const apiUrl = (path) => {
@@ -31,7 +32,7 @@ const AdminProducts = () => {
   const [panelMode, setPanelMode] = useState(null); // null | "create" | "edit"
 
   const isPanelOpen = panelMode !== null;
-   const auth = useAuth();
+  const auth = useAuth();
 
   useEffect(() => {
     fetchProducts();
@@ -48,7 +49,10 @@ const AdminProducts = () => {
         throw new Error(data.message || "No se pudieron cargar los productos");
       }
 
-      setProducts(Array.isArray(data.data) ? data.data : []);
+      // Normalizar el id para cubrir tanto `id` como `_id` desde el backend
+      const items = Array.isArray(data.data) ? data.data : [];
+      const normalized = items.map((p) => ({ ...p, id: p.id ?? p._id }));
+      setProducts(normalized);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -64,7 +68,7 @@ const AdminProducts = () => {
 
   const openEditPanel = (product) => {
     setPanelMode("edit");
-    setSelectedId(product.id);
+    setSelectedId(product.id ?? product._id);
     setFormData({
       nombre: product.nombre || "",
       descripcion: product.descripcion || "",
@@ -81,6 +85,7 @@ const AdminProducts = () => {
           : "",
       imagen: product.imagen || "",
       availability: product.availability || "InStock",
+      destacado: !!product.destacado,
     });
   };
 
@@ -92,10 +97,11 @@ const AdminProducts = () => {
   };
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, type, checked } = event.target;
+    const newValue = type === "checkbox" ? checked : value;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: newValue,
     }));
   };
 
@@ -106,8 +112,11 @@ const AdminProducts = () => {
     if (!confirmed) return;
 
     try {
-      const response = await fetch(apiUrl(`/api/productos/${product.id}`), {
+      const token = auth?.token;
+      const id = product.id ?? product._id;
+      const response = await fetch(apiUrl(`/api/productos/${id}`), {
         method: "DELETE",
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       });
       const data = await response.json();
 
@@ -115,13 +124,13 @@ const AdminProducts = () => {
         throw new Error(data.message || "No se pudo eliminar el producto");
       }
 
-      setProducts((prev) => prev.filter((item) => item.id !== product.id));
+      setProducts((prev) => prev.filter((item) => item.id !== id));
       setFeedback({
         type: "success",
         message: "Producto eliminado correctamente",
       });
 
-      if (selectedId === product.id) {
+      if (selectedId === id) {
         closePanel();
       }
     } catch (err) {
@@ -144,6 +153,7 @@ const AdminProducts = () => {
       stock: Number.parseInt(formData.stock, 10) || 0,
       imagen: formData.imagen.trim(),
       availability: formData.availability,
+      destacado: !!formData.destacado,
     };
 
     const isEditing = panelMode === "edit";
@@ -153,12 +163,15 @@ const AdminProducts = () => {
         ? apiUrl(`/api/productos/${selectedId}`)
         : apiUrl("/api/productos/crearProducto");
       const method = isEditing ? "PUT" : "POST";
+      const token = auth?.token;
+      const headers = {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      };
 
       const response = await fetch(endpoint, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(payload),
       });
       const data = await response.json();
@@ -173,9 +186,12 @@ const AdminProducts = () => {
       const updatedProduct = data.data;
 
       if (isEditing) {
+        const updatedId = updatedProduct.id ?? updatedProduct._id ?? selectedId;
         setProducts((prev) =>
           prev.map((item) =>
-            item.id === selectedId ? { ...item, ...updatedProduct } : item
+            item.id === updatedId
+              ? { ...item, ...updatedProduct, id: updatedId }
+              : item
           )
         );
         setFeedback({
@@ -183,7 +199,11 @@ const AdminProducts = () => {
           message: "Producto actualizado correctamente",
         });
       } else {
-        setProducts((prev) => [updatedProduct, ...prev]);
+        const created = {
+          ...updatedProduct,
+          id: updatedProduct.id ?? updatedProduct._id,
+        };
+        setProducts((prev) => [created, ...prev]);
         setFeedback({
           type: "success",
           message: "Producto creado correctamente",
@@ -450,6 +470,16 @@ const AdminProducts = () => {
                       <option value="OutOfStock">Sin stock</option>
                       <option value="PreOrder">Pre-orden</option>
                     </select>
+                  </label>
+
+                  <label className="admin-form__field">
+                    <span>Destacado</span>
+                    <input
+                      type="checkbox"
+                      name="destacado"
+                      checked={!!formData.destacado}
+                      onChange={handleChange}
+                    />
                   </label>
 
                   <label className="admin-form__field admin-form__field--full">
