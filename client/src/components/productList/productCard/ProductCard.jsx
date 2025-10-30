@@ -22,7 +22,7 @@ const ProductCard = ({ product, onAddToCart }) => {
 
   return (
     <article className="products-card">
-      <Link className="products-link" to={`/productos/${product.id}`}>
+      <Link className="products-link" to={`/productos/${product._id}`}>
         <img
           className="products-image"
           src={`${product.imagen}`}
@@ -35,7 +35,7 @@ const ProductCard = ({ product, onAddToCart }) => {
         ${Number(product.precio || 0).toLocaleString("es-AR")}
       </span>
       <div className="products-actions">
-        <Link to={`/productos/${product.id}`} className="btn btn-see-product">
+        <Link to={`/productos/${product._id}`} className="btn btn-see-product">
           Ver producto
         </Link>
         <button

@@ -36,7 +36,6 @@ const AdminUsers = () => {
     setLoading(true);
     setError(null);
     try {
-      // Si tu ruta en el servidor es /api/usuarios/obtenerUsuarios, usa esa
       const token = auth?.token;
       const response = await fetch(apiUrl("/api/usuarios/obtenerUsuarios"), {
         method: "GET",

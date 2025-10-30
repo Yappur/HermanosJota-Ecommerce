@@ -1,11 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "../pages/HomePage";
-import NotFound from "../pages/NotFound";
+import NotFound from "../pages/NotFound/NotFound";
 import ProductList from "../components/productList/ProductList";
 import ProductView from "../components/productView/ProductView";
-import Contact from "../components/Contact/contactForm";
-import About from "../components/About/About";
-import Login from "../components/log-in/login";
+import Contact from "../pages/Contact/contactForm";
+import About from "../pages/About/About";
+import Login from "../pages/log-in/login";
 import AdminLayout from "../components/admin/layout/AdminLayout";
 import AdminProducts from "../components/admin/products/AdminProducts";
 import AdminUsers from "../components/admin/users/AdminUsers";
