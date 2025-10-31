@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { useToast } from "../../contexts/ToastContext";
 import "./login.css";
 
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const toast = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -42,18 +44,24 @@ const Login = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Error al iniciar sesión");
+        throw new Error(data.mensaje || data.message || "Error al iniciar sesión");
       }
 
       login({
         token: data.token,
-        user: data.user, // data.usuario
+        user: data.usuario || data.user,
       });
 
-      navigate("/admin/productos");
+      toast.success("¡Sesión iniciada correctamente!");
+
+      // Navegar después de un breve delay para que se vea el toast
+      setTimeout(() => {
+        navigate("/admin/productos");
+      }, 500);
     } catch (err) {
       console.error("Error:", err);
       setError(err.message);
+      toast.error(err.message || "Error al iniciar sesión");
     } finally {
       setLoading(false);
     }
