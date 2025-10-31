@@ -9,6 +9,7 @@ import Login from "../pages/log-in/login";
 import AdminLayout from "../components/admin/layout/AdminLayout";
 import AdminProducts from "../components/admin/products/AdminProducts";
 import AdminUsers from "../components/admin/users/AdminUsers";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const RoutesView = ({ onAddToCart }) => {
   return (
@@ -25,11 +26,21 @@ const RoutesView = ({ onAddToCart }) => {
       />
       <Route path="/contacto" element={<Contact />} />
       <Route path="/nosotros" element={<About />} />
-      <Route path="/admin" element={<AdminLayout />}>
+
+      {/* Rutas protegidas - Solo usuarios autenticados */}
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<Navigate to="productos" replace />} />
         <Route path="productos" element={<AdminProducts />} />
         <Route path="usuarios" element={<AdminUsers />} />
       </Route>
+
       <Route path="/login" element={<Login />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
