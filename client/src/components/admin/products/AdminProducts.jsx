@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
+import { useToast } from "../../../contexts/ToastContext";
+import ConfirmModal from "../../ConfirmModal/ConfirmModal";
 import "./admin-products.css";
 
 const INITIAL_FORM = {
@@ -30,9 +32,11 @@ const AdminProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [feedback, setFeedback] = useState(null);
   const [panelMode, setPanelMode] = useState(null); // null | "create" | "edit"
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, product: null });
 
   const isPanelOpen = panelMode !== null;
   const auth = useAuth();
+  const toast = useToast();
 
   useEffect(() => {
     fetchProducts();
@@ -104,11 +108,17 @@ const AdminProducts = () => {
     }));
   };
 
-  const handleDelete = async (product) => {
-    const confirmed = window.confirm(
-      `¿Eliminar el producto "${product.nombre}"? Esta acción no se puede deshacer.`
-    );
-    if (!confirmed) return;
+  const openDeleteModal = (product) => {
+    setDeleteModal({ isOpen: true, product });
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal({ isOpen: false, product: null });
+  };
+
+  const handleDelete = async () => {
+    const product = deleteModal.product;
+    if (!product) return;
 
     try {
       const token = auth?.token;
@@ -124,16 +134,13 @@ const AdminProducts = () => {
       }
 
       setProducts((prev) => prev.filter((item) => item.id !== id));
-      setFeedback({
-        type: "success",
-        message: "Producto eliminado correctamente",
-      });
+      toast.success("Producto eliminado correctamente");
 
       if (selectedId === id) {
         closePanel();
       }
     } catch (err) {
-      setFeedback({ type: "error", message: err.message });
+      toast.error(err.message || "Error al eliminar el producto");
     }
   };
 
@@ -193,25 +200,19 @@ const AdminProducts = () => {
               : item
           )
         );
-        setFeedback({
-          type: "success",
-          message: "Producto actualizado correctamente",
-        });
+        toast.success("Producto actualizado correctamente");
       } else {
         const created = {
           ...updatedProduct,
           id: updatedProduct.id ?? updatedProduct._id,
         };
         setProducts((prev) => [created, ...prev]);
-        setFeedback({
-          type: "success",
-          message: "Producto creado correctamente",
-        });
+        toast.success("Producto creado correctamente");
       }
 
       closePanel();
     } catch (err) {
-      setFeedback({ type: "error", message: err.message });
+      toast.error(err.message || `Error al ${isEditing ? "actualizar" : "crear"} el producto`);
     } finally {
       setSaving(false);
     }
@@ -377,7 +378,7 @@ const AdminProducts = () => {
                         <button
                           type="button"
                           className="btn-ghost btn-ghost--danger"
-                          onClick={() => handleDelete(product)}
+                          onClick={() => openDeleteModal(product)}
                         >
                           Eliminar
                         </button>
@@ -564,6 +565,18 @@ const AdminProducts = () => {
           </>
         )}
       </div>
+
+      {/* Modal de confirmación para eliminar */}
+      <ConfirmModal
+        isOpen={deleteModal.isOpen}
+        onClose={closeDeleteModal}
+        onConfirm={handleDelete}
+        title="Eliminar Producto"
+        message={`¿Estás seguro que deseas eliminar el producto "${deleteModal.product?.nombre}"? Esta acción no se puede deshacer.`}
+        confirmText="Eliminar"
+        cancelText="Cancelar"
+        type="danger"
+      />
     </section>
   );
 };
