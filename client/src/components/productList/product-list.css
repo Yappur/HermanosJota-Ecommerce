@@ -5,6 +5,9 @@ body {
 .product-list {
   margin-top: 150px;
   overflow: hidden;
+  min-height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
 }
 
 .products-container {
@@ -13,12 +16,17 @@ body {
   gap: var(--spacing-xl);
   padding: var(--spacing-md);
   margin: 0;
+  flex: 1 1 auto;
+  align-content: start;
+  align-items: start;
+  grid-auto-rows: max-content;
 }
 
 /* ESTILOS PARA EL ESTADO VACÍO */
 .products-empty {
   display: flex;
-  height: 65vh;
+  height: auto;
+  flex: 1 1 auto;
   padding: var(--spacing-xl);
   text-align: center;
 }

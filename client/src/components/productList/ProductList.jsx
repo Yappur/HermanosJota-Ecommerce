@@ -62,8 +62,12 @@ const ProductList = ({ onAddToCart }) => {
                 {
                 !loading &&
                 !error &&
-                filtered.map(product => (
-                    <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+                filtered.map((product, index) => (
+                    <ProductCard
+                      key={index || product.id || product._id}
+                      product={product}
+                      onAddToCart={onAddToCart}
+                    />
                 ))}
             </div>
         </div>
