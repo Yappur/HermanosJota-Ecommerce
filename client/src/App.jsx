@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import ScrollToTop from "./components/layout/scrollToTop/ScrollToTop.jsx";
 import RoutesView from "./routes/RoutesView";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
+import { ToastProvider } from "./contexts/ToastContext.jsx";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -60,17 +61,19 @@ function App() {
 
   return (
     <AuthProvider>
-      <Router>
-        <NavBar
-          cartCount={cartItemCount}
-          cartItems={cart}
-          onClearCart={clearCart}
-        />
+      <ToastProvider>
+        <Router>
+          <NavBar
+            cartCount={cartItemCount}
+            cartItems={cart}
+            onClearCart={clearCart}
+          />
 
-        <RoutesView onAddToCart={addToCart} />
-        <ScrollToTop />
-        <Footer />
-      </Router>
+          <RoutesView onAddToCart={addToCart} />
+          <ScrollToTop />
+          <Footer />
+        </Router>
+      </ToastProvider>
     </AuthProvider>
   );
 }
