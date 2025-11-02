@@ -2,7 +2,7 @@ const Usuario = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
 // Controlador para registrar un nuevo usuario
-const crearUsuario = async (req, res) => {
+const crearUsuario = async (req = request, res = response) => {
   try {
     const { nombre, email, password } = req.body;
 
@@ -44,7 +44,7 @@ const crearUsuario = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
+const login = async (req = request, res = response) => {
   try {
     const { email, password } = req.body;
 
@@ -86,7 +86,7 @@ const login = async (req, res) => {
   }
 };
 
-const obtenerUsuarios = async (req, res) => {
+const obtenerUsuarios = async (req = request, res = response) => {
   try {
     const usuarios = await Usuario.find().select("-password");
     res.json({ cantidad: usuarios.length, usuarios });
@@ -98,8 +98,77 @@ const obtenerUsuarios = async (req, res) => {
   }
 };
 
+const obtenerUsuarioPorId = async (req = request, res = response) => {
+  try {
+    const { id } = req.params;
+    const usuario = await Usuario.findById(id).select("-password");
+    if (!usuario) {
+      return res.status(404).json({
+        mensaje: "Usuario no encontrado",
+      });
+    }
+    res.json({ usuario });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: "Error al obtener el usuario",
+      error: error.message,
+    });
+  }
+};
+
+const actualizarUsuario = async (req = request, res = response) => {
+  try {
+    const { id } = req.params;
+    const { nombre, email, rol } = req.body;
+    const usuario = await Usuario.findById(id);
+    if (!usuario) {
+      return res.status(404).json({
+        mensaje: "Usuario no encontrado",
+      });
+    }
+    usuario.nombre = nombre;
+    usuario.email = email;
+    usuario.rol = rol;
+    await usuario.save();
+    res.json({
+      mensaje: "Usuario actualizado exitosamente",
+      usuario,
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: "Error al actualizar el usuario",
+      error: error.message,
+    });
+  }
+};
+
+const eliminarUsuario = async (req = request, res = response) => {
+  try {
+    const { id } = req.params;
+    const usuario = await Usuario.findById(id);
+    if (!usuario) {
+      return res.status(404).json({
+        mensaje: "Usuario no encontrado",
+      });
+    }
+    await Usuario.findByIdAndDelete(id);
+    res.json({
+      mensaje: "Usuario eliminado exitosamente",
+      usuario,
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: "Error al eliminar el usuario",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   crearUsuario,
   login,
   obtenerUsuarios,
+  obtenerUsuarioPorId,
+  actualizarUsuario,
+  eliminarUsuario,
 };

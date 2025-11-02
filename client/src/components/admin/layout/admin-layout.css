@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: minmax(220px, 280px) 1fr;
   gap: 2rem;
+  margin-top: 2rem;
   padding: 6rem 2rem 2.5rem;
   background: linear-gradient(
     180deg,
@@ -23,7 +24,7 @@
   flex-direction: column;
   gap: 2.5rem;
   position: sticky;
-  top: 110px;
+  top: 2rem;
   height: fit-content;
 }
 

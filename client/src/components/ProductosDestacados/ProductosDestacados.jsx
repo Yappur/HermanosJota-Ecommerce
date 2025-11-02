@@ -12,26 +12,19 @@ const ProductosDestacados = () => {
   const autoPlayIntervalRef = useRef(null);
   const carouselRef = useRef(null);
 
-  const featuredProductIds = [
-    "aparador-uspallata",
-    "biblioteca-recoleta",
-    "butaca-mendoza",
-    "sillon-copacabana",
-  ];
-
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${API_BASE}/api/products`);
+        const response = await fetch(`${API_BASE}/api/productos`);
         if (!response.ok) {
           throw new Error("Error al cargar productos");
         }
         const data = await response.json();
         const products = Array.isArray(data.data) ? data.data : [];
 
-        const featured = products.filter((product) =>
-          featuredProductIds.includes(product.id)
+        const featured = products.filter(
+          (product) => product.destacado === true
         );
 
         setFeaturedProducts(featured);

@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -30,7 +28,7 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("/api/usuarios/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,7 +42,7 @@ const Login = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Error al iniciar sesión");
+        throw new Error(data.mensaje || data.message || "Error al iniciar sesión");
       }
 
       login({
@@ -57,6 +55,7 @@ const Login = () => {
     } catch (err) {
       console.error("Error:", err);
       setError(err.message);
+      toast.error(err.message || "Error al iniciar sesión");
     } finally {
       setLoading(false);
     }
@@ -66,7 +65,7 @@ const Login = () => {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <h1 className="login-title">Inicie Sesión</h1>
+          <h1 className="login-title">Iniciar Sesión</h1>
           <p className="login-subtitle">
             Accede al panel de administración de Hermanos Jota
           </p>
@@ -121,7 +120,7 @@ const Login = () => {
           </button>
 
           <div className="login-footer">
-            <a href="#" className="forgot-password">
+            <a href="*" className="forgot-password">
               ¿Olvidaste tu contraseña?
             </a>
           </div>

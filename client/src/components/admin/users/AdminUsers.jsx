@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useAuth } from "../../../contexts/AuthContext";
 import "./admin-users.css";
 
 const INITIAL_USER_FORM = {
@@ -23,8 +24,10 @@ const AdminUsers = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [feedback, setFeedback] = useState(null);
   const [panelMode, setPanelMode] = useState(null); // null | "create" | "edit"
+  const [formErrors, setFormErrors] = useState({});
 
   const isPanelOpen = panelMode !== null;
+  const auth = useAuth();
 
   useEffect(() => {
     fetchUsers();
@@ -34,14 +37,21 @@ const AdminUsers = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(apiUrl("/api/usuarios"));
+      const token = auth?.token;
+      const response = await fetch(apiUrl("/api/usuarios/obtenerUsuarios"), {
+        method: "GET",
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      });
       const data = await response.json();
 
       if (!response.ok) {
         throw new Error(data.message || "No se pudieron obtener los usuarios");
       }
 
-      setUsers(Array.isArray(data.usuarios) ? data.usuarios : []);
+      // Normalizar id: exponer siempre `id` como `._id || .id` para evitar errores
+      const usuarios = Array.isArray(data.usuarios) ? data.usuarios : [];
+      const normalized = usuarios.map((u) => ({ ...u, id: u._id || u.id }));
+      setUsers(normalized);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -53,6 +63,7 @@ const AdminUsers = () => {
     setPanelMode("create");
     setSelectedId(null);
     setFormData(INITIAL_USER_FORM);
+    setFormErrors({});
   };
 
   const openEditPanel = (user) => {
@@ -64,6 +75,7 @@ const AdminUsers = () => {
       password: "",
       rol: user.rol || "admin",
     });
+    setFormErrors({});
   };
 
   const closePanel = () => {
@@ -79,6 +91,7 @@ const AdminUsers = () => {
       ...prev,
       [name]: value,
     }));
+    setFormErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
   const handleDelete = async (user) => {
@@ -88,10 +101,26 @@ const AdminUsers = () => {
     if (!confirmed) return;
 
     try {
+      const token = auth?.token;
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
       const response = await fetch(apiUrl(`/api/usuarios/${user.id}`), {
         method: "DELETE",
+        headers,
       });
-      const data = await response.json();
+
+      let data = {};
+      try {
+        data = await response.json();
+      } catch (e) {
+        // ignore JSON parse errors
+      }
+
+      if (response.status === 401) {
+        throw new Error(
+          data.message || "No autorizado. Por favor inicie sesión nuevamente."
+        );
+      }
 
       if (!response.ok) {
         throw new Error(data.message || "No se pudo eliminar el usuario");
@@ -116,6 +145,29 @@ const AdminUsers = () => {
     setSaving(true);
     setFeedback(null);
 
+    // Validación en cliente
+    const errs = {};
+    if (!formData.nombre.trim()) errs.nombre = "Campo requerido";
+    const email = formData.email.trim();
+    if (!email) errs.email = "Campo requerido";
+    else if (!/^\S+@\S+\.\S+$/.test(email)) errs.email = "Email inválido";
+    if (panelMode !== "edit") {
+      if (!formData.password.trim()) errs.password = "Campo requerido";
+      else if (formData.password.trim().length < 6)
+        errs.password = "Mínimo 6 caracteres";
+    }
+
+    if (Object.keys(errs).length > 0) {
+      setFormErrors(errs);
+      setSaving(false);
+      const firstKey = Object.keys(errs)[0];
+      const el = document.querySelector(
+        `.admin-form [name="${firstKey}"]`
+      );
+      el?.focus?.();
+      return;
+    }
+
     const payload = {
       nombre: formData.nombre.trim(),
       email: formData.email.trim().toLowerCase(),
@@ -131,21 +183,26 @@ const AdminUsers = () => {
     try {
       const endpoint = isEditing
         ? apiUrl(`/api/usuarios/${selectedId}`)
-        : apiUrl("/api/usuarios");
+        : apiUrl("/api/usuarios/CrearUsuario");
       const method = isEditing ? "PUT" : "POST";
+
+      const token = auth?.token;
+      const headers = {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      };
 
       const response = await fetch(endpoint, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(payload),
       });
       const data = await response.json();
 
       if (!response.ok) {
         throw new Error(
-          data.message || `No se pudo ${isEditing ? "actualizar" : "crear"} el usuario`
+          data.message ||
+            `No se pudo ${isEditing ? "actualizar" : "crear"} el usuario`
         );
       }
 
@@ -164,7 +221,11 @@ const AdminUsers = () => {
       } else {
         const createdUser = data.usuario;
         if (createdUser) {
-          setUsers((prev) => [createdUser, ...prev]);
+          const normalized = {
+            ...createdUser,
+            id: createdUser._id || createdUser.id,
+          };
+          setUsers((prev) => [normalized, ...prev]);
         } else {
           await fetchUsers();
         }
@@ -186,7 +247,9 @@ const AdminUsers = () => {
     const query = searchQuery.trim().toLowerCase();
     if (!query) return users;
     return users.filter((user) => {
-      const texto = [user.nombre, user.email, user.rol].filter(Boolean).join(" ");
+      const texto = [user.nombre, user.email, user.rol]
+        .filter(Boolean)
+        .join(" ");
       return texto.toLowerCase().includes(query);
     });
   }, [users, searchQuery]);
@@ -266,7 +329,11 @@ const AdminUsers = () => {
           ) : error ? (
             <div className="admin-table__empty admin-table__empty--error">
               <p>{error}</p>
-              <button type="button" className="btn-secondary" onClick={fetchUsers}>
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={fetchUsers}
+              >
                 Reintentar
               </button>
             </div>
@@ -350,7 +417,6 @@ const AdminUsers = () => {
                   &times;
                 </button>
               </div>
-
               <form className="admin-form" onSubmit={handleSubmit}>
                 <div className="admin-form__grid">
                   <label className="admin-form__field admin-form__field--full">
@@ -362,7 +428,11 @@ const AdminUsers = () => {
                       onChange={handleChange}
                       required
                       maxLength={120}
+                      className={formErrors.nombre ? "is-invalid" : undefined}
                     />
+                    {formErrors.nombre && (
+                      <small className="form-error">{formErrors.nombre}</small>
+                    )}
                   </label>
 
                   <label className="admin-form__field admin-form__field--full">
@@ -374,31 +444,41 @@ const AdminUsers = () => {
                       onChange={handleChange}
                       required
                       autoComplete="email"
+                      className={formErrors.email ? "is-invalid" : undefined}
                     />
+                    {formErrors.email && (
+                      <small className="form-error">{formErrors.email}</small>
+                    )}
                   </label>
 
-                  <label className="admin-form__field admin-form__field--full">
-                    <span>
-                      Contraseña {panelMode === "edit" ? "(opcional)" : "*"}
-                    </span>
-                    <input
-                      type="password"
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      minLength={6}
-                      placeholder={
-                        panelMode === "edit"
-                          ? "Dejar vacío para mantener la actual"
-                          : ""
-                      }
-                      autoComplete={panelMode === "edit" ? "new-password" : "off"}
-                    />
-                  </label>
+                  {panelMode !== "edit" && (
+                    <label className="admin-form__field admin-form__field--full">
+                      <span>Contraseña *</span>
+                      <input
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        minLength={6}
+                        required
+                        autoComplete="new-password"
+                        className={formErrors.password ? "is-invalid" : undefined}
+                      />
+                      {formErrors.password && (
+                        <small className="form-error">
+                          {formErrors.password}
+                        </small>
+                      )}
+                    </label>
+                  )}
 
                   <label className="admin-form__field">
                     <span>Rol</span>
-                    <select name="rol" value={formData.rol} onChange={handleChange}>
+                    <select
+                      name="rol"
+                      value={formData.rol}
+                      onChange={handleChange}
+                    >
                       <option value="admin">Administrador</option>
                     </select>
                   </label>
@@ -412,7 +492,11 @@ const AdminUsers = () => {
                   >
                     Cancelar
                   </button>
-                  <button type="submit" className="btn-primary" disabled={saving}>
+                  <button
+                    type="submit"
+                    className="btn-primary"
+                    disabled={saving}
+                  >
                     {saving
                       ? panelMode === "edit"
                         ? "Guardando..."

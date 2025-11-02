@@ -44,8 +44,13 @@ const productSchema = new mongoose.Schema(
       default: "/placeholder.svg?height=400&width=400",
     },
     disponible: {
+      type: String,
+      enum: ["Disponible", "No Disponible", "Pre-Orden"],
+      default: "Disponible",
+    },
+    destacado: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   {

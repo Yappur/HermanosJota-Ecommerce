@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useToast } from "../../../contexts/ToastContext";
+import ConfirmModal from "../../ConfirmModal/ConfirmModal";
 import "./admin-products.css";
 
 const INITIAL_FORM = {
@@ -13,6 +16,7 @@ const INITIAL_FORM = {
   stock: "",
   imagen: "",
   availability: "InStock",
+  destacado: false,
 };
 
 const apiUrl = (path) => {
@@ -30,8 +34,11 @@ const AdminProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [feedback, setFeedback] = useState(null);
   const [panelMode, setPanelMode] = useState(null); // null | "create" | "edit"
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, product: null });
 
   const isPanelOpen = panelMode !== null;
+  const auth = useAuth();
+  const toast = useToast();
 
   useEffect(() => {
     fetchProducts();
@@ -48,7 +55,9 @@ const AdminProducts = () => {
         throw new Error(data.message || "No se pudieron cargar los productos");
       }
 
-      setProducts(Array.isArray(data.data) ? data.data : []);
+      const items = Array.isArray(data.data) ? data.data : [];
+      const normalized = items.map((p) => ({ ...p, id: p.id ?? p._id }));
+      setProducts(normalized);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -64,7 +73,7 @@ const AdminProducts = () => {
 
   const openEditPanel = (product) => {
     setPanelMode("edit");
-    setSelectedId(product.id);
+    setSelectedId(product.id ?? product._id);
     setFormData({
       nombre: product.nombre || "",
       descripcion: product.descripcion || "",
@@ -81,6 +90,7 @@ const AdminProducts = () => {
           : "",
       imagen: product.imagen || "",
       availability: product.availability || "InStock",
+      destacado: !!product.destacado,
     });
   };
 
@@ -92,22 +102,32 @@ const AdminProducts = () => {
   };
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, type, checked } = event.target;
+    const newValue = type === "checkbox" ? checked : value;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: newValue,
     }));
   };
 
-  const handleDelete = async (product) => {
-    const confirmed = window.confirm(
-      `¿Eliminar el producto "${product.nombre}"? Esta acción no se puede deshacer.`
-    );
-    if (!confirmed) return;
+  const openDeleteModal = (product) => {
+    setDeleteModal({ isOpen: true, product });
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal({ isOpen: false, product: null });
+  };
+
+  const handleDelete = async () => {
+    const product = deleteModal.product;
+    if (!product) return;
 
     try {
-      const response = await fetch(apiUrl(`/api/productos/${product.id}`), {
+      const token = auth?.token;
+      const id = product.id ?? product._id;
+      const response = await fetch(apiUrl(`/api/productos/${id}`), {
         method: "DELETE",
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       });
       const data = await response.json();
 
@@ -115,17 +135,14 @@ const AdminProducts = () => {
         throw new Error(data.message || "No se pudo eliminar el producto");
       }
 
-      setProducts((prev) => prev.filter((item) => item.id !== product.id));
-      setFeedback({
-        type: "success",
-        message: "Producto eliminado correctamente",
-      });
+      setProducts((prev) => prev.filter((item) => item.id !== id));
+      toast.success("Producto eliminado correctamente");
 
-      if (selectedId === product.id) {
+      if (selectedId === id) {
         closePanel();
       }
     } catch (err) {
-      setFeedback({ type: "error", message: err.message });
+      toast.error(err.message || "Error al eliminar el producto");
     }
   };
 
@@ -144,6 +161,7 @@ const AdminProducts = () => {
       stock: Number.parseInt(formData.stock, 10) || 0,
       imagen: formData.imagen.trim(),
       availability: formData.availability,
+      destacado: !!formData.destacado,
     };
 
     const isEditing = panelMode === "edit";
@@ -151,14 +169,17 @@ const AdminProducts = () => {
     try {
       const endpoint = isEditing
         ? apiUrl(`/api/productos/${selectedId}`)
-        : apiUrl("/api/productos");
+        : apiUrl("/api/productos/crearProducto");
       const method = isEditing ? "PUT" : "POST";
+      const token = auth?.token;
+      const headers = {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      };
 
       const response = await fetch(endpoint, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(payload),
       });
       const data = await response.json();
@@ -173,26 +194,27 @@ const AdminProducts = () => {
       const updatedProduct = data.data;
 
       if (isEditing) {
+        const updatedId = updatedProduct.id ?? updatedProduct._id ?? selectedId;
         setProducts((prev) =>
           prev.map((item) =>
-            item.id === selectedId ? { ...item, ...updatedProduct } : item
+            item.id === updatedId
+              ? { ...item, ...updatedProduct, id: updatedId }
+              : item
           )
         );
-        setFeedback({
-          type: "success",
-          message: "Producto actualizado correctamente",
-        });
+        toast.success("Producto actualizado correctamente");
       } else {
-        setProducts((prev) => [updatedProduct, ...prev]);
-        setFeedback({
-          type: "success",
-          message: "Producto creado correctamente",
-        });
+        const created = {
+          ...updatedProduct,
+          id: updatedProduct.id ?? updatedProduct._id,
+        };
+        setProducts((prev) => [created, ...prev]);
+        toast.success("Producto creado correctamente");
       }
 
       closePanel();
     } catch (err) {
-      setFeedback({ type: "error", message: err.message });
+      toast.error(err.message || `Error al ${isEditing ? "actualizar" : "crear"} el producto`);
     } finally {
       setSaving(false);
     }
@@ -349,20 +371,22 @@ const AdminProducts = () => {
                         </span>
                       </td>
                       <td className="admin-table__actions-cell">
-                        <button
-                          type="button"
-                          className="btn-ghost"
-                          onClick={() => openEditPanel(product)}
-                        >
-                          Editar
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-ghost btn-ghost--danger"
-                          onClick={() => handleDelete(product)}
-                        >
-                          Eliminar
-                        </button>
+                        <div className="admin-actions-inline">
+                          <button
+                            type="button"
+                            className="btn-ghost"
+                            onClick={() => openEditPanel(product)}
+                          >
+                            Editar
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-ghost btn-ghost--danger"
+                            onClick={() => openDeleteModal(product)}
+                          >
+                            Eliminar
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -460,6 +484,16 @@ const AdminProducts = () => {
                     </select>
                   </label>
 
+                  <label className="admin-form__field">
+                    <span>Destacado</span>
+                    <input
+                      type="checkbox"
+                      name="destacado"
+                      checked={!!formData.destacado}
+                      onChange={handleChange}
+                    />
+                  </label>
+
                   <label className="admin-form__field admin-form__field--full">
                     <span>Descripción *</span>
                     <textarea
@@ -548,6 +582,18 @@ const AdminProducts = () => {
           </>
         )}
       </div>
+
+      {/* Modal de confirmación para eliminar */}
+      <ConfirmModal
+        isOpen={deleteModal.isOpen}
+        onClose={closeDeleteModal}
+        onConfirm={handleDelete}
+        title="Eliminar Producto"
+        message={`¿Estás seguro que deseas eliminar el producto "${deleteModal.product?.nombre}"? Esta acción no se puede deshacer.`}
+        confirmText="Eliminar"
+        cancelText="Cancelar"
+        type="danger"
+      />
     </section>
   );
 };

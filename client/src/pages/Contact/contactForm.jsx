@@ -156,7 +156,8 @@ const ContactForm = () => {
         </p>
       </div>
 
-      <div className="contact-form-container">
+      <div className="contact-layout">
+        <div className="contact-form-container">
         <h2>Formulario de Contacto</h2>
 
         {submitSuccess && (
@@ -248,7 +249,7 @@ const ContactForm = () => {
             </div>
           </div>
 
-          <div className="form-group">
+          <div className="form-group form-group--message">
             <label htmlFor="mensaje">Mensaje *</label>
             <textarea
               id="mensaje"
@@ -272,7 +273,7 @@ const ContactForm = () => {
             {isSubmitting ? "Enviando..." : "Enviar Mensaje"}
           </button>
         </form>
-      </div>
+        </div>
 
       <section className="contact-info-section">
         <div className="contact-info-grid">
@@ -421,6 +422,7 @@ const ContactForm = () => {
           </div>
         </div>
       </section>
+    </div>
     </>
   );
 };
