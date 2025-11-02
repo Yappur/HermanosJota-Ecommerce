@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "./login.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -44,6 +46,12 @@ const Login = () => {
       if (!response.ok) {
         throw new Error(data.message || "Error al iniciar sesión");
       }
+
+      login({
+        email: formData.email,
+        name: data.name || data.usuario?.nombre || formData.email.split("@")[0],
+        id: data.id || data.usuario?.id,
+      });
 
       navigate("/admin/crear-producto");
     } catch (err) {

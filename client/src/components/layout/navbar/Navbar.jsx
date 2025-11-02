@@ -1,10 +1,15 @@
+"use client";
+
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import "./navbar.css";
 
 const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -19,6 +24,12 @@ const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
       onClearCart();
       setIsCartOpen(false);
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setIsMenuOpen(false);
+    navigate("/");
   };
 
   const formatPrice = (price) => {
@@ -127,20 +138,53 @@ const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
                   Contacto
                 </NavLink>
               </li>
-              <li role="none" className="nav-login">
-                <NavLink
-                  to="/login"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "nav-link nav-link--button nav-link--button-active"
-                      : "nav-link nav-link--button"
-                  }
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  Ingresar
-                </NavLink>
-              </li>
+              {user ? (
+                <>
+                  <li role="none" className="nav-user-welcome">
+                    <span className="welcome-text">
+                      Bienvenido, <strong>{user.name}</strong>
+                    </span>
+                  </li>
+                  <li role="none" className="nav-login">
+                    <NavLink
+                      to="/admin/crear-producto"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "nav-link nav-link--button nav-link--button-active"
+                          : "nav-link nav-link--button"
+                      }
+                      role="menuitem"
+                      onClick={handleLinkClick}
+                    >
+                      Admin
+                    </NavLink>
+                  </li>
+                  <li role="none" className="nav-logout">
+                    <button
+                      className="nav-link nav-link--logout"
+                      onClick={handleLogout}
+                      role="menuitem"
+                    >
+                      Cerrar Sesión
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <li role="none" className="nav-login">
+                  <NavLink
+                    to="/login"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "nav-link nav-link--button nav-link--button-active"
+                        : "nav-link nav-link--button"
+                    }
+                    role="menuitem"
+                    onClick={handleLinkClick}
+                  >
+                    Ingresar
+                  </NavLink>
+                </li>
+              )}
               <li role="none" className="cart">
                 <button
                   className="cart-button"

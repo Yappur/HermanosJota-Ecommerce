@@ -1,3 +1,5 @@
+"use client";
+
 import { BrowserRouter as Router } from "react-router-dom";
 import Footer from "./components/layout/Footer/Footer.jsx";
 import NavBar from "./components/layout/navbar/Navbar.jsx";
@@ -5,6 +7,7 @@ import { useState, useEffect } from "react";
 import ScrollToTop from "./components/layout/scrollToTop/ScrollToTop.jsx";
 import RoutesView from "./routes/RoutesView";
 import AutoScrollToTop from "./components/layout/navbar/AutoScrollToTop.jsx";
+import { AuthProvider } from "./components/context/AuthContext.jsx";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -59,18 +62,20 @@ function App() {
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <Router>
-      <AutoScrollToTop />
-      <NavBar
-        cartCount={cartItemCount}
-        cartItems={cart}
-        onClearCart={clearCart}
-      />
+    <AuthProvider>
+      <Router>
+        <AutoScrollToTop />
+        <NavBar
+          cartCount={cartItemCount}
+          cartItems={cart}
+          onClearCart={clearCart}
+        />
 
-      <RoutesView onAddToCart={addToCart} />
-      <ScrollToTop />
-      <Footer />
-    </Router>
+        <RoutesView onAddToCart={addToCart} />
+        <ScrollToTop />
+        <Footer />
+      </Router>
+    </AuthProvider>
   );
 }
 
