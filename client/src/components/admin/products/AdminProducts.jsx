@@ -368,20 +368,22 @@ const AdminProducts = () => {
                         </span>
                       </td>
                       <td className="admin-table__actions-cell">
-                        <button
-                          type="button"
-                          className="btn-ghost"
-                          onClick={() => openEditPanel(product)}
-                        >
-                          Editar
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-ghost btn-ghost--danger"
-                          onClick={() => openDeleteModal(product)}
-                        >
-                          Eliminar
-                        </button>
+                        <div className="admin-actions-inline">
+                          <button
+                            type="button"
+                            className="btn-ghost"
+                            onClick={() => openEditPanel(product)}
+                          >
+                            Editar
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-ghost btn-ghost--danger"
+                            onClick={() => openDeleteModal(product)}
+                          >
+                            Eliminar
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}

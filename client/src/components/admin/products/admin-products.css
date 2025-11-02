@@ -63,7 +63,8 @@
 }
 
 .admin-table__actions {
-  display: flex;
+  display: inline-flex;
+  justify-content: flex-end;
   align-items: center;
   gap: 0.75rem;
 }
@@ -90,9 +91,10 @@
 
 .admin-table th,
 .admin-table td {
-  padding: 0.85rem 1rem;
-  text-align: left;
-  border-bottom: 1px solid rgba(160, 82, 45, 0.12);
+    padding: 0.85rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(160, 82, 45, 0.12);
+    vertical-align: middle;
 }
 
 .admin-table thead th {
@@ -129,9 +131,14 @@
 }
 
 .admin-table__actions-cell {
-  display: flex;
-  justify-content: flex-end;
+  text-align: right;
+}
+
+.admin-actions-inline {
+  display: inline-flex;
+  align-items: center;
   gap: 0.5rem;
+  white-space: nowrap;
 }
 
 .admin-table__empty {
