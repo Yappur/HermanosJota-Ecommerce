@@ -8,6 +8,7 @@ const CreateProduct = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [errors, setErrors] = useState({});
 
   // Estado del formulario controlado
   const [formData, setFormData] = useState({
@@ -29,6 +30,7 @@ const CreateProduct = () => {
       ...prev,
       [name]: value,
     }));
+    setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
   // Manejar envío del formulario
@@ -36,6 +38,29 @@ const CreateProduct = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    // Validación requerida en cliente
+    const requiredFields = [
+      "nombre",
+      "descripcion",
+      "medidas",
+      "materiales",
+      "acabado",
+      "precio",
+    ];
+    const nextErrors = {};
+    requiredFields.forEach((key) => {
+      const v = String(formData[key] ?? "").trim();
+      if (!v) nextErrors[key] = "Campo requerido";
+    });
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      setLoading(false);
+      const firstKey = Object.keys(nextErrors)[0];
+      const el = document.getElementById(firstKey);
+      if (el?.focus) el.focus();
+      return;
+    }
 
     try {
       const response = await fetch("/api/products", {
@@ -100,7 +125,11 @@ const CreateProduct = () => {
               required
               maxLength={100}
               placeholder="Ej: Aparador Uspallata"
+              className={errors.nombre ? "is-invalid" : undefined}
             />
+            {errors.nombre && (
+              <small className="form-error">{errors.nombre}</small>
+            )}
           </div>
 
           <div className="form-group">
@@ -116,7 +145,11 @@ const CreateProduct = () => {
               maxLength={500}
               rows={4}
               placeholder="Describe las características del producto..."
+              className={errors.descripcion ? "is-invalid" : undefined}
             />
+            {errors.descripcion && (
+              <small className="form-error">{errors.descripcion}</small>
+            )}
           </div>
 
           <div className="form-group">
@@ -131,7 +164,11 @@ const CreateProduct = () => {
               onChange={handleChange}
               required
               placeholder="Ej: 180 × 45 × 75 cm"
+              className={errors.medidas ? "is-invalid" : undefined}
             />
+            {errors.medidas && (
+              <small className="form-error">{errors.medidas}</small>
+            )}
           </div>
 
           <div className="form-group">
@@ -146,7 +183,11 @@ const CreateProduct = () => {
               onChange={handleChange}
               required
               placeholder="Ej: Nogal macizo FSC®, herrajes de latón"
+              className={errors.materiales ? "is-invalid" : undefined}
             />
+            {errors.materiales && (
+              <small className="form-error">{errors.materiales}</small>
+            )}
           </div>
 
           <div className="form-group">
@@ -161,7 +202,11 @@ const CreateProduct = () => {
               onChange={handleChange}
               required
               placeholder="Ej: Aceite natural ecológico"
+              className={errors.acabado ? "is-invalid" : undefined}
             />
+            {errors.acabado && (
+              <small className="form-error">{errors.acabado}</small>
+            )}
           </div>
 
           <div className="form-group">
@@ -178,7 +223,11 @@ const CreateProduct = () => {
               min="0"
               step="0.01"
               placeholder="250000"
+              className={errors.precio ? "is-invalid" : undefined}
             />
+            {errors.precio && (
+              <small className="form-error">{errors.precio}</small>
+            )}
           </div>
 
           <div className="form-row">

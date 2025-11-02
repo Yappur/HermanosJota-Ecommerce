@@ -161,3 +161,19 @@
     width: 100%;
   }
 }
+
+.form-group .is-invalid {
+  border-color: #dc3545 !important;
+  background: rgba(220, 53, 69, 0.06);
+}
+
+.form-group .is-invalid:focus {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.18) !important;
+}
+
+.form-error {
+  margin-top: 4px;
+  color: #8b1e24;
+  font-size: 0.82rem;
+}
