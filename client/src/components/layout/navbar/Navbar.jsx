@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import "./navbar.css";
@@ -27,6 +27,12 @@ const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
       onClearCart();
       setIsCartOpen(false);
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setIsMenuOpen(false);
+    navigate("/");
   };
 
   const formatPrice = (price) => {
@@ -179,6 +185,7 @@ const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
                   </NavLink>
                 )}
               </li>
+
               <li role="none" className="cart">
                 <button
                   className="cart-button"

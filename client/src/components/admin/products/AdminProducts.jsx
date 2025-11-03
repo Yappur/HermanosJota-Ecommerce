@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useToast } from "../../../contexts/ToastContext";
@@ -348,7 +350,8 @@ const AdminProducts = () => {
                           <img
                             src={
                               product.imagen ||
-                              "https://images.unsplash.com/photo-1542272201-b1ca555f8505?auto=format&fit=crop&w=160&q=60"
+                              "https://images.unsplash.com/photo-1542272201-b1ca555f8505?auto=format&fit=crop&w=160&q=60" ||
+                              "/placeholder.svg"
                             }
                             alt={product.nombre}
                             loading="lazy"
@@ -375,20 +378,22 @@ const AdminProducts = () => {
                         </span>
                       </td>
                       <td className="admin-table__actions-cell">
-                        <button
-                          type="button"
-                          className="btn-ghost"
-                          onClick={() => openEditPanel(product)}
-                        >
-                          Editar
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-ghost btn-ghost--danger"
-                          onClick={() => openDeleteModal(product)}
-                        >
-                          Eliminar
-                        </button>
+                        <div className="admin-actions-inline">
+                          <button
+                            type="button"
+                            className="btn-ghost"
+                            onClick={() => openEditPanel(product)}
+                          >
+                            Editar
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-ghost btn-ghost--danger"
+                            onClick={() => openDeleteModal(product)}
+                          >
+                            Eliminar
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -430,6 +435,10 @@ const AdminProducts = () => {
 
               <form className="admin-form" onSubmit={handleSubmit}>
                 <div className="admin-form__grid">
+                  <p className="admin-form__subtitle">
+                    Complete el formulario para agregar un nuevo producto al
+                    catálogo
+                  </p>
                   <label className="admin-form__field admin-form__field--full">
                     <span>Nombre *</span>
                     <input
@@ -439,6 +448,7 @@ const AdminProducts = () => {
                       onChange={handleChange}
                       required
                       maxLength={120}
+                      placeholder="Ej: Biblioteca Recoleta"
                     />
                   </label>
 
@@ -452,6 +462,7 @@ const AdminProducts = () => {
                       value={formData.precio}
                       onChange={handleChange}
                       required
+                      placeholder="250000"
                     />
                   </label>
 
@@ -463,6 +474,7 @@ const AdminProducts = () => {
                       min="0"
                       value={formData.stock}
                       onChange={handleChange}
+                      placeholder="0"
                     />
                   </label>
 
@@ -497,6 +509,8 @@ const AdminProducts = () => {
                       onChange={handleChange}
                       required
                       rows={3}
+                      maxLength={500}
+                      placeholder="Describe las características del producto..."
                     />
                   </label>
 
@@ -508,6 +522,7 @@ const AdminProducts = () => {
                       value={formData.medidas}
                       onChange={handleChange}
                       required
+                      placeholder="Ej: 180 × 45 × 75 cm"
                     />
                   </label>
 
@@ -519,6 +534,7 @@ const AdminProducts = () => {
                       value={formData.materiales}
                       onChange={handleChange}
                       required
+                      placeholder="Ej: Nogal macizo FSC®, herrajes de latón"
                     />
                   </label>
 
@@ -530,6 +546,7 @@ const AdminProducts = () => {
                       value={formData.acabado}
                       onChange={handleChange}
                       required
+                      placeholder="Ej: Aceite natural ecológico"
                     />
                   </label>
 

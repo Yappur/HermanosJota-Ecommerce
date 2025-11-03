@@ -24,6 +24,7 @@ const AdminUsers = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [feedback, setFeedback] = useState(null);
   const [panelMode, setPanelMode] = useState(null); // null | "create" | "edit"
+  const [formErrors, setFormErrors] = useState({});
 
   const isPanelOpen = panelMode !== null;
   const auth = useAuth();
@@ -63,6 +64,7 @@ const AdminUsers = () => {
     setPanelMode("create");
     setSelectedId(null);
     setFormData(INITIAL_USER_FORM);
+    setFormErrors({});
   };
 
   const openEditPanel = (user) => {
@@ -74,6 +76,7 @@ const AdminUsers = () => {
       password: "",
       rol: user.rol || "admin",
     });
+    setFormErrors({});
   };
 
   const closePanel = () => {
@@ -89,6 +92,7 @@ const AdminUsers = () => {
       ...prev,
       [name]: value,
     }));
+    setFormErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
   const handleDelete = async (user) => {
@@ -141,6 +145,29 @@ const AdminUsers = () => {
     event.preventDefault();
     setSaving(true);
     setFeedback(null);
+
+    // Validación en cliente
+    const errs = {};
+    if (!formData.nombre.trim()) errs.nombre = "Campo requerido";
+    const email = formData.email.trim();
+    if (!email) errs.email = "Campo requerido";
+    else if (!/^\S+@\S+\.\S+$/.test(email)) errs.email = "Email inválido";
+    if (panelMode !== "edit") {
+      if (!formData.password.trim()) errs.password = "Campo requerido";
+      else if (formData.password.trim().length < 6)
+        errs.password = "Mínimo 6 caracteres";
+    }
+
+    if (Object.keys(errs).length > 0) {
+      setFormErrors(errs);
+      setSaving(false);
+      const firstKey = Object.keys(errs)[0];
+      const el = document.querySelector(
+        `.admin-form [name="${firstKey}"]`
+      );
+      el?.focus?.();
+      return;
+    }
 
     const payload = {
       nombre: formData.nombre.trim(),
@@ -391,7 +418,6 @@ const AdminUsers = () => {
                   &times;
                 </button>
               </div>
-
               <form className="admin-form" onSubmit={handleSubmit}>
                 <div className="admin-form__grid">
                   <label className="admin-form__field admin-form__field--full">
@@ -403,7 +429,11 @@ const AdminUsers = () => {
                       onChange={handleChange}
                       required
                       maxLength={120}
+                      className={formErrors.nombre ? "is-invalid" : undefined}
                     />
+                    {formErrors.nombre && (
+                      <small className="form-error">{formErrors.nombre}</small>
+                    )}
                   </label>
 
                   <label className="admin-form__field admin-form__field--full">
@@ -415,7 +445,11 @@ const AdminUsers = () => {
                       onChange={handleChange}
                       required
                       autoComplete="email"
+                      className={formErrors.email ? "is-invalid" : undefined}
                     />
+                    {formErrors.email && (
+                      <small className="form-error">{formErrors.email}</small>
+                    )}
                   </label>
 
                   {panelMode !== "edit" && (
@@ -429,7 +463,13 @@ const AdminUsers = () => {
                         minLength={6}
                         required
                         autoComplete="new-password"
+                        className={formErrors.password ? "is-invalid" : undefined}
                       />
+                      {formErrors.password && (
+                        <small className="form-error">
+                          {formErrors.password}
+                        </small>
+                      )}
                     </label>
                   )}
 

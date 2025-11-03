@@ -29,7 +29,7 @@
   flex-direction: column;
   gap: 2.5rem;
   position: sticky;
-  top: 110px;
+  top: 2rem;
   height: fit-content;
   grid-area: sidebar;
 }

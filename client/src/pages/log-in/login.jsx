@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
-import { useToast } from "../../contexts/ToastContext";
+import { useAuth } from "../context/AuthContext";
 import "./login.css";
 
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const toast = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -48,16 +46,12 @@ const Login = () => {
       }
 
       login({
-        token: data.token,
-        user: data.usuario || data.user,
+        email: formData.email,
+        name: data.name || data.usuario?.nombre || formData.email.split("@")[0],
+        id: data.id || data.usuario?.id,
       });
 
-      toast.success("¡Sesión iniciada correctamente!");
-
-      // Navegar después de un breve delay para que se vea el toast
-      setTimeout(() => {
-        navigate("/admin/productos");
-      }, 500);
+      navigate("/admin/crear-producto");
     } catch (err) {
       console.error("Error:", err);
       setError(err.message);
