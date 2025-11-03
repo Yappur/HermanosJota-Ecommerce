@@ -6,12 +6,14 @@ const parseEnvOrigins = () => {
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean)
-    .map((o) => o.replace(/\/$/, "")); 
+    .map((o) => o.replace(/\/$/, ""));
 };
 
 const corsOptions = {
   origin: function (origin, callback) {
+    console.log("🔍 Incoming request from origin:", origin);
     const envOrigins = parseEnvOrigins();
+    console.log("📋 Environment origins:", envOrigins);
     const allowedOrigins = [
       "https://hermanosjota-ecommerce.vercel.app",
       "http://localhost:3000",
@@ -19,8 +21,10 @@ const corsOptions = {
       "http://localhost:5173",
       ...envOrigins,
     ];
+    console.log("✅ Allowed origins:", allowedOrigins);
 
     if (!origin) {
+      console.log("⚠️ No origin provided, allowing request");
       return callback(null, true);
     }
 
@@ -42,9 +46,13 @@ const corsOptions = {
     "Content-Type",
     "Accept",
     "Authorization",
+    "Access-Control-Allow-Origin",
+    "Access-Control-Allow-Credentials",
   ],
   exposedHeaders: ["Set-Cookie"],
   maxAge: 86400,
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
 };
 
 const developmentCors = cors({ origin: true, credentials: true });

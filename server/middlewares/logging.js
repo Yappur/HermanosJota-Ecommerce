@@ -1,23 +1,35 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const logsDir = path.join(__dirname, '../logs');
-if (!fs.existsSync(logsDir)) {
+const isVercel = process.env.VERCEL === "1";
+
+const logsDir = isVercel ? "/tmp" : path.join(__dirname, "../logs");
+
+if (!isVercel && !fs.existsSync(logsDir)) {
   fs.mkdirSync(logsDir, { recursive: true });
 }
 
-// Función para formatear fecha
 const formatDate = (date = new Date()) => {
   return date.toISOString();
 };
 
 // Función para escribir logs
 const writeLog = (filename, data) => {
+  if (isVercel || process.env.NODE_ENV === "production") {
+    console.log(
+      JSON.stringify({
+        logType: filename.replace(".log", ""),
+        ...data,
+      })
+    );
+    return;
+  }
+
   const logPath = path.join(logsDir, filename);
   const logEntry = `${formatDate()} - ${JSON.stringify(data)}\n`;
 
   fs.appendFile(logPath, logEntry, (err) => {
-    if (err) console.error('Error writing log:', err);
+    if (err) console.error("Error writing log:", err);
   });
 };
 
@@ -30,7 +42,7 @@ const requestLogger = (req, res, next) => {
     method: req.method,
     url: req.originalUrl,
     ip: req.ip,
-    userAgent: req.get('User-Agent'),
+    userAgent: req.get("User-Agent"),
     commerce: req.commerceId || null,
     user: req.user?.id || null,
     timestamp: new Date().toISOString(),
@@ -48,16 +60,16 @@ const requestLogger = (req, res, next) => {
       ...requestData,
       statusCode: res.statusCode,
       duration: `${duration}ms`,
-      contentLength: res.get('Content-Length') || 0,
+      contentLength: res.get("Content-Length") || 0,
     };
 
     if (res.statusCode >= 400) {
-      writeLog('errors.log', {
+      writeLog("errors.log", {
         ...responseData,
-        error: res.statusCode >= 500 ? 'server_error' : 'client_error',
+        error: res.statusCode >= 500 ? "server_error" : "client_error",
       });
     } else {
-      writeLog('access.log', responseData);
+      writeLog("access.log", responseData);
     }
 
     originalSend.call(this, data);
@@ -77,19 +89,18 @@ const errorLogger = (error, req, res, next) => {
       method: req.method,
       url: req.originalUrl,
       ip: req.ip,
-      userAgent: req.get('User-Agent'),
+      userAgent: req.get("User-Agent"),
       commerce: req.commerceId || null,
       user: req.user?.id || null,
-      body: req.method !== 'GET' ? req.body : undefined,
+      body: req.method !== "GET" ? req.body : undefined,
     },
     timestamp: new Date().toISOString(),
   };
 
-  writeLog('errors.log', errorData);
-  
-  if (process.env.NODE_ENV === 'development') {
-    console.error('Error logged:', errorData);
-  }
+  writeLog("errors.log", errorData);
+
+  // Siempre mostrar errores en consola
+  console.error("Error logged:", errorData);
 
   next(error);
 };
@@ -100,20 +111,20 @@ const authLogger = (req, res, next) => {
 
   res.send = function (data) {
     // Log intentos de autenticación
-    if (req.originalUrl.includes('/auth/')) {
+    if (req.originalUrl.includes("/auth/")) {
       const authData = {
-        type: 'auth_attempt',
+        type: "auth_attempt",
         method: req.method,
         url: req.originalUrl,
         ip: req.ip,
-        userAgent: req.get('User-Agent'),
+        userAgent: req.get("User-Agent"),
         email: req.body?.email || null,
         success: res.statusCode === 200,
         statusCode: res.statusCode,
         timestamp: new Date().toISOString(),
       };
 
-      writeLog('auth.log', authData);
+      writeLog("auth.log", authData);
     }
 
     originalSend.call(this, data);
@@ -129,11 +140,11 @@ const commerceLogger = (req, res, next) => {
   res.send = function (data) {
     // Log operaciones importantes de comercio
     if (
-      ['POST', 'PUT', 'DELETE'].includes(req.method) &&
-      req.originalUrl.includes('/commerce')
+      ["POST", "PUT", "DELETE"].includes(req.method) &&
+      req.originalUrl.includes("/commerce")
     ) {
       const commerceData = {
-        type: 'commerce_operation',
+        type: "commerce_operation",
         operation: req.method,
         url: req.originalUrl,
         commerce: req.commerceId || null,
@@ -144,7 +155,7 @@ const commerceLogger = (req, res, next) => {
         timestamp: new Date().toISOString(),
       };
 
-      writeLog('commerce.log', commerceData);
+      writeLog("commerce.log", commerceData);
     }
 
     originalSend.call(this, data);
@@ -167,7 +178,7 @@ const uploadLogger = (req, res, next) => {
         : [req.file];
 
       const uploadData = {
-        type: 'file_upload',
+        type: "file_upload",
         files: files.map((file) => ({
           fieldname: file.fieldname,
           originalname: file.originalname,
@@ -183,7 +194,7 @@ const uploadLogger = (req, res, next) => {
         timestamp: new Date().toISOString(),
       };
 
-      writeLog('uploads.log', uploadData);
+      writeLog("uploads.log", uploadData);
     }
 
     originalSend.call(this, data);
@@ -194,13 +205,17 @@ const uploadLogger = (req, res, next) => {
 
 // Función para obtener estadísticas de logs
 const getLogStats = () => {
+  if (isVercel) {
+    return { message: "Logs are sent to console in production" };
+  }
+
   const logFiles = [
-    'access.log',
-    'errors.log',
-    'auth.log',
-    'commerce.log',
-    'uploads.log',
-    'ar.log',
+    "access.log",
+    "errors.log",
+    "auth.log",
+    "commerce.log",
+    "uploads.log",
+    "ar.log",
   ];
   const stats = {};
 

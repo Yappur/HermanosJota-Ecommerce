@@ -11,19 +11,31 @@ const app = express();
 
 app.set("trust proxy", 1);
 
-// MIDDLEWARE
-app.use((req, res, next) => {
-  const timestamp = new Date().toISOString();
-  console.log(
-    `[${timestamp}] ${req.method} ${req.url} - Origin: ${
-      req.headers.origin || "none"
-    }`
-  );
-  next();
-});
+const isVercel = process.env.VERCEL === "1";
+const isDevelopment = process.env.NODE_ENV === "development";
 
-// CORS
-app.use(corsMiddleware);
+// MIDDLEWARE
+const { requestLogger, errorLogger } = require("./middlewares/logging");
+
+app.use(requestLogger);
+
+app.use((req, res, next) => {
+  corsMiddleware(req, res, (err) => {
+    if (err) {
+      console.error("CORS Error:", {
+        origin: req.headers.origin,
+        error: err.message,
+        environment: process.env.NODE_ENV,
+        isVercel,
+      });
+      return res.status(403).json({
+        error: "CORS Error",
+        message: isDevelopment ? err.message : "Not allowed by CORS",
+      });
+    }
+    next();
+  });
+});
 
 // Body parser
 app.use(express.json({ limit: "10mb" }));
@@ -38,11 +50,18 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/health", (req, res) => {
+  const mongoose = require("mongoose");
   res.json({
     status: "OK",
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || "development",
-    database: "connected",
+    isVercel: process.env.VERCEL === "1",
+    database: {
+      status:
+        mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+      name: process.env.MONGODB_DATABASE,
+    },
+    region: process.env.VERCEL_REGION || "local",
   });
 });
 app.use(express.static(path.join(__dirname, "public")));
@@ -58,18 +77,23 @@ app.use((req, res) => {
   });
 });
 
+app.use(errorLogger);
 app.use((err, req, res, next) => {
-  console.error("Error global");
-  console.error("Message:", err.message);
-  console.error("Stack:", err.stack);
-
-  const isDevelopment = process.env.NODE_ENV === "development";
-
-  res.status(err.status || 500).json({
+  const status = err.status || 500;
+  const errorResponse = {
     error: err.name || "Internal Server Error",
     message: isDevelopment ? err.message : "Something went wrong",
-    ...(isDevelopment && { stack: err.stack }),
-  });
+    timestamp: new Date().toISOString(),
+    requestId: req.id,
+    path: req.path,
+  };
+
+  if (isDevelopment || isVercel) {
+    errorResponse.stack = err.stack;
+    errorResponse.origin = req.headers.origin;
+  }
+
+  res.status(status).json(errorResponse);
 });
 
 // Connect to Database
