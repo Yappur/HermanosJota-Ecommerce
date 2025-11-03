@@ -23,6 +23,7 @@ const apiUrl = (path) => {
 };
 
 const AdminProducts = () => {
+  const { user } = useAuth();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -32,7 +33,10 @@ const AdminProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [feedback, setFeedback] = useState(null);
   const [panelMode, setPanelMode] = useState(null); // null | "create" | "edit"
-  const [deleteModal, setDeleteModal] = useState({ isOpen: false, product: null });
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    product: null,
+  });
 
   const isPanelOpen = panelMode !== null;
   const auth = useAuth();
@@ -212,7 +216,10 @@ const AdminProducts = () => {
 
       closePanel();
     } catch (err) {
-      toast.error(err.message || `Error al ${isEditing ? "actualizar" : "crear"} el producto`);
+      toast.error(
+        err.message ||
+          `Error al ${isEditing ? "actualizar" : "crear"} el producto`
+      );
     } finally {
       setSaving(false);
     }
@@ -250,6 +257,9 @@ const AdminProducts = () => {
   return (
     <section className="admin-section">
       <div className="admin-content__header">
+        <div className="welcome-banner">
+          <h2>¡Bienvenido, {user?.nombre || "Administrador"}!</h2>
+        </div>
         <h1 className="admin-content__title">Gestión de productos</h1>
         <p className="admin-content__subtitle">
           Administre el catálogo disponible en la tienda.

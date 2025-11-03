@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext";
 import "./navbar.css";
 
 const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { pathname } = useLocation();
+  const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -133,19 +135,49 @@ const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
                   Contacto
                 </NavLink>
               </li>
+              {isAuthenticated && (
+                <li role="none">
+                  <NavLink
+                    to="/admin"
+                    className={({ isActive }) =>
+                      isActive ? "nav-link nav-link--active" : "nav-link"
+                    }
+                    role="menuitem"
+                    onClick={handleLinkClick}
+                  >
+                    Admin
+                  </NavLink>
+                </li>
+              )}
               <li role="none" className="nav-login">
-                <NavLink
-                  to="/login"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "nav-link nav-link--button nav-link--button-active"
-                      : "nav-link nav-link--button"
-                  }
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  Ingresar
-                </NavLink>
+                {isAuthenticated ? (
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "nav-link nav-link--button nav-link--button-active"
+                        : "nav-link nav-link--button"
+                    }
+                    onClick={() => {
+                      logout();
+                      handleLinkClick();
+                    }}
+                  >
+                    Cerrar Sesión
+                  </NavLink>
+                ) : (
+                  <NavLink
+                    to="/login"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "nav-link nav-link--button nav-link--button-active"
+                        : "nav-link nav-link--button"
+                    }
+                    role="menuitem"
+                    onClick={handleLinkClick}
+                  >
+                    Ingresar
+                  </NavLink>
+                )}
               </li>
               <li role="none" className="cart">
                 <button
