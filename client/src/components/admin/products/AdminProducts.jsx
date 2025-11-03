@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useToast } from "../../../contexts/ToastContext";
-import ConfirmModal from "../../ConfirmModal/ConfirmModal";
+import ConfirmModal from "../../Modals/ConfirmModal";
 import "./admin-products.css";
 
 const INITIAL_FORM = {
@@ -34,7 +34,10 @@ const AdminProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [feedback, setFeedback] = useState(null);
   const [panelMode, setPanelMode] = useState(null); // null | "create" | "edit"
-  const [deleteModal, setDeleteModal] = useState({ isOpen: false, product: null });
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    product: null,
+  });
 
   const isPanelOpen = panelMode !== null;
   const auth = useAuth();
@@ -214,7 +217,10 @@ const AdminProducts = () => {
 
       closePanel();
     } catch (err) {
-      toast.error(err.message || `Error al ${isEditing ? "actualizar" : "crear"} el producto`);
+      toast.error(
+        err.message ||
+          `Error al ${isEditing ? "actualizar" : "crear"} el producto`
+      );
     } finally {
       setSaving(false);
     }
@@ -282,6 +288,7 @@ const AdminProducts = () => {
             <div className="admin-table__actions">
               <input
                 type="search"
+                className="searchbar-input"
                 placeholder="Buscar por nombre, descripción o materiales..."
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}

@@ -28,6 +28,7 @@ const AdminUsers = () => {
 
   const isPanelOpen = panelMode !== null;
   const auth = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
     fetchUsers();
