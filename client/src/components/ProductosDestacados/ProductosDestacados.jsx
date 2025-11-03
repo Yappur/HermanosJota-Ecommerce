@@ -248,9 +248,9 @@ const ProductosDestacados = () => {
           </button>
 
           <div className="carousel-indicators">
-            {featuredProducts.map((_, index) => (
+            {featuredProducts.map((product, index) => (
               <button
-                key={index}
+                key={product.id}
                 className={`carousel-indicator ${
                   index === currentIndex ? "active" : ""
                 }`}

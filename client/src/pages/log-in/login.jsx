@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import "./login.css";
 
 const Login = () => {
@@ -42,7 +42,9 @@ const Login = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.mensaje || data.message || "Error al iniciar sesión");
+        throw new Error(
+          data.mensaje || data.message || "Error al iniciar sesión"
+        );
       }
 
       login({
