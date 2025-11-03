@@ -2,11 +2,17 @@ const fs = require("fs");
 const path = require("path");
 
 const isVercel = process.env.VERCEL === "1";
+const isDevelopment = process.env.NODE_ENV === "development";
 
 const logsDir = isVercel ? "/tmp" : path.join(__dirname, "../logs");
 
-if (!isVercel && !fs.existsSync(logsDir)) {
-  fs.mkdirSync(logsDir, { recursive: true });
+
+try {
+  if (isDevelopment && !isVercel && !fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir, { recursive: true });
+  }
+} catch (error) {
+  console.warn("No se pudo crear el directorio de logs:", error.message);
 }
 
 const formatDate = (date = new Date()) => {
@@ -20,17 +26,22 @@ const writeLog = (filename, data) => {
       JSON.stringify({
         logType: filename.replace(".log", ""),
         ...data,
+        environment: process.env.NODE_ENV,
+        timestamp: new Date().toISOString(),
       })
     );
     return;
   }
 
-  const logPath = path.join(logsDir, filename);
-  const logEntry = `${formatDate()} - ${JSON.stringify(data)}\n`;
-
-  fs.appendFile(logPath, logEntry, (err) => {
-    if (err) console.error("Error writing log:", err);
-  });
+  if (isDevelopment) {
+    try {
+      const logPath = path.join(logsDir, filename);
+      const logEntry = `${formatDate()} - ${JSON.stringify(data)}\n`;
+      fs.appendFileSync(logPath, logEntry);
+    } catch (error) {
+      console.warn(`Error writing to ${filename}:`, error.message);
+    }
+  }
 };
 
 // Middleware de logging de requests
