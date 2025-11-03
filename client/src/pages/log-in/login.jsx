@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import "./login.css";
 
 const Login = () => {
@@ -42,16 +42,22 @@ const Login = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.mensaje || data.message || "Error al iniciar sesión");
+        throw new Error(
+          data.mensaje || data.message || "Error al iniciar sesión"
+        );
       }
 
       login({
-        email: formData.email,
-        name: data.name || data.usuario?.nombre || formData.email.split("@")[0],
-        id: data.id || data.usuario?.id,
+        token: data.token,
+        user: {
+          email: formData.email,
+          nombre: data.usuario.nombre,
+          id: data.usuario.id,
+          rol: data.usuario.rol,
+        },
       });
 
-      navigate("/admin/crear-producto");
+      navigate("/admin");
     } catch (err) {
       console.error("Error:", err);
       setError(err.message);

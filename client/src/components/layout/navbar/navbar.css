@@ -173,7 +173,7 @@
   transform: scaleX(1) !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1040px) {
   .nav-link--active {
     background-color: rgba(212, 175, 55, 0.1);
   }
@@ -361,7 +361,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1040px) {
   .nav-toggle {
     display: flex;
   }

@@ -9,7 +9,7 @@ const AdminLayout = () => {
     <div className="admin-layout">
       <AdminSidebar />
       <div className="welcome-banner">
-        <h2>¡Bienvenido/a, {user?.nombre || "Administrador"}!</h2>
+        <h2>¡Bienvenido/a, {user?.name || "Administrador"}!</h2>
       </div>
 
       <div className="admin-content">

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
+import ConfirmModal from "../../Modals/ConfirmModal";
 import "./admin-users.css";
 
 const INITIAL_USER_FORM = {
@@ -25,6 +26,10 @@ const AdminUsers = () => {
   const [feedback, setFeedback] = useState(null);
   const [panelMode, setPanelMode] = useState(null); // null | "create" | "edit"
   const [formErrors, setFormErrors] = useState({});
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    user: null,
+  });
 
   const isPanelOpen = panelMode !== null;
   const auth = useAuth();
@@ -95,17 +100,29 @@ const AdminUsers = () => {
     setFormErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
-  const handleDelete = async (user) => {
-    const confirmed = window.confirm(
-      `¿Desea eliminar al usuario "${user.nombre}"? Esta acción es irreversible.`
-    );
-    if (!confirmed) return;
+  const openDeleteModal = (user) => {
+    setDeleteModal({
+      isOpen: true,
+      user,
+    });
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal({
+      isOpen: false,
+      user: null,
+    });
+  };
+
+  const handleDelete = async () => {
+    const userToDelete = deleteModal.user;
+    if (!userToDelete) return;
 
     try {
       const token = auth?.token;
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-      const response = await fetch(apiUrl(`/api/usuarios/${user.id}`), {
+      const response = await fetch(apiUrl(`/api/usuarios/${userToDelete.id}`), {
         method: "DELETE",
         headers,
       });
@@ -127,15 +144,16 @@ const AdminUsers = () => {
         throw new Error(data.message || "No se pudo eliminar el usuario");
       }
 
-      setUsers((prev) => prev.filter((item) => item.id !== user.id));
+      setUsers((prev) => prev.filter((item) => item.id !== userToDelete.id));
       setFeedback({
         type: "success",
         message: "Usuario eliminado correctamente",
       });
 
-      if (selectedId === user.id) {
+      if (selectedId === userToDelete.id) {
         closePanel();
       }
+      closeDeleteModal();
     } catch (err) {
       setFeedback({ type: "error", message: err.message });
     }
@@ -162,9 +180,7 @@ const AdminUsers = () => {
       setFormErrors(errs);
       setSaving(false);
       const firstKey = Object.keys(errs)[0];
-      const el = document.querySelector(
-        `.admin-form [name="${firstKey}"]`
-      );
+      const el = document.querySelector(`.admin-form [name="${firstKey}"]`);
       el?.focus?.();
       return;
     }
@@ -225,6 +241,7 @@ const AdminUsers = () => {
           const normalized = {
             ...createdUser,
             id: createdUser._id || createdUser.id,
+            createdAt: createdUser.createdAt || new Date().toISOString(),
           };
           setUsers((prev) => [normalized, ...prev]);
         } else {
@@ -376,7 +393,7 @@ const AdminUsers = () => {
                         <button
                           type="button"
                           className="btn-ghost btn-ghost--danger"
-                          onClick={() => handleDelete(user)}
+                          onClick={() => openDeleteModal(user)}
                         >
                           Eliminar
                         </button>
@@ -388,6 +405,17 @@ const AdminUsers = () => {
             </div>
           )}
         </div>
+
+        <ConfirmModal
+          isOpen={deleteModal.isOpen}
+          onClose={closeDeleteModal}
+          onConfirm={handleDelete}
+          title="Eliminar usuario"
+          message={`¿Estás seguro que deseas eliminar al usuario "${deleteModal.user?.nombre}"? Esta acción es irreversible.`}
+          confirmText="Eliminar"
+          cancelText="Cancelar"
+          type="danger"
+        />
 
         {isPanelOpen && (
           <>
@@ -463,7 +491,9 @@ const AdminUsers = () => {
                         minLength={6}
                         required
                         autoComplete="new-password"
-                        className={formErrors.password ? "is-invalid" : undefined}
+                        className={
+                          formErrors.password ? "is-invalid" : undefined
+                        }
                       />
                       {formErrors.password && (
                         <small className="form-error">
