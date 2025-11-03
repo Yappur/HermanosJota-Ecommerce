@@ -9,7 +9,7 @@ import Login from "../pages/log-in/login";
 import AdminLayout from "../components/admin/layout/AdminLayout";
 import AdminProducts from "../components/admin/products/AdminProducts";
 import AdminUsers from "../components/admin/users/AdminUsers";
-import ProtectedRoute from "../components/ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
 
 const RoutesView = ({ onAddToCart }) => {
   return (

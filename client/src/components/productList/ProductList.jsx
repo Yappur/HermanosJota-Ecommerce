@@ -47,7 +47,13 @@ const ProductList = ({ onAddToCart }) => {
             {<ProductsToolbar value={query} onSearch={setQuery} />}
 
             <div className='products-container'>
-                {loading && <p>Cargando productos...</p>}
+                {loading &&
+                 <div className='products-empty'>
+                        <div className="products-empty-content">
+                            <h4>Cargando productos...</h4>
+                        </div>
+                    </div>
+                 }
 
                 {error &&
                     <div className='products-empty'>
@@ -57,13 +63,23 @@ const ProductList = ({ onAddToCart }) => {
                     </div>
                 }
 
-                {!loading && !error && filtered.length === 0 && <p>No hay productos.</p>}
+                {!loading && !error && filtered.length === 0 &&
+                 <div className='products-empty'>
+                        <div className="products-empty-content">
+                            <h4>No hay productos.</h4>
+                        </div>
+                    </div>
+                }
 
                 {
                 !loading &&
                 !error &&
-                filtered.map(product => (
-                    <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+                filtered.map((product, index) => (
+                    <ProductCard
+                      key={index || product.id || product._id}
+                      product={product}
+                      onAddToCart={onAddToCart}
+                    />
                 ))}
             </div>
         </div>

@@ -92,6 +92,11 @@
   flex-wrap: wrap;
 }
 
+.hero-actions .btn {
+  width: 100%;
+  min-height: 48px;
+}
+
 .hero-trust-text {
   padding-top: var(--spacing-md);
   border-top: 1px solid rgba(175, 171, 170, 0.15);

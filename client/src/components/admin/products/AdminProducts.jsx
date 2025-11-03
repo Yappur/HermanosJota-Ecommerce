@@ -1,5 +1,9 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
+import { useToast } from "../../../contexts/ToastContext";
+import ConfirmModal from "../../Modals/ConfirmModal";
 import "./admin-products.css";
 
 const INITIAL_FORM = {
@@ -30,9 +34,14 @@ const AdminProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [feedback, setFeedback] = useState(null);
   const [panelMode, setPanelMode] = useState(null); // null | "create" | "edit"
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    product: null,
+  });
 
   const isPanelOpen = panelMode !== null;
   const auth = useAuth();
+  const toast = useToast();
 
   useEffect(() => {
     fetchProducts();
@@ -104,11 +113,17 @@ const AdminProducts = () => {
     }));
   };
 
-  const handleDelete = async (product) => {
-    const confirmed = window.confirm(
-      `¿Eliminar el producto "${product.nombre}"? Esta acción no se puede deshacer.`
-    );
-    if (!confirmed) return;
+  const openDeleteModal = (product) => {
+    setDeleteModal({ isOpen: true, product });
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal({ isOpen: false, product: null });
+  };
+
+  const handleDelete = async () => {
+    const product = deleteModal.product;
+    if (!product) return;
 
     try {
       const token = auth?.token;
@@ -124,16 +139,13 @@ const AdminProducts = () => {
       }
 
       setProducts((prev) => prev.filter((item) => item.id !== id));
-      setFeedback({
-        type: "success",
-        message: "Producto eliminado correctamente",
-      });
+      toast.success("Producto eliminado correctamente");
 
       if (selectedId === id) {
         closePanel();
       }
     } catch (err) {
-      setFeedback({ type: "error", message: err.message });
+      toast.error(err.message || "Error al eliminar el producto");
     }
   };
 
@@ -193,25 +205,22 @@ const AdminProducts = () => {
               : item
           )
         );
-        setFeedback({
-          type: "success",
-          message: "Producto actualizado correctamente",
-        });
+        toast.success("Producto actualizado correctamente");
       } else {
         const created = {
           ...updatedProduct,
           id: updatedProduct.id ?? updatedProduct._id,
         };
         setProducts((prev) => [created, ...prev]);
-        setFeedback({
-          type: "success",
-          message: "Producto creado correctamente",
-        });
+        toast.success("Producto creado correctamente");
       }
 
       closePanel();
     } catch (err) {
-      setFeedback({ type: "error", message: err.message });
+      toast.error(
+        err.message ||
+          `Error al ${isEditing ? "actualizar" : "crear"} el producto`
+      );
     } finally {
       setSaving(false);
     }
@@ -279,6 +288,7 @@ const AdminProducts = () => {
             <div className="admin-table__actions">
               <input
                 type="search"
+                className="searchbar-input"
                 placeholder="Buscar por nombre, descripción o materiales..."
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
@@ -340,7 +350,8 @@ const AdminProducts = () => {
                           <img
                             src={
                               product.imagen ||
-                              "https://images.unsplash.com/photo-1542272201-b1ca555f8505?auto=format&fit=crop&w=160&q=60"
+                              "https://images.unsplash.com/photo-1542272201-b1ca555f8505?auto=format&fit=crop&w=160&q=60" ||
+                              "/placeholder.svg"
                             }
                             alt={product.nombre}
                             loading="lazy"
@@ -367,20 +378,22 @@ const AdminProducts = () => {
                         </span>
                       </td>
                       <td className="admin-table__actions-cell">
-                        <button
-                          type="button"
-                          className="btn-ghost"
-                          onClick={() => openEditPanel(product)}
-                        >
-                          Editar
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-ghost btn-ghost--danger"
-                          onClick={() => handleDelete(product)}
-                        >
-                          Eliminar
-                        </button>
+                        <div className="admin-actions-inline">
+                          <button
+                            type="button"
+                            className="btn-ghost"
+                            onClick={() => openEditPanel(product)}
+                          >
+                            Editar
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-ghost btn-ghost--danger"
+                            onClick={() => openDeleteModal(product)}
+                          >
+                            Eliminar
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -422,6 +435,10 @@ const AdminProducts = () => {
 
               <form className="admin-form" onSubmit={handleSubmit}>
                 <div className="admin-form__grid">
+                  <p className="admin-form__subtitle">
+                    Complete el formulario para agregar un nuevo producto al
+                    catálogo
+                  </p>
                   <label className="admin-form__field admin-form__field--full">
                     <span>Nombre *</span>
                     <input
@@ -431,6 +448,7 @@ const AdminProducts = () => {
                       onChange={handleChange}
                       required
                       maxLength={120}
+                      placeholder="Ej: Biblioteca Recoleta"
                     />
                   </label>
 
@@ -444,6 +462,7 @@ const AdminProducts = () => {
                       value={formData.precio}
                       onChange={handleChange}
                       required
+                      placeholder="250000"
                     />
                   </label>
 
@@ -455,6 +474,7 @@ const AdminProducts = () => {
                       min="0"
                       value={formData.stock}
                       onChange={handleChange}
+                      placeholder="0"
                     />
                   </label>
 
@@ -489,6 +509,8 @@ const AdminProducts = () => {
                       onChange={handleChange}
                       required
                       rows={3}
+                      maxLength={500}
+                      placeholder="Describe las características del producto..."
                     />
                   </label>
 
@@ -500,6 +522,7 @@ const AdminProducts = () => {
                       value={formData.medidas}
                       onChange={handleChange}
                       required
+                      placeholder="Ej: 180 × 45 × 75 cm"
                     />
                   </label>
 
@@ -511,6 +534,7 @@ const AdminProducts = () => {
                       value={formData.materiales}
                       onChange={handleChange}
                       required
+                      placeholder="Ej: Nogal macizo FSC®, herrajes de latón"
                     />
                   </label>
 
@@ -522,6 +546,7 @@ const AdminProducts = () => {
                       value={formData.acabado}
                       onChange={handleChange}
                       required
+                      placeholder="Ej: Aceite natural ecológico"
                     />
                   </label>
 
@@ -564,6 +589,18 @@ const AdminProducts = () => {
           </>
         )}
       </div>
+
+      {/* Modal de confirmación para eliminar */}
+      <ConfirmModal
+        isOpen={deleteModal.isOpen}
+        onClose={closeDeleteModal}
+        onConfirm={handleDelete}
+        title="Eliminar Producto"
+        message={`¿Estás seguro que deseas eliminar el producto "${deleteModal.product?.nombre}"? Esta acción no se puede deshacer.`}
+        confirmText="Eliminar"
+        cancelText="Cancelar"
+        type="danger"
+      />
     </section>
   );
 };
