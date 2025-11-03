@@ -14,6 +14,8 @@ const Login = () => {
     password: "",
   });
 
+  const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -28,7 +30,7 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await fetch("/api/usuarios/login", {
+      const response = await fetch(`${API_BASE}/api/usuarios/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
