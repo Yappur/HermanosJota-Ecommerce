@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useToast } from "../../../contexts/ToastContext";
-import ConfirmModal from "../../ConfirmModal/ConfirmModal";
+import ConfirmModal from "../../Modals/ConfirmModal";
 import "./admin-products.css";
 
 const INITIAL_FORM = {
@@ -23,7 +23,6 @@ const apiUrl = (path) => {
 };
 
 const AdminProducts = () => {
-  const { user } = useAuth();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -257,9 +256,6 @@ const AdminProducts = () => {
   return (
     <section className="admin-section">
       <div className="admin-content__header">
-        <div className="welcome-banner">
-          <h2>¡Bienvenido, {user?.nombre || "Administrador"}!</h2>
-        </div>
         <h1 className="admin-content__title">Gestión de productos</h1>
         <p className="admin-content__subtitle">
           Administre el catálogo disponible en la tienda.

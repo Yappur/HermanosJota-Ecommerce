@@ -244,9 +244,6 @@ const AdminUsers = () => {
   return (
     <section className="admin-section">
       <div className="admin-content__header">
-        <div className="welcome-banner">
-          <h2>¡Bienvenido, {user?.nombre || "Administrador"}!</h2>
-        </div>
         <h1 className="admin-content__title">Gestión de usuarios</h1>
         <p className="admin-content__subtitle">
           Defina administradores con acceso al catálogo.

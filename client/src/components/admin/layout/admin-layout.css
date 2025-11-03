@@ -1,6 +1,12 @@
 .admin-layout {
   display: grid;
+  /* two columns: sidebar + main column */
   grid-template-columns: minmax(220px, 280px) 1fr;
+  /* two rows: banner (auto) + content (1fr) */
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "sidebar banner"
+    "sidebar content";
   gap: 2rem;
   padding: 6rem 2rem 2.5rem;
   background: linear-gradient(
@@ -10,6 +16,7 @@
   );
   min-height: 100vh;
   box-sizing: border-box;
+  margin-top: 60px;
 }
 
 .admin-sidebar {
@@ -24,6 +31,8 @@
   position: sticky;
   top: 110px;
   height: fit-content;
+  /* place the sidebar on the left column and span both rows */
+  grid-area: sidebar;
 }
 
 .admin-sidebar__brand {
@@ -97,12 +106,32 @@
   gap: 2rem;
   min-height: calc(100vh - 140px);
   box-sizing: border-box;
+  grid-area: content;
 }
 
 .admin-content__header {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.welcome-banner {
+  grid-area: banner;
+  background: rgba(248, 244, 241, 0.95);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-left: 4px solid rgba(160, 82, 45, 0.5);
+  box-shadow: 0 6px 18px rgba(87, 60, 36, 0.06);
+}
+
+.welcome-banner h2 {
+  margin: 0;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--siena-tostado);
 }
 
 .admin-content__title {
@@ -121,6 +150,11 @@
 @media (max-width: 1024px) {
   .admin-layout {
     grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      "banner"
+      "sidebar"
+      "content";
     padding-top: 5.5rem;
   }
 
@@ -131,6 +165,7 @@
     justify-content: space-between;
     padding: 1.5rem;
     gap: 1.5rem;
+    grid-area: sidebar;
   }
 
   .admin-sidebar__nav {
