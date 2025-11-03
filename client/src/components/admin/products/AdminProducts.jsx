@@ -286,6 +286,7 @@ const AdminProducts = () => {
             <div className="admin-table__actions">
               <input
                 type="search"
+                className="searchbar-input"
                 placeholder="Buscar por nombre, descripción o materiales..."
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
