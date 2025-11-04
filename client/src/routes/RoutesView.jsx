@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import HomePage from "../pages/HomePage";
+import HomePage from "../pages/Home/HomePage";
 import NotFound from "../pages/NotFound/NotFound";
 import ProductList from "../components/productList/ProductList";
 import ProductView from "../components/productView/ProductView";
@@ -11,18 +11,21 @@ import AdminProducts from "../components/admin/products/AdminProducts";
 import AdminUsers from "../components/admin/users/AdminUsers";
 import ProtectedRoute from "./ProtectedRoute";
 
-const RoutesView = ({ onAddToCart }) => {
+import { useCart } from "../contexts/CartContext";
+
+const RoutesView = () => {
+  const { addToCart } = useCart();
   return (
     <Routes>
       {/* Rutas públicas */}
       <Route path="/" element={<HomePage />} />
       <Route
         path="/productos"
-        element={<ProductList onAddToCart={onAddToCart} />}
+        element={<ProductList onAddToCart={addToCart} />}
       />
       <Route
         path="/productos/:id"
-        element={<ProductView onAddToCart={onAddToCart} />}
+        element={<ProductView onAddToCart={addToCart} />}
       />
       <Route path="/contacto" element={<Contact />} />
       <Route path="/nosotros" element={<About />} />

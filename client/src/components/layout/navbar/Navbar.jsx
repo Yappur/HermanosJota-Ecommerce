@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
+import { useCart } from "../../../contexts/CartContext";
 import "./navbar.css";
 
-const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
+const NavBar = () => {
+  const { cartItems = [], cartCount = 0, clearCart } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { pathname } = useLocation();
   const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -23,8 +26,8 @@ const NavBar = ({ cartCount = 0, cartItems = [], onClearCart }) => {
   };
 
   const handleClearCart = () => {
-    if (onClearCart) {
-      onClearCart();
+    if (clearCart) {
+      clearCart();
       setIsCartOpen(false);
     }
   };

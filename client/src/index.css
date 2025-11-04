@@ -210,3 +210,44 @@ a:hover {
     background-position: 100% center;
   }
 }
+
+/* Estilos de validación de formularios */
+.is-invalid {
+  border-color: #dc3545 !important;
+  background-color: #fff8f8 !important;
+}
+
+.is-invalid:focus {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1) !important;
+}
+
+.error-text,
+.form-error {
+  color: #dc3545;
+  font-size: 0.875em;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.error-message {
+  background-color: #fff8f8;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

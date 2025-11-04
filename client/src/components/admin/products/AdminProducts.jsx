@@ -13,8 +13,18 @@ const INITIAL_FORM = {
   precio: "",
   stock: "",
   imagen: "",
-  availability: "InStock",
+  disponible: "Disponible",
   destacado: false,
+};
+
+const INITIAL_ERRORS = {
+  nombre: "",
+  descripcion: "",
+  medidas: "",
+  materiales: "",
+  acabado: "",
+  precio: "",
+  stock: "",
 };
 
 const apiUrl = (path) => {
@@ -27,6 +37,7 @@ const AdminProducts = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState(INITIAL_FORM);
+  const [formErrors, setFormErrors] = useState(INITIAL_ERRORS);
   const [saving, setSaving] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -90,7 +101,7 @@ const AdminProducts = () => {
           ? product.stock.toString()
           : "",
       imagen: product.imagen || "",
-      availability: product.availability || "InStock",
+      disponible: product.disponible || "Disponible",
       destacado: !!product.destacado,
     });
   };
@@ -99,6 +110,7 @@ const AdminProducts = () => {
     setPanelMode(null);
     setSelectedId(null);
     setFormData(INITIAL_FORM);
+    setFormErrors(INITIAL_ERRORS);
     setSaving(false);
   };
 
@@ -108,6 +120,11 @@ const AdminProducts = () => {
     setFormData((prev) => ({
       ...prev,
       [name]: newValue,
+    }));
+    // Limpiar el error del campo que se está editando
+    setFormErrors((prev) => ({
+      ...prev,
+      [name]: "",
     }));
   };
 
@@ -152,16 +169,49 @@ const AdminProducts = () => {
     setSaving(true);
     setFeedback(null);
 
+    // Validación en cliente
+    const errors = {};
+    const nombre = formData.nombre.trim();
+    const descripcion = formData.descripcion.trim();
+    const medidas = formData.medidas.trim();
+    const materiales = formData.materiales.trim();
+    const acabado = formData.acabado.trim();
+    const precio = Number.parseFloat(formData.precio);
+    const stock = Number.parseInt(formData.stock, 10);
+
+    if (!nombre) errors.nombre = "El nombre es obligatorio";
+    if (!descripcion) errors.descripcion = "La descripción es obligatoria";
+    if (!medidas) errors.medidas = "Las medidas son obligatorias";
+    if (!materiales) errors.materiales = "Los materiales son obligatorios";
+    if (!acabado) errors.acabado = "El acabado es obligatorio";
+    if (!formData.precio || isNaN(precio) || precio < 0) {
+      errors.precio = "Ingrese un precio válido";
+    }
+    if (isNaN(stock) || stock < 0) {
+      errors.stock = "Ingrese un stock válido";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      setSaving(false);
+      const firstErrorField = Object.keys(errors)[0];
+      const errorElement = document.querySelector(
+        `[name="${firstErrorField}"]`
+      );
+      errorElement?.focus();
+      return;
+    }
+
     const payload = {
-      nombre: formData.nombre.trim(),
-      descripcion: formData.descripcion.trim(),
-      medidas: formData.medidas.trim(),
-      materiales: formData.materiales.trim(),
-      acabado: formData.acabado.trim(),
-      precio: Number.parseFloat(formData.precio) || 0,
-      stock: Number.parseInt(formData.stock, 10) || 0,
+      nombre,
+      descripcion,
+      medidas,
+      materiales,
+      acabado,
+      precio: precio || 0,
+      stock: stock || 0,
       imagen: formData.imagen.trim(),
-      availability: formData.availability,
+      disponible: formData.disponible,
       destacado: !!formData.destacado,
     };
 
@@ -251,6 +301,12 @@ const AdminProducts = () => {
     } catch (err) {
       return value;
     }
+  };
+
+  const getBadgeClass = (disponible) => {
+    if (disponible === "No Disponible") return "outofstock";
+    if (disponible === "Pre-Orden") return "preorder";
+    return "instock";
   };
 
   return (
@@ -364,13 +420,13 @@ const AdminProducts = () => {
                       <td>{product.stock ?? 0}</td>
                       <td>
                         <span
-                          className={`badge badge--${(
-                            product.availability || "InStock"
-                          ).toLowerCase()}`}
+                          className={`badge badge--${getBadgeClass(
+                            product.disponible
+                          )}`}
                         >
-                          {product.availability === "OutOfStock"
+                          {product.disponible === "No Disponible"
                             ? "Sin stock"
-                            : product.availability === "PreOrder"
+                            : product.disponible === "Pre-Orden"
                             ? "Pre-orden"
                             : "En stock"}
                         </span>
@@ -433,10 +489,6 @@ const AdminProducts = () => {
 
               <form className="admin-form" onSubmit={handleSubmit}>
                 <div className="admin-form__grid">
-                  <p className="admin-form__subtitle">
-                    Complete el formulario para agregar un nuevo producto al
-                    catálogo
-                  </p>
                   <label className="admin-form__field admin-form__field--full">
                     <span>Nombre *</span>
                     <input
@@ -444,10 +496,13 @@ const AdminProducts = () => {
                       name="nombre"
                       value={formData.nombre}
                       onChange={handleChange}
-                      required
                       maxLength={120}
                       placeholder="Ej: Biblioteca Recoleta"
+                      className={formErrors.nombre ? "is-invalid" : undefined}
                     />
+                    {formErrors.nombre && (
+                      <small className="form-error">{formErrors.nombre}</small>
+                    )}
                   </label>
 
                   <label className="admin-form__field">
@@ -459,9 +514,12 @@ const AdminProducts = () => {
                       step="0.01"
                       value={formData.precio}
                       onChange={handleChange}
-                      required
                       placeholder="250000"
+                      className={formErrors.precio ? "is-invalid" : undefined}
                     />
+                    {formErrors.precio && (
+                      <small className="form-error">{formErrors.precio}</small>
+                    )}
                   </label>
 
                   <label className="admin-form__field">
@@ -473,19 +531,23 @@ const AdminProducts = () => {
                       value={formData.stock}
                       onChange={handleChange}
                       placeholder="0"
+                      className={formErrors.stock ? "is-invalid" : undefined}
                     />
+                    {formErrors.stock && (
+                      <small className="form-error">{formErrors.stock}</small>
+                    )}
                   </label>
 
                   <label className="admin-form__field">
                     <span>Disponibilidad</span>
                     <select
-                      name="availability"
-                      value={formData.availability}
+                      name="disponible"
+                      value={formData.disponible}
                       onChange={handleChange}
                     >
-                      <option value="InStock">En stock</option>
-                      <option value="OutOfStock">Sin stock</option>
-                      <option value="PreOrder">Pre-orden</option>
+                      <option value="Disponible">En stock</option>
+                      <option value="No Disponible">Sin stock</option>
+                      <option value="Pre-Orden">Pre-orden</option>
                     </select>
                   </label>
 
@@ -505,11 +567,18 @@ const AdminProducts = () => {
                       name="descripcion"
                       value={formData.descripcion}
                       onChange={handleChange}
-                      required
                       rows={3}
                       maxLength={500}
                       placeholder="Describe las características del producto..."
+                      className={
+                        formErrors.descripcion ? "is-invalid" : undefined
+                      }
                     />
+                    {formErrors.descripcion && (
+                      <small className="form-error">
+                        {formErrors.descripcion}
+                      </small>
+                    )}
                   </label>
 
                   <label className="admin-form__field admin-form__field--full">
@@ -519,9 +588,12 @@ const AdminProducts = () => {
                       name="medidas"
                       value={formData.medidas}
                       onChange={handleChange}
-                      required
                       placeholder="Ej: 180 × 45 × 75 cm"
+                      className={formErrors.medidas ? "is-invalid" : undefined}
                     />
+                    {formErrors.medidas && (
+                      <small className="form-error">{formErrors.medidas}</small>
+                    )}
                   </label>
 
                   <label className="admin-form__field admin-form__field--full">
@@ -531,9 +603,16 @@ const AdminProducts = () => {
                       name="materiales"
                       value={formData.materiales}
                       onChange={handleChange}
-                      required
                       placeholder="Ej: Nogal macizo FSC®, herrajes de latón"
+                      className={
+                        formErrors.materiales ? "is-invalid" : undefined
+                      }
                     />
+                    {formErrors.materiales && (
+                      <small className="form-error">
+                        {formErrors.materiales}
+                      </small>
+                    )}
                   </label>
 
                   <label className="admin-form__field admin-form__field--full">
@@ -543,9 +622,12 @@ const AdminProducts = () => {
                       name="acabado"
                       value={formData.acabado}
                       onChange={handleChange}
-                      required
                       placeholder="Ej: Aceite natural ecológico"
+                      className={formErrors.acabado ? "is-invalid" : undefined}
                     />
+                    {formErrors.acabado && (
+                      <small className="form-error">{formErrors.acabado}</small>
+                    )}
                   </label>
 
                   <label className="admin-form__field admin-form__field--full">

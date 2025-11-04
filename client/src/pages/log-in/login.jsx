@@ -14,6 +14,11 @@ const Login = () => {
     password: "",
   });
 
+  const [formErrors, setFormErrors] = useState({
+    email: "",
+    password: "",
+  });
+
   const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 
   const handleChange = (e) => {
@@ -22,12 +27,46 @@ const Login = () => {
       ...prev,
       [name]: value,
     }));
+    setFormErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
+    setError(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
+
+    // Validaciones
+    const errors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const email = formData.email.trim();
+    const password = formData.password;
+
+    if (!email) {
+      errors.email = "El correo electrónico es requerido";
+    } else if (!emailRegex.test(email)) {
+      errors.email = "Ingrese un correo electrónico válido";
+    }
+
+    if (!password) {
+      errors.password = "La contraseña es requerida";
+    } else if (password.length < 8) {
+      errors.password = "La contraseña debe tener al menos 8 caracteres";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      const firstErrorField = Object.keys(errors)[0];
+      const errorElement = document.querySelector(
+        `[name="${firstErrorField}"]`
+      );
+      errorElement?.focus();
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const response = await fetch(`${API_BASE}/api/usuarios/login`, {
@@ -96,10 +135,13 @@ const Login = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              required
               placeholder="tu@email.com"
               autoComplete="email"
+              className={formErrors.email ? "is-invalid" : ""}
             />
+            {formErrors.email && (
+              <span className="error-text">{formErrors.email}</span>
+            )}
           </div>
 
           <div className="form-group">
@@ -112,11 +154,13 @@ const Login = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              required
               placeholder="••••••••"
               autoComplete="current-password"
-              minLength={6}
+              className={formErrors.password ? "is-invalid" : ""}
             />
+            {formErrors.password && (
+              <span className="error-text">{formErrors.password}</span>
+            )}
           </div>
 
           <button

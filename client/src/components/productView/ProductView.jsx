@@ -37,7 +37,7 @@ const ProductView = ({ onNavigate, onAddToCart }) => {
           price: productData.precio,
           currency: "ARS",
           image: imageUrl,
-          availability: "InStock",
+          disponible: "Disponible",
           category: productData.category,
           stock: productData.stock,
           specs: [
@@ -71,7 +71,7 @@ const ProductView = ({ onNavigate, onAddToCart }) => {
       price: p.price,
       currency: p.currency || "ARS",
       image: p.imageUrl,
-      availability: p.availability || "InStock",
+      disponible: p.disponible || "Disponible",
       category: p.category,
       stock: p.stock ?? 0,
     }));

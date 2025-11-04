@@ -88,6 +88,7 @@ const AdminUsers = () => {
     setPanelMode(null);
     setSelectedId(null);
     setFormData(INITIAL_USER_FORM);
+    setFormErrors({});
     setSaving(false);
   };
 
@@ -97,7 +98,7 @@ const AdminUsers = () => {
       ...prev,
       [name]: value,
     }));
-    setFormErrors((prev) => ({ ...prev, [name]: undefined }));
+    setFormErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const openDeleteModal = (user) => {
@@ -455,7 +456,6 @@ const AdminUsers = () => {
                       name="nombre"
                       value={formData.nombre}
                       onChange={handleChange}
-                      required
                       maxLength={120}
                       className={formErrors.nombre ? "is-invalid" : undefined}
                     />
@@ -471,7 +471,6 @@ const AdminUsers = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      required
                       autoComplete="email"
                       className={formErrors.email ? "is-invalid" : undefined}
                     />
@@ -488,8 +487,6 @@ const AdminUsers = () => {
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
-                        minLength={6}
-                        required
                         autoComplete="new-password"
                         className={
                           formErrors.password ? "is-invalid" : undefined

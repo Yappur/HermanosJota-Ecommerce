@@ -14,7 +14,7 @@ const ProductCard = ({ product, onAddToCart }) => {
         price: product.precio,
         currency: "ARS",
         image: `${API_BASE}${product.imagen}`,
-        availability: "InStock",
+        disponible: "Disponible",
       };
       onAddToCart(formattedProduct);
     }

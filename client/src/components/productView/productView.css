@@ -4,6 +4,7 @@ main.product.container {
   gap: var(--spacing-xl);
   padding: calc(100px + var(--spacing-lg)) var(--container-padding)
     var(--spacing-2xl);
+  margin-top: 20px;
 }
 
 .product .gallery {
@@ -394,8 +395,9 @@ main.product.container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 50vh;
+  min-height: calc(100vh - 300px);
   text-align: center;
+  margin: 100px 0;
 }
 
 .loading-container p,
