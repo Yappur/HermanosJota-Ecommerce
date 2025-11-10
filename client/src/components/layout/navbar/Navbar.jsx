@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useCart } from "../../../contexts/CartContext";
+import { useTheme } from "../../../contexts/ThemeContext";
 import "./navbar.css";
 
 const NavBar = () => {
@@ -11,6 +12,7 @@ const NavBar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { pathname } = useLocation();
   const { isAuthenticated, logout } = useAuth();
+  const { theme, toggleTheme} = useTheme();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -256,6 +258,16 @@ const NavBar = () => {
                     </div>
                   </div>
                 )}
+              </li>
+
+              <li className="theme-toggle">
+                <button
+                  className="theme-toggle-button"
+                  onClick={toggleTheme}
+                  aria-label="Cambiar tema"
+                >
+                  {theme === 'dark' ? '🌞' : '🌙'}
+                </button>
               </li>
             </ul>
           </nav>

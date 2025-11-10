@@ -31,6 +31,18 @@
   --transition2: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+[data-theme="dark"] {
+  --siena-tostado: #8b3a1a;
+  --verde-salvia: #6b8b3a;
+  --alabastro-calido: #2a2520;
+  --vara-de-oro: #b8922f;
+  --rosa-polvoriento: #a35d50;
+  --blanco: #1a1a1a;
+  --negro: #e8e8e8;
+  --gris-claro: #2d2d2d;
+  --gris-medio: #a8a8a8;
+}
+
 * {
   margin: 0;
   padding: 0;
