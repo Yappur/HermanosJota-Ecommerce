@@ -11,10 +11,8 @@ const parseEnvOrigins = () => {
 
 const corsOptions = {
   origin: function (origin, callback) {
-    console.log("🔍 Incoming request from origin:", origin);
 
     const envOrigins = parseEnvOrigins();
-    console.log("📋 Environment origins:", envOrigins);
 
     const allowedOrigins = [
       "https://hermanosjota-ecommerce.vercel.app",
@@ -24,22 +22,18 @@ const corsOptions = {
       ...envOrigins,
     ];
 
-    console.log("✅ Allowed origins:", allowedOrigins);
 
     if (!origin) {
-      console.log("⚠️ No origin provided, allowing request");
       return callback(null, true);
     }
 
     const normalizedOrigin = origin.replace(/\/$/, "");
 
     if (allowedOrigins.includes(normalizedOrigin)) {
-      console.log(`✅ CORS permitido para: ${normalizedOrigin}`);
       return callback(null, true);
     }
 
     if (normalizedOrigin.endsWith(".vercel.app")) {
-      console.log(`✅ CORS permitido para dominio Vercel: ${normalizedOrigin}`);
       return callback(null, true);
     }
 
@@ -47,7 +41,6 @@ const corsOptions = {
       process.env.NODE_ENV === "development" &&
       normalizedOrigin.startsWith("http://localhost:")
     ) {
-      console.log(`✅ CORS permitido en desarrollo: ${normalizedOrigin}`);
       return callback(null, true);
     }
     console.warn(` CORS bloqueado para: ${normalizedOrigin}`);

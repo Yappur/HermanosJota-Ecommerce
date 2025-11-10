@@ -4,20 +4,15 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children}) => {
   const [theme, setTheme] = useState(() => {
-    // Verificar si hay una preferencia guardada en localStorage
+
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       return savedTheme;
     }
-    // Si no hay preferencia guardada, usar la preferencia del sistema
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    return prefersDark ? 'dark' : 'light';
   });
 
   useEffect(() => {
-    // Aplicar el atributo data-theme al elemento HTML
     document.documentElement.setAttribute('data-theme', theme);
-    // Guardar la preferencia en localStorage
     localStorage.setItem('theme', theme);
   }, [theme]);
 
