@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 
 const CartNotification = ({ show, productName, onClose }) => {
